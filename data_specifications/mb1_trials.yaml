@@ -1,0 +1,26 @@
+---
+
+#----------------
+# Required fields
+#----------------
+
+- field:        study_ID
+  description:  uniquely identifies a study
+  type:         string
+  format:       last name of first author, year, and letter if necessary
+  example:      smith2015a
+  required:     yes
+
+- field:        long_cite
+  description:  long citation
+  type:         string
+  format:       full APA-style citation
+  example:
+  required:     yes
+
+- field:        short_cite
+  description:  short citation
+  type:         string
+  format:       author (year) APA-style citation
+  example:      Smith (2015)
+  required:     yes
