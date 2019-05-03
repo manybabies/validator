@@ -1,3 +1,11 @@
+
+# load specs
+library(tidyverse)
+studies <- data_frame(file = dir(path = "data_specifications")) %>%
+  mutate(file = str_replace(file, ".yaml", "")) %>%
+  separate(file, into = c("study","format"))
+
+
 # this code based on github.com/langcog/metalab2/scripts/cache_datsets.R
 # originally by Mika Braginksy (mikabr@mit.edu)
 
