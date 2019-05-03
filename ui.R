@@ -19,7 +19,15 @@ shinyUI(fluidPage(
                            ".csv"))
     ),
     mainPanel(
-      verbatimTextOutput("validator_output"))
+      tabsetPanel(
+        tabPanel("Validation Results", 
+                 p('Welcome to the validator! Choose a study and upload a file to check validity.'), 
+                 verbatimTextOutput("validator_output")),
+        tabPanel("Specification", 
+                 p('This is the full text of the specification you have chosen'),
+                 verbatimTextOutput("specification"))
+      )
+    )
   )
 ))
 

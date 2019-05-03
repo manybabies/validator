@@ -1,7 +1,6 @@
 library(shiny)
 library(tidyverse)
 library(yaml)
-library(tidyverse)
 
 source("common.R")
 
@@ -14,6 +13,12 @@ shinyServer(function(input, output, session) {
   output$study_format <- renderUI({
     selectInput("format", label = h4("Study Format"),
                 choices = filter(studies, study == input$study)$format)
+  })
+  
+  output$specification <- renderPrint({
+    yaml::yaml.load_file(paste0("data_specifications/",
+                                input$study, "_", input$format, 
+                                ".yaml"))
   })
     
   output$validator_output <- renderPrint({
