@@ -5,10 +5,7 @@ library(tidyverse)
 
 source("common.R")
 
-studies <- data_frame(file = dir(path = "data_specifications")) %>%
-  mutate(file = str_replace(file, ".yaml", "")) %>%
-  separate(file, into = c("study","format"))
-  
+
 
 shinyServer(function(input, output, session) {
   output$study_format <- renderUI({

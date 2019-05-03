@@ -1,5 +1,6 @@
 library(shiny)
 library(shinythemes)
+source("common.R")
 
 shinyUI(fluidPage(
   theme = shinytheme("spacelab"),
