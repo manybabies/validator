@@ -2,7 +2,9 @@
 # load specs
 library(tidyverse)
 studies <- data_frame(file = dir(path = "data_specifications")) %>%
+  mutate(specification_format = str_extract(file, "\\.[a-z]+")) %>%
   mutate(file = str_replace(file, ".yaml", "")) %>%
+  mutate(file = str_replace(file, ".json", "")) %>%
   separate(file, into = c("study","format"))
 
 

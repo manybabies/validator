@@ -26,6 +26,8 @@ shinyUI(fluidPage(
                  verbatimTextOutput("validator_output")),
         tabPanel("Specification", 
                  p('This is the full text of the specification you have chosen'),
+                 div(style="display: inline-block;","The format is: "),
+                 div(style="display: inline-block;",textOutput("specification_format")),
                  verbatimTextOutput("specification"))
       )
     )

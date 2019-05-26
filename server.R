@@ -17,6 +17,10 @@ shinyServer(function(input, output, session) {
                                 input$study, "_", input$format, 
                                 ".yaml"))
   })
+  
+  output$specification_format <- renderText({
+    "hello"
+  })
     
   output$validator_output <- renderPrint({
     req(input$file) 
