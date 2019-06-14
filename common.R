@@ -38,6 +38,10 @@ validate_dataset_field <- function(dataset_contents, field) {
                       field$field))
           return(FALSE)
         }
+      } else if (is.na(dataset_contents[[field$field]])){
+        cat(sprintf("Dataset has blank required field: '%s'.\n",
+                    field$field))
+        return(FALSE)
       }
     } else {
       cat(sprintf("Dataset is missing required field: '%s'.\n",

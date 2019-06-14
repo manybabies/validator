@@ -1,0 +1,33 @@
+---
+
+#----------------
+# Required fields
+#----------------
+
+- field:        subj_id
+  description:  subject identifier, non-identifying, unique
+  type:         string
+  format:       alphanumeric
+  example:      a24519
+  required:     yes
+
+- field:        lab_id
+  description:  laboratory identifier, unique
+  type:         string
+  format:       uncapitalized
+  example:      "babylab_paris"
+  required:     yes
+
+- field:        age_days
+  description:  baby's age in days
+  type:         numeric
+  format:       integer value, no numbers
+  example:      365
+  required:     yes
+
+- field:        hab_crit_set
+  description:  Habituation criterion set?
+  type:         options
+  options:      ['Y', 'N']
+  example:      Y
+  required:     yes
