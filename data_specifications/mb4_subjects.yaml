@@ -45,12 +45,21 @@
   NA_allowed:   no
 
 - field:        session_exclusion
-  description:  
+  description:  if participant meets exclusion criteria, 'exclude', if participant does not meet exclusion criteria, 'include'
   type:         options
   options:      ['include', 'exclude']
   example:      include
   required:     yes
   NA_allowed:   no
+
+- field:        session_exclusion_reason
+  description:  enter NA if no reason for exclusion; enter one of the 8 provided reasons if reason for exclusion
+  type:         multiple_options
+  delimiter:    ;
+  options:      ['include', 'exclude']
+  example:      include
+  required:     yes
+  NA_allowed:   yes
 
 - field:        hab_crit_set
   description:  Habituation criterion set?

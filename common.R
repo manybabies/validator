@@ -14,10 +14,13 @@ validate_dataset_field <- function(dataset_contents, field) {
   if (field$required) {
     if (field$field %in% names(dataset_contents)) {
       if (is.na(dataset_contents[[field$field]])){
-        if(field$NA_allowed != TRUE)
-        cat(sprintf("Dataset has blank required field: '%s'.\n",
+        if(field$NA_allowed != TRUE){
+          cat(sprintf("Dataset has blank required field: '%s'.\n",
                     field$field))
-        return(FALSE)
+          return(FALSE)
+        } else {
+          return(TRUE)
+        }
       }
       if (field$type == "options") {
         if (class(field$options) == "list") {
@@ -25,6 +28,28 @@ validate_dataset_field <- function(dataset_contents, field) {
         } else {
           options <- field$options
         }
+        invalid_values <- unique(dataset_contents[[field$field]]) %>%
+          setdiff(options)
+        if (!is.null(field$nullable) && field$nullable) {
+          invalid_values <- na.omit(invalid_values)
+        }
+        if (length(invalid_values)) {
+          for (value in invalid_values) {
+            cat(sprintf("Dataset has invalid value '%s' for field '%s'.\n",
+                        value, field$field))
+          }
+          return(FALSE)
+        }
+      } else if (field$type == "multiple_options"){
+        if (class(field$options) == "list") {
+          options <- names(unlist(field$options, recursive = FALSE))
+        } else {
+          options <- field$options
+        }
+        # Need to reprogram how dataset_contents are read off, to account for delimiters
+        delimiter <- field$delimiter
+        # Each line needs to be read off and split up into its own list.
+        raw_field <- dataset_contents[[field$field]]
         invalid_values <- unique(dataset_contents[[field$field]]) %>%
           setdiff(options)
         if (!is.null(field$nullable) && field$nullable) {
