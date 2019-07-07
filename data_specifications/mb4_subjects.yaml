@@ -10,6 +10,7 @@
   format:       alphanumeric
   example:      a24519
   required:     yes
+  NA_allowed:   no
 
 - field:        lab_id
   description:  laboratory identifier, unique
@@ -17,6 +18,23 @@
   format:       uncapitalized
   example:      "babylab_paris"
   required:     yes
+  NA_allowed:   no
+
+- field:        method
+  description:  which method was used for this participant
+  type:         options
+  options:      ['eye-tracking', 'HPP', 'single screen']
+  example:      eye-tracking
+  required:     yes
+  NA_allowed:   no
+
+- field:        RA
+  description:  standing of researcher who ran the experiment
+  type:         options
+  options:      ['undergraduate', 'graduate', 'postdoc', 'PI', 'other'] 
+  example:      undergraduate
+  required:     yes
+  NA_allowed:   no
 
 - field:        age_days
   description:  baby's age in days
@@ -24,6 +42,15 @@
   format:       integer value, no numbers
   example:      365
   required:     yes
+  NA_allowed:   no
+
+- field:        session_exclusion
+  description:  
+  type:         options
+  options:      ['include', 'exclude']
+  example:      include
+  required:     yes
+  NA_allowed:   no
 
 - field:        hab_crit_set
   description:  Habituation criterion set?
@@ -31,3 +58,4 @@
   options:      ['Y', 'N']
   example:      Y
   required:     yes
+  NA_allowed:   no

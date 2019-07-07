@@ -10,6 +10,7 @@
   format:       alphanumeric
   example:      a24519
   required:     yes
+  NA_allowed:   no
 
 - field:        lab
   description:  laboratory identifier, unique
@@ -17,6 +18,7 @@
   format:       uncapitalized
   example:      "babylab_paris"
   required:     yes
+  NA_allowed:   no
 
 - field:        age_days
   description:  baby's age in days
@@ -24,5 +26,6 @@
   format:       integer value, no numbers
   example:      365
   required:     yes
+  NA_allowed:   no
 
 

@@ -13,6 +13,12 @@ studies <- data_frame(file = dir(path = "data_specifications")) %>%
 validate_dataset_field <- function(dataset_contents, field) {
   if (field$required) {
     if (field$field %in% names(dataset_contents)) {
+      if (is.na(dataset_contents[[field$field]])){
+        if(field$NA_allowed != TRUE)
+        cat(sprintf("Dataset has blank required field: '%s'.\n",
+                    field$field))
+        return(FALSE)
+      }
       if (field$type == "options") {
         if (class(field$options) == "list") {
           options <- names(unlist(field$options, recursive = FALSE))
@@ -38,17 +44,21 @@ validate_dataset_field <- function(dataset_contents, field) {
                       field$field))
           return(FALSE)
         }
-      } else if (is.na(dataset_contents[[field$field]])){
-        cat(sprintf("Dataset has blank required field: '%s'.\n",
-                    field$field))
-        return(FALSE)
-      }
+      } else if (field$type == "string"){
+        if (field$format == "uncapitalized"){
+          isCap = str_detect(field_contents, "[:upper:]")
+          if (TRUE %in% isCap){
+            return(FALSE)
+          }
+        } 
+      } 
     } else {
       cat(sprintf("Dataset is missing required field: '%s'.\n",
                   field$field))
       return(FALSE)
     }
-  }
+    
+  } 
   return(TRUE)
 }
 
