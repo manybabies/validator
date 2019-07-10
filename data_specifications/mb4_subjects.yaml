@@ -39,7 +39,7 @@
 - field:        age_days
   description:  baby's age in days
   type:         numeric
-  format:       integer value, no numbers
+  format:       integer
   example:      365
   required:     yes
   NA_allowed:   no
@@ -56,7 +56,7 @@
   description:  enter NA if no reason for exclusion; enter one of the 8 provided reasons if reason for exclusion
   type:         multiple_options
   delimiter:    ;
-  options:      ['include', 'exclude']
+  options:      ['','not_fullterm', 'diagnosed_dev_disorder', 'fail_to_set_hab_crit','missed_crit_event','no_clear_choice','parental_interference','equipment_error','experimenter_error']
   example:      include
   required:     yes
   NA_allowed:   yes
@@ -68,3 +68,663 @@
   example:      Y
   required:     yes
   NA_allowed:   no
+  
+- field:        notes
+  description:  enter any additional non-identifying information that should be known about this participant/session
+  type:         string
+  format:       open-ended
+  required:     no
+  NA_allowed:   yes
+
+- field:        second_session
+  description:  was this the second session child participated in
+  type:         options
+  options:      ['Y', 'N']
+  required:     yes
+  NA_allowed:   no
+
+- field:        caregiver_seat
+  description:  was the baby tested in a baby seat or held by a caregiver
+  type:         options
+  options:      ['caregiver', 'seat']
+  required:     yes
+  NA_allowed:   no
+
+- field:        participant_gender
+  description:  Gender
+  type:         options
+  options:      ['M', 'F', 'other']
+  required:     yes
+  NA_allowed:   no
+
+- field:        primary_caregiver_gender
+  description:  Gender
+  type:         options
+  options:      ['M', 'F', 'other']
+  required:     yes
+  NA_allowed:   no
+
+- field:        infant_birthdate
+  description:  Day child was born e.g. 01/13/2018
+  type:         date
+  required:     yes
+  NA_allowed:   no
+
+- field:        infant_duedate
+  description:  Day child was due e.g. 01/13/2018
+  type:         date
+  required:     yes
+  NA_allowed:   no
+
+- field:        hearing_vision
+  description:  Y if potential exclusion based on hearing/vision
+  type:         options
+  options:      ['Y', 'N']
+  required:     yes
+  NA_allowed:   no
+
+- field:        hearing_vision_info
+  description:  briefly explain if prev is Y
+  type:         open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cognitive_developmental
+  description:  Y if potential exclusion based on cog/dev
+  type:         options
+  options:      ['Y', 'N']
+  required:     yes
+  NA_allowed:   no
+
+- field:        cognitive_developmental_info
+  description:  briefly explain if prev is Y
+  type:         open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        infant_handedness
+  description:  R if primarily right handed, Lvif primarily left handed, B if uses both equally, U if unknown
+  type:         options
+  options:      ['R','L','B','U']
+  required:     yes
+  NA_allowed:   no
+
+- field:        parentA_handedness
+  description:  R if primarily right handed, L if primarily left handed, B if uses both equally
+  type:         options
+  options:      ['R','L','B']
+  required:     yes
+  NA_allowed:   no
+
+- field:        parentB_handedness
+  description:  R if primarily right handed, L if primarily left handed, B if uses both equally
+  type:         options
+  options:      ['R','L','B']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        primary_language
+  description:  Native or most-heard language
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   no
+
+- field:        percent_primarylanguage
+  description:  What percentage of the child's language exposure is their primary language
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   no
+
+- field:        second_language
+  description:  Second most-heard language
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+
+- field:        percent_secondlanguage
+  description:  What percentage of the child's language exposure is their secondary language
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        third_language
+  description:  Third most-heard language
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+
+- field:        percent_thirdlanguage
+  description:  What percentage of the child's exposure to third language
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fourth_language
+  description:  Fourth most-heard language
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+
+- field:        percent_fourthlanguage
+  description:  What percentage of the child's exposure to fourth language
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        parentA_gender
+  description:  Gender of parent A
+  type:         options
+  options:      ['M', 'F', 'other', 'NC']
+  required:     yes
+  NA_allowed:   no
+
+- field:        parentB_gender
+  description:  Gender of parent B
+  type:         options
+  options:      ['M', 'F', 'other', 'NC']
+  required:     yes
+  NA_allowed:   no
+
+- field:        parentA_education
+  description:  Parent A's years of education after Kindergarten
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        parentB_education
+  description:  Parent B's years of education after Kindergarten
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling_diagnosed_disability
+  description:  Y if sibling has developmental disorder diagnosis
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling_diagnosed_info
+  description:  If prev = Y, name diagnosis
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+
+- field:        CB_order
+  description:  which counterbalancing ordering was the child in. (1-8)
+  type:         options
+  options:      [1,2,3,4,5,6,7,8]
+  required:     yes
+  NA_allowed:   no
+
+- field:        color_choice
+  description:  the identity of chosen puppet. if the baby did not make a choice, none
+  type:         options
+  options:      ['blue', 'yellow', 'none']
+  required:     yes
+  NA_allowed:   no
+
+- field:        helper_hinderer_choice
+  description:  the identity of chosen puppet. if the baby did not make a choice, none
+  type:         options
+  options:      ['helper', 'hinderer', 'none']
+  required:     yes
+  NA_allowed:   no
+
+- field:        left_right_choice
+  description:  the identity of chosen puppet. if the baby did not make a choice, none
+  type:         options
+  options:      ['left', 'right', 'none']
+  required:     yes
+  NA_allowed:   no
+
+- field:        touch_both
+  description:  Y if child touched both puppets, N if they didn't touch btoh
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   no
+
+- field:        ambiguous_touch_both
+  description:  if previous is Y, was it ambigiuous (e.g. didn't look at one) or N (i..e it was clear, e.g. child looked at object before touching it)
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   no
+
+- field:        trial1_sawcriticalevent
+  description:  did the child see the critical event in this trial
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   no
+
+- field:        trial1_lookingtime_videoevent
+  description:  how many seconds did child look at the video event for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   no
+
+- field:        trial1_lookingtime_stillframe
+  description:  how many seconds did child look at the still frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   no
+
+- field:        trial1_numrepeats
+  description:  how many times was this trial repeated?
+  type:         options
+  options:      [0,1,2,3]
+  required:     yes
+  NA_allowed:   no
+
+- field:        trial2_sawcriticalevent
+  description:  did the child see the critical event in this trial
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial2_lookingtime_videoevent
+  description:  how many seconds did child look at the video event for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial2_lookingtime_stillframe
+  description:  how many seconds did child look at the still frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial2_numrepeats
+  description:  how many times was this trial repeated?
+  type:         options
+  options:      [0,1,2,3]
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial3_sawcriticalevent
+  description:  did the child see the critical event in this trial
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial3_lookingtime_videoevent
+  description:  how many seconds did child look at the video event for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial3_lookingtime_stillframe
+  description:  how many seconds did child look at the still frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial3_numrepeats
+  description:  how many times was this trial repeated?
+  type:         options
+  options:      [0,1,2,3]
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial4_sawcriticalevent
+  description:  did the child see the critical event in this trial
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial4_lookingtime_videoevent
+  description:  how many seconds did child look at the video event for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial4_lookingtime_stillframe
+  description:  how many seconds did child look at the still frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial4_numrepeats
+  description:  how many times was this trial repeated?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial5_sawcriticalevent
+  description:  did the child see the critical event in this trial
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial5_lookingtime_videoevent
+  description:  how many seconds did child look at the video event for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial5_lookingtime_stillframe
+  description:  how many seconds did child look at the still frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial5_numrepeats
+  description:  how many times was this trial repeated?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial6_sawcriticalevent
+  description:  did the child see the critical event in this trial
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial6_lookingtime_videoevent
+  description:  how many seconds did child look at the video event for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial6_lookingtime_stillframe
+  description:  how many seconds did child look at the still frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial6_numrepeats
+  description:  how many times was this trial repeated?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial7_sawcriticalevent
+  description:  did the child see the critical event in this trial
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial7_lookingtime_videoevent
+  description:  how many seconds did child look at the video event for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial7_lookingtime_stillframe
+  description:  how many seconds did child look at the still frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial7_numrepeats
+  description:  how many times was this trial repeated?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial8_sawcriticalevent
+  description:  did the child see the critical event in this trial
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial8_lookingtime_videoevent
+  description:  how many seconds did child look at the video event for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial8_lookingtime_stillframe
+  description:  how many seconds did child look at the still frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial8_numrepeats
+  description:  how many times was this trial repeated?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial9_sawcriticalevent
+  description:  did the child see the critical event in this trial
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial9_lookingtime_videoevent
+  description:  how many seconds did child look at the video event for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial9_lookingtime_stillframe
+  description:  how many seconds did child look at the still frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial9_numrepeats
+  description:  how many times was this trial repeated?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial10_sawcriticalevent
+  description:  did the child see the critical event in this trial
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial10_lookingtime_videoevent
+  description:  how many seconds did child look at the video event for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial10_lookingtime_stillframe
+  description:  how many seconds did child look at the still frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial10_numrepeats
+  description:  how many times was this trial repeated?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial11_sawcriticalevent
+  description:  did the child see the critical event in this trial
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial11_lookingtime_videoevent
+  description:  how many seconds did child look at the video event for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial11_lookingtime_stillframe
+  description:  how many seconds did child look at the still frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial11_numrepeats
+  description:  how many times was this trial repeated?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial12_sawcriticalevent
+  description:  did the child see the critical event in this trial
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial12_lookingtime_videoevent
+  description:  how many seconds did child look at the video event for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial12_lookingtime_stillframe
+  description:  how many seconds did child look at the still frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial12_numrepeats
+  description:  how many times was this trial repeated?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial13_sawcriticalevent
+  description:  did the child see the critical event in this trial
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial13_lookingtime_videoevent
+  description:  how many seconds did child look at the video event for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial13_lookingtime_stillframe
+  description:  how many seconds did child look at the still frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial13_numrepeats
+  description:  how many times was this trial repeated?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial14_sawcriticalevent
+  description:  did the child see the critical event in this trial
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial14_lookingtime_videoevent
+  description:  how many seconds did child look at the video event for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial14_lookingtime_stillframe
+  description:  how many seconds did child look at the still frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial14_numrepeats
+  description:  how many times was this trial repeated?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        hab_crit_set
+  description:  N if the infant did not look at the still frame at the end of the video enough on 3 consecutive trials to reach a cumulative total of 12 seconds, Y if the infant set the habituation criteria within the first 6 trials
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        number_trials_to_hab
+  description:  Number of trials required for the infant to habituate
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sufficiently_decrease_looking
+  description:  N if the infant failed to sufficiently decrease their looking time by the 14th trial, Y if the infant successfully decreased looking time by the 14th trial
+  type:         options
+  options:      ['Y','N']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        session_notes
+  description:  Any other notes about session
+  type:         open ended string
+  required:     yes
+  NA_allowed:   yes
+
+
+
+
+
+
+  
