@@ -93,14 +93,14 @@
 - field:        participant_gender
   description:  Gender
   type:         options
-  options:      ['M', 'F', 'other']
+  options:      ['male', 'female', 'other']
   required:     yes
   NA_allowed:   no
 
 - field:        primary_caregiver_gender
   description:  Gender
   type:         options
-  options:      ['M', 'F', 'other']
+  options:      ['male', 'female', 'other']
   required:     yes
   NA_allowed:   no
 
@@ -222,14 +222,14 @@
 - field:        parentA_gender
   description:  Gender of parent A
   type:         options
-  options:      ['M', 'F', 'other', 'NC']
+  options:      ['male', 'female', 'other', 'NC']
   required:     yes
   NA_allowed:   no
 
 - field:        parentB_gender
   description:  Gender of parent B
   type:         options
-  options:      ['M', 'F', 'other', 'NC']
+  options:      ['male', 'female', 'other', 'NC']
   required:     yes
   NA_allowed:   no
 
