@@ -74,6 +74,8 @@ validate_dataset_field <- function(dataset_contents, field) {
         if (field$format == "uncapitalized"){
           isCap = str_detect(field_contents, "[:upper:]")
           if (TRUE %in% isCap){
+            cat(sprintf("Dataset has a uppercase letter in lowercase-only field '%s'.\n",
+                        field$field))
             return(FALSE)
           }
         } 
