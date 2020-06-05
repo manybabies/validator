@@ -1,5 +1,6 @@
 library(shiny)
 library(shinythemes)
+library(reactable)
 source("common.R")
 
 shinyUI(fluidPage(
@@ -26,7 +27,7 @@ shinyUI(fluidPage(
                  verbatimTextOutput("validator_output")),
         tabPanel("Specification", 
                  p('This is the full text of the specification you have chosen'),
-                 verbatimTextOutput("specification"))
+                 reactableOutput("specification"))
       )
     )
   )

@@ -1,23 +1,30 @@
 library(shiny)
 library(tidyverse)
 library(yaml)
+library(reactable)
 
 source("common.R")
 
 
-
 shinyServer(function(input, output, session) {
+  
   output$study_format <- renderUI({
     selectInput("format", label = h4("Study Format"),
                 choices = filter(studies, study == input$study)$format)
   })
   
-  output$specification <- renderPrint({
-    yaml::yaml.load_file(paste0("data_specifications/",
-                                input$study, "_", input$format, 
-                                ".yaml"))
-  })
-    
+  output$specification <- renderReactable({
+    reactable(
+        yaml2tib(yaml::read_yaml(paste0("data_specifications/",
+                                        input$study, "_", input$format, 
+                                        ".yaml"))), 
+        highlight = TRUE,
+        defaultPageSize = 5, 
+        showPageSizeOptions = TRUE,
+        searchable = TRUE
+        )
+      })
+
   output$validator_output <- renderPrint({
     req(input$file) 
     
