@@ -103,6 +103,27 @@ validate_dataset <- function(fields, dataset_contents) {
 }
 
 
+# Convert yaml to tibble
+yaml2tib <- function(input){
+  
+  yaml_tib <- 
+    tibble(
+      Variable = map(input, "field"),
+      Description = map(input, "description"),
+      Type = map(input, "type"),
+      Format = map(input, "format"),
+      Example = map(input, "example"),
+      Required = map(input, "required"),
+      NA_allowed = map(input, "NA_allowed")
+      ) %>% 
+    mutate(
+      Required = if_else(Required == TRUE, "Yes", "No"),
+      NA_allowed = if_else(NA_allowed == TRUE, "Yes", "No")
+      )
+  
+  return(yaml_tib)
+}
+
 # # Manipulate a dataset's contents to prepare it for saving
 # tidy_dataset <- function(fields, dataset_contents) {
 #   
