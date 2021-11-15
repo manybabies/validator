@@ -33,7 +33,7 @@ validate_dataset_field <- function(dataset_contents, field) {
         }
         if (length(invalid_values)) {
           for (value in invalid_values) {
-            cat(sprintf("Dataset has invalid value '%s' for field '%s'.\n",
+            cat(sprintf("Dataset has invalid value '%s' for field '%s'. Please check the specifications!\n",
                         value, field$field))
           }
           return(FALSE)
@@ -57,7 +57,7 @@ validate_dataset_field <- function(dataset_contents, field) {
         }
         if (length(invalid_values)) {
           for (value in invalid_values) {
-            cat(sprintf("Dataset has invalid value '%s' for field '%s'.\n",
+            cat(sprintf("Dataset has invalid value '%s' for field '%s'. Please check the specifications!\n",
                         value, field$field))
           }
           return(FALSE)
@@ -65,7 +65,7 @@ validate_dataset_field <- function(dataset_contents, field) {
       } else if (field$type == "numeric") {
         field_contents <- dataset_contents[[field$field]]
         if (!(is.numeric(field_contents) || all(is.na(field_contents)))) {
-          cat(sprintf("Dataset has wrong type for numeric field '%s'.\n",
+          cat(sprintf("Dataset has wrong type for numeric field '%s'. Please check the specifications!\n",
                       field$field))
           return(FALSE)
         }
@@ -102,27 +102,6 @@ validate_dataset <- function(fields, dataset_contents) {
   return(valid_dataset)
 }
 
-
-# Convert yaml to tibble
-yaml2tib <- function(input){
-  
-  yaml_tib <- 
-    tibble(
-      Variable = map(input, "field"),
-      Description = map(input, "description"),
-      Type = map(input, "type"),
-      Format = map(input, "format"),
-      Example = map(input, "example"),
-      Required = map(input, "required"),
-      NA_allowed = map(input, "NA_allowed")
-      ) %>% 
-    mutate(
-      Required = if_else(Required == TRUE, "Yes", "No"),
-      NA_allowed = if_else(NA_allowed == TRUE, "Yes", "No")
-      )
-  
-  return(yaml_tib)
-}
 
 # # Manipulate a dataset's contents to prepare it for saving
 # tidy_dataset <- function(fields, dataset_contents) {
