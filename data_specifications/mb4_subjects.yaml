@@ -4,6 +4,14 @@
 # Required fields
 #----------------
 
+- field:        lab_id
+  description:  laboratory identifier, unique
+  type:         string
+  format:       uncapitalized
+  example:      "babylab_paris"
+  required:     yes
+  NA_allowed:   no
+  
 - field:        subj_id
   description:  subject identifier, non-identifying, unique
   type:         string
@@ -11,12 +19,10 @@
   example:      a24519
   required:     yes
   NA_allowed:   no
-
-- field:        lab_id
-  description:  laboratory identifier, unique
-  type:         string
-  format:       uncapitalized
-  example:      "babylab_paris"
+  
+- field:        date_tested
+  description:  Day child was tested e.g. 01/13/2018
+  type:         date
   required:     yes
   NA_allowed:   no
 
@@ -28,46 +34,130 @@
   required:     yes
   NA_allowed:   no
 
-- field:        RA
-  description:  standing of researcher who ran the experiment
+- field:        RA_number
+  description:  number of research assistants involved in running this study (1 or 2)
   type:         options
-  options:      ['undergraduate', 'graduate', 'postdoc', 'PI', 'other'] 
-  example:      undergraduate
+  options:      [1,2]
+  example:      1
   required:     yes
   NA_allowed:   no
 
-- field:        age_days
-  description:  baby's age in days
-  type:         numeric
-  format:       integer
-  example:      365
+- field:        RA_1
+  description:  unique RA identifier (name or anonymous code) for the RA presenting the characters during choice
+  type:         open ended string
+  example:      Kelsey
   required:     yes
   NA_allowed:   no
-
-- field:        session_exclusion
-  description:  if participant meets exclusion criteria, 'exclude', if participant does not meet exclusion criteria, 'include'
-  type:         options
-  options:      ['include', 'exclude']
-  example:      include
-  required:     yes
-  NA_allowed:   no
-
-- field:        session_exclusion_reason
-  description:  enter NA if no reason for exclusion; enter one of the 8 provided reasons if reason for exclusion
-  type:         multiple_options
-  delimiter:    ;
-  options:      ['','not_fullterm', 'diagnosed_dev_disorder', 'fail_to_set_hab_crit','missed_crit_event','no_clear_choice','parental_interference','equipment_error','experimenter_error']
-  example:      include
-  required:     yes
-  NA_allowed:   yes
-
-- field:        hab_crit_set
-  description:  Habituation criterion set?
+  
+- field:        RA_1_naive
+  description:  whether RA_1 was naive to the experiment condition (i.e. who was the 'nice' guy and if the condition was social or nonsocial)
   type:         options
   options:      ['Y', 'N']
   example:      Y
   required:     yes
   NA_allowed:   no
+  
+- field:        RA_2
+  description:  unique RA identifier (name or anonymous code) for the RA presenting the videos/slideshow. NA if same experimenter as RA_1 (i.e. only one experimenter)
+  type:         open ended string
+  example:      Kelsey
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        RA_2_naive
+  description:  whether RA_2 was blind to the experiment condition (i.e. who was the 'nice' guy and if the condition was social or nonsocial). NA if only one experimenter
+  type:         options
+  options:      ['Y', 'N']
+  example:      yes
+  required:     yes
+  NA_allowed:   yes
+
+- field:        infant_duedate
+  description:  Day child was due e.g. 01/13/2018
+  type:         date
+  required:     yes
+  NA_allowed:   no
+
+- field:        infant_birthdate
+  description:  Day child was born e.g. 01/13/2018
+  type:         date
+  required:     yes
+  NA_allowed:   no
+  
+- field:        cb_order
+  description:  which counterbalancing ordering was the child in. Note that this is not what the child is supposed to see, but rather what they actually saw during test
+  type:         options
+  options:      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+  required:     yes
+  NA_allowed:   no
+  
+- field:        condition
+  description:  What condition the child saw - social or nonsocial version of the stimuli
+  type:         options
+  options:      ['social', 'nonsocial']
+  example:      social
+  required:     yes
+  NA_allowed:   no  
+  
+- field:        push_up_identity
+  description:  which character was seen  performing the pushing up action in the video
+  type:         options
+  options:      ['square', 'triangle']
+  example:      square
+  required:     yes
+  NA_allowed:   no  
+  
+- field:        push_up_order
+  description:  Order in which the "pushing up" trial is shown
+  type:         options
+  options:      ['first', 'second']
+  example:      first
+  required:     yes
+  NA_allowed:   no  
+  
+- field:        push_up_side
+  description:  which side was the 'pushing up' character placed on during test (infants' side)
+  type:         options
+  options:      ['left', 'right']
+  example:      left
+  required:     yes
+  NA_allowed:   no  
+
+- field:        exclude_session
+  description:  exclude if data should be excluded, not_excluded if data is included
+  type:         options
+  options:      ['not_excluded', 'excluded']
+  example:      error
+  required:     yes
+  NA_allowed:   no
+
+- field:        exclusion_type_1
+  description:  NA if not_excluded; otherwise enter the first exclusion criteria that occurred
+  type:         options
+  options:      ['DevDisorder', 'Preterm', 'FailToSetHabCrit', 'FailToViewCritPeriod', 'FailToMakeChoice', 'OutsideInterference', 'ExperimenterError', 'EquipmentError', 'FussOut']
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        exclusion_type_2
+  description:  NA if not_excluded; otherwise enter the second exclusion criteria that occurred
+  type:         options
+  options:      ['DevDisorder', 'Preterm', 'FailToSetHabCrit', 'FailToViewCritPeriod', 'FailToMakeChoice', 'OutsideInterference', 'ExperimenterError', 'EquipmentError', 'FussOut']
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        exclusion_type_3
+  description:  NA if not_excluded; otherwise enter the third exclusion criteria that occurred
+  type:         options
+  options:      ['DevDisorder', 'Preterm', 'FailToSetHabCrit', 'FailToViewCritPeriod', 'FailToMakeChoice', 'OutsideInterference', 'ExperimenterError', 'EquipmentError', 'FussOut']
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        exclusion_type_4
+  description:  NA if not_excluded; otherwise enter the fourth exclusion criteria that occurred
+  type:         options
+  options:      ['DevDisorder', 'Preterm', 'FailToSetHabCrit', 'FailToViewCritPeriod', 'FailToMakeChoice', 'OutsideInterference', 'ExperimenterError', 'EquipmentError', 'FussOut']
+  required:     yes
+  NA_allowed:   yes
   
 - field:        notes
   description:  enter any additional non-identifying information that should be known about this participant/session
@@ -91,30 +181,33 @@
   NA_allowed:   no
 
 - field:        participant_gender
-  description:  Gender
+  description:  Gender. Enter NA if unknown
   type:         options
-  options:      ['male', 'female', 'other']
+  options:      ['male', 'female', 'other', 'NA']
   required:     yes
   NA_allowed:   no
-
-- field:        primary_caregiver_gender
-  description:  Gender
+  
+- field:        caregiver_gender
+  description:  gender of the caregiver that participated in and/or brought the baby to the study with the baby
   type:         options
-  options:      ['male', 'female', 'other']
+  options:      ['male', 'female', 'other', 'NA']
+  required:     yes
+  NA_allowed:   no
+  
+- field:        parentA_gender
+  description:  Gender of parent A
+  type:         options
+  options:      ['male', 'female', 'other', 'NA']
+  required:     yes
+  NA_allowed:   no
+  
+- field:        parentB_gender
+  description:  Gender of parent B
+  type:         options
+  options:      ['male', 'female', 'other', 'NA']
   required:     yes
   NA_allowed:   no
 
-- field:        infant_birthdate
-  description:  Day child was born e.g. 01/13/2018
-  type:         date
-  required:     yes
-  NA_allowed:   no
-
-- field:        infant_duedate
-  description:  Day child was due e.g. 01/13/2018
-  type:         date
-  required:     yes
-  NA_allowed:   no
 
 - field:        hearing_vision
   description:  Y if potential exclusion based on hearing/vision
@@ -177,159 +270,75 @@
   required:     yes
   NA_allowed:   no
 
-- field:        second_language
-  description:  Second most-heard language
-  type:         string
-  format:       alphanumeric
-  required:     yes
-  NA_allowed:   yes
-
-- field:        percent_secondlanguage
-  description:  What percentage of the child's language exposure is their secondary language
-  type:         numeric
-  format:       integer
-  required:     yes
-  NA_allowed:   yes
-
-- field:        third_language
-  description:  Third most-heard language
-  type:         string
-  format:       alphanumeric
-  required:     yes
-  NA_allowed:   yes
-
-- field:        percent_thirdlanguage
-  description:  What percentage of the child's exposure to third language
-  type:         numeric
-  format:       integer
-  required:     yes
-  NA_allowed:   yes
-
-- field:        fourth_language
-  description:  Fourth most-heard language
-  type:         string
-  format:       alphanumeric
-  required:     yes
-  NA_allowed:   yes
-
-- field:        percent_fourthlanguage
-  description:  What percentage of the child's exposure to fourth language
-  type:         numeric
-  format:       integer
-  required:     yes
-  NA_allowed:   yes
-
-- field:        parentA_gender
-  description:  Gender of parent A
+- field:        colorblindness_primaryfamily
+  description:  Y if history of color blindness in family, N if not
   type:         options
-  options:      ['male', 'female', 'other', 'NC']
+  options:      ['Y', 'N']
   required:     yes
   NA_allowed:   no
 
-- field:        parentB_gender
-  description:  Gender of parent B
+- field:        character_choice
+  description:  the identity of chosen puppet. if the baby did not make a choice, NA
   type:         options
-  options:      ['male', 'female', 'other', 'NC']
-  required:     yes
-  NA_allowed:   no
-
-- field:        parentA_education
-  description:  Parent A's years of education after Kindergarten
-  type:         numeric
-  format:       integer
+  options:      ['square', 'triangle', 'none', 'NA']
   required:     yes
   NA_allowed:   yes
-
-- field:        parentB_education
-  description:  Parent B's years of education after Kindergarten
-  type:         numeric
-  format:       integer
-  required:     yes
-  NA_allowed:   yes
-
-- field:        sibling_diagnosed_disability
-  description:  Y if sibling has developmental disorder diagnosis
-  type:         options
-  options:      ['Y','N']
-  required:     yes
-  NA_allowed:   yes
-
-- field:        sibling_diagnosed_info
-  description:  If prev = Y, name diagnosis
-  type:         string
-  format:       alphanumeric
-  required:     yes
-  NA_allowed:   yes
-
-- field:        CB_order
-  description:  which counterbalancing ordering was the child in. (1-8)
-  type:         options
-  options:      [1,2,3,4,5,6,7,8]
-  required:     yes
-  NA_allowed:   no
-
-- field:        color_choice
-  description:  the identity of chosen puppet. if the baby did not make a choice, none
-  type:         options
-  options:      ['blue', 'yellow', 'none']
-  required:     yes
-  NA_allowed:   no
 
 - field:        helper_hinderer_choice
-  description:  the identity of chosen puppet. if the baby did not make a choice, none
+  description:  the identity of chosen puppet. if the baby did not make a choice, NA
   type:         options
-  options:      ['helper', 'hinderer', 'none']
+  options:      ['helper', 'hinderer', 'none', 'NA']
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        left_right_choice
-  description:  the identity of chosen puppet. if the baby did not make a choice, none
+  description:  the identity of chosen puppet. if the baby did not make a choice, NA
   type:         options
-  options:      ['left', 'right', 'none']
+  options:      ['left', 'right', 'none', 'NA']
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        touch_both
-  description:  Y if child touched both puppets, N if they didn't touch btoh
+  description:  Y if child touched both puppets, N if they didn't touch both
   type:         options
   options:      ['Y','N']
   required:     yes
   NA_allowed:   no
 
-- field:        ambiguous_touch_both
-  description:  if previous is Y, was it ambigiuous (e.g. didn't look at one) or N (i..e it was clear, e.g. child looked at object before touching it)
+- field:        touch_both_usable
+  description:  if previous is Y, was it unusable (e.g. didn't look at one) or usable (i..e it was clear, e.g. child looked at object before touching it)
   type:         options
-  options:      ['Y','N']
+  options:      ['usable','unusable']
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        trial1_sawcriticalevent
   description:  did the child see the critical event in this trial
   type:         options
   options:      ['Y','N']
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        trial1_lookingtime_videoevent
   description:  how many seconds did child look at the video event for?
   type:         numeric
   format:       integer
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        trial1_lookingtime_stillframe
   description:  how many seconds did child look at the still frame for?
   type:         numeric
   format:       integer
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        trial1_numrepeats
   description:  how many times was this trial repeated?
   type:         options
   options:      [0,1,2,3]
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        trial2_sawcriticalevent
   description:  did the child see the critical event in this trial
@@ -694,37 +703,3 @@
   format:       integer
   required:     yes
   NA_allowed:   yes
-
-- field:        hab_crit_set
-  description:  N if the infant did not look at the still frame at the end of the video enough on 3 consecutive trials to reach a cumulative total of 12 seconds, Y if the infant set the habituation criteria within the first 6 trials
-  type:         options
-  options:      ['Y','N']
-  required:     yes
-  NA_allowed:   yes
-
-- field:        number_trials_to_hab
-  description:  Number of trials required for the infant to habituate
-  type:         numeric
-  format:       integer
-  required:     yes
-  NA_allowed:   yes
-
-- field:        sufficiently_decrease_looking
-  description:  N if the infant failed to sufficiently decrease their looking time by the 14th trial, Y if the infant successfully decreased looking time by the 14th trial
-  type:         options
-  options:      ['Y','N']
-  required:     yes
-  NA_allowed:   yes
-
-- field:        session_notes
-  description:  Any other notes about session
-  type:         open ended string
-  required:     yes
-  NA_allowed:   yes
-
-
-
-
-
-
-  
