@@ -139,6 +139,14 @@
   required:     yes
   NA_allowed:   no  
 
+- field:        meet_eligibility
+  description:  Whether the participant met all eligibility criteria.
+  type:         options
+  options:      ['Y', 'N']
+  example:      Y
+  required:     yes
+  NA_allowed:   no
+
 - field:        exclude_session
   description:  exclude if data should be excluded, not_excluded if data is included
   type:         options
