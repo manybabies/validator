@@ -34,7 +34,7 @@
   required:     yes
   NA_allowed:   no
   
-- field:        screen_size
+- field:        screen_size_inches
   description:  diagonal measurement, in inches, of the stimuli display screen
   type:         string
   format:       numeric
@@ -42,7 +42,7 @@
   required:     yes
   NA_allowed:   no
   
-- field:        infant_distance
+- field:        infant_distance_cm
   description:  how far infant is from the screen, measured in centimeters
   type:         string
   format:       numeric
