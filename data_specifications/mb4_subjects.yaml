@@ -33,6 +33,22 @@
   example:      eye-tracking
   required:     yes
   NA_allowed:   no
+  
+- field:        screen_size_inches
+  description:  diagonal measurement, in inches, of the stimuli display screen
+  type:         string
+  format:       numeric
+  example:      24
+  required:     yes
+  NA_allowed:   no
+  
+- field:        infant_distance_cm
+  description:  how far infant is from the screen, measured in centimeters
+  type:         string
+  format:       numeric
+  example:      100
+  required:     yes
+  NA_allowed:   no
 
 - field:        RA_number
   description:  number of research assistants involved in running this study (1 or 2)
@@ -122,6 +138,14 @@
   example:      left
   required:     yes
   NA_allowed:   no  
+
+- field:        meet_eligibility
+  description:  Whether the participant met all eligibility criteria.
+  type:         options
+  options:      ['Y', 'N']
+  example:      Y
+  required:     yes
+  NA_allowed:   no
 
 - field:        exclude_session
   description:  exclude if data should be excluded, not_excluded if data is included
@@ -326,7 +350,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        trial1_lookingtime_stillframe
+- field:        trial1_lookingtime_freezeframe
   description:  how many seconds did child look at the still frame for?
   type:         numeric
   format:       integer
@@ -354,7 +378,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        trial2_lookingtime_stillframe
+- field:        trial2_lookingtime_freezeframe
   description:  how many seconds did child look at the still frame for?
   type:         numeric
   format:       integer
@@ -382,7 +406,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        trial3_lookingtime_stillframe
+- field:        trial3_lookingtime_freezeframe
   description:  how many seconds did child look at the still frame for?
   type:         numeric
   format:       integer
@@ -410,7 +434,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        trial4_lookingtime_stillframe
+- field:        trial4_lookingtime_freezeframe
   description:  how many seconds did child look at the still frame for?
   type:         numeric
   format:       integer
@@ -438,7 +462,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        trial5_lookingtime_stillframe
+- field:        trial5_lookingtime_freezeframe
   description:  how many seconds did child look at the still frame for?
   type:         numeric
   format:       integer
@@ -466,7 +490,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        trial6_lookingtime_stillframe
+- field:        trial6_lookingtime_freezeframe
   description:  how many seconds did child look at the still frame for?
   type:         numeric
   format:       integer
@@ -494,7 +518,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        trial7_lookingtime_stillframe
+- field:        trial7_lookingtime_freezeframe
   description:  how many seconds did child look at the still frame for?
   type:         numeric
   format:       integer
@@ -522,7 +546,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        trial8_lookingtime_stillframe
+- field:        trial8_lookingtime_freezeframe
   description:  how many seconds did child look at the still frame for?
   type:         numeric
   format:       integer
@@ -550,7 +574,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        trial9_lookingtime_stillframe
+- field:        trial9_lookingtime_freezeframe
   description:  how many seconds did child look at the still frame for?
   type:         numeric
   format:       integer
@@ -578,7 +602,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        trial10_lookingtime_stillframe
+- field:        trial10_lookingtime_freezeframe
   description:  how many seconds did child look at the still frame for?
   type:         numeric
   format:       integer
@@ -606,7 +630,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        trial11_lookingtime_stillframe
+- field:        trial11_lookingtime_freezeframe
   description:  how many seconds did child look at the still frame for?
   type:         numeric
   format:       integer
@@ -634,7 +658,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        trial12_lookingtime_stillframe
+- field:        trial12_lookingtime_freezeframe
   description:  how many seconds did child look at the still frame for?
   type:         numeric
   format:       integer
@@ -662,7 +686,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        trial13_lookingtime_stillframe
+- field:        trial13_lookingtime_freezeframe
   description:  how many seconds did child look at the still frame for?
   type:         numeric
   format:       integer
@@ -690,7 +714,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        trial14_lookingtime_stillframe
+- field:        trial14_lookingtime_freezeframe
   description:  how many seconds did child look at the still frame for?
   type:         numeric
   format:       integer

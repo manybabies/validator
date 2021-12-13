@@ -15,7 +15,7 @@ validate_dataset_field <- function(dataset_contents, field) {
     if (field$field %in% names(dataset_contents)) {
       if (is.na(dataset_contents[[field$field]])){
         if(field$NA_allowed != TRUE){
-          cat(sprintf("Dataset has blank required field: '%s'.\n",
+          cat(sprintf("Dataset has blank or NA for required field: '%s'.\n",
                     field$field))
           return(FALSE)
         }
