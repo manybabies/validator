@@ -92,7 +92,7 @@
   description:  Day child was due e.g. 01/13/2018
   type:         date
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        infant_birthdate
   description:  Day child was born e.g. 01/13/2018
@@ -238,7 +238,7 @@
   type:         options
   options:      ['Y', 'N']
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        hearing_vision_info
   description:  briefly explain if prev is Y
@@ -251,7 +251,7 @@
   type:         options
   options:      ['Y', 'N']
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        cognitive_developmental_info
   description:  briefly explain if prev is Y
@@ -264,14 +264,14 @@
   type:         options
   options:      ['R','L','B','U']
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        parentA_handedness
   description:  R if primarily right handed, L if primarily left handed, B if uses both equally
   type:         options
   options:      ['R','L','B']
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        parentB_handedness
   description:  R if primarily right handed, L if primarily left handed, B if uses both equally
@@ -285,21 +285,21 @@
   type:         string
   format:       alphanumeric
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        percent_primarylanguage
   description:  What percentage of the child's language exposure is their primary language
   type:         numeric
   format:       integer
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        colorblindness_primaryfamily
   description:  Y if history of color blindness in family, N if not
   type:         options
   options:      ['Y', 'N']
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        character_choice
   description:  the identity of chosen puppet. if the baby did not make a choice, NA
@@ -351,7 +351,7 @@
   NA_allowed:   yes
 
 - field:        trial1_lookingtime_freezeframe
-  description:  how many seconds did child look at the still frame for?
+  description:  how many seconds did child look at the freeze frame for?
   type:         numeric
   format:       integer
   required:     yes
@@ -379,7 +379,7 @@
   NA_allowed:   yes
 
 - field:        trial2_lookingtime_freezeframe
-  description:  how many seconds did child look at the still frame for?
+  description:  how many seconds did child look at the freeze frame for?
   type:         numeric
   format:       integer
   required:     yes
@@ -407,7 +407,7 @@
   NA_allowed:   yes
 
 - field:        trial3_lookingtime_freezeframe
-  description:  how many seconds did child look at the still frame for?
+  description:  how many seconds did child look at the freeze frame for?
   type:         numeric
   format:       integer
   required:     yes
@@ -435,7 +435,7 @@
   NA_allowed:   yes
 
 - field:        trial4_lookingtime_freezeframe
-  description:  how many seconds did child look at the still frame for?
+  description:  how many seconds did child look at the freeze frame for?
   type:         numeric
   format:       integer
   required:     yes
@@ -463,7 +463,7 @@
   NA_allowed:   yes
 
 - field:        trial5_lookingtime_freezeframe
-  description:  how many seconds did child look at the still frame for?
+  description:  how many seconds did child look at the freeze frame for?
   type:         numeric
   format:       integer
   required:     yes
@@ -491,7 +491,7 @@
   NA_allowed:   yes
 
 - field:        trial6_lookingtime_freezeframe
-  description:  how many seconds did child look at the still frame for?
+  description:  how many seconds did child look at the freeze frame for?
   type:         numeric
   format:       integer
   required:     yes
@@ -519,7 +519,7 @@
   NA_allowed:   yes
 
 - field:        trial7_lookingtime_freezeframe
-  description:  how many seconds did child look at the still frame for?
+  description:  how many seconds did child look at the freeze frame for?
   type:         numeric
   format:       integer
   required:     yes
@@ -547,7 +547,7 @@
   NA_allowed:   yes
 
 - field:        trial8_lookingtime_freezeframe
-  description:  how many seconds did child look at the still frame for?
+  description:  how many seconds did child look at the freeze frame for?
   type:         numeric
   format:       integer
   required:     yes
@@ -575,7 +575,7 @@
   NA_allowed:   yes
 
 - field:        trial9_lookingtime_freezeframe
-  description:  how many seconds did child look at the still frame for?
+  description:  how many seconds did child look at the freeze frame for?
   type:         numeric
   format:       integer
   required:     yes
@@ -603,7 +603,7 @@
   NA_allowed:   yes
 
 - field:        trial10_lookingtime_freezeframe
-  description:  how many seconds did child look at the still frame for?
+  description:  how many seconds did child look at the freeze frame for?
   type:         numeric
   format:       integer
   required:     yes
@@ -631,7 +631,7 @@
   NA_allowed:   yes
 
 - field:        trial11_lookingtime_freezeframe
-  description:  how many seconds did child look at the still frame for?
+  description:  how many seconds did child look at the freeze frame for?
   type:         numeric
   format:       integer
   required:     yes
@@ -659,7 +659,7 @@
   NA_allowed:   yes
 
 - field:        trial12_lookingtime_freezeframe
-  description:  how many seconds did child look at the still frame for?
+  description:  how many seconds did child look at the freeze frame for?
   type:         numeric
   format:       integer
   required:     yes
@@ -687,7 +687,7 @@
   NA_allowed:   yes
 
 - field:        trial13_lookingtime_freezeframe
-  description:  how many seconds did child look at the still frame for?
+  description:  how many seconds did child look at the freeze frame for?
   type:         numeric
   format:       integer
   required:     yes
@@ -715,7 +715,7 @@
   NA_allowed:   yes
 
 - field:        trial14_lookingtime_freezeframe
-  description:  how many seconds did child look at the still frame for?
+  description:  how many seconds did child look at the freeze frame for?
   type:         numeric
   format:       integer
   required:     yes
