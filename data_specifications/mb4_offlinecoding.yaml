@@ -1,0 +1,143 @@
+---
+
+#----------------
+# Required fields
+#----------------
+
+- field:        lab_id
+  description:  laboratory identifier, unique
+  type:         string
+  format:       uncapitalized
+  example:      "babylab_paris"
+  required:     yes
+  NA_allowed:   no
+  
+- field:        subj_id
+  description:  subject identifier, non-identifying, unique
+  type:         string
+  format:       alphanumeric
+  example:      a24519
+  required:     yes
+  NA_allowed:   no
+
+- field:        trial1_lookingtime_freezeframe
+  description:  how many seconds did child look at the freeze frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial2_lookingtime_freezeframe
+  description:  how many seconds did child look at the freeze frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial3_lookingtime_freezeframe
+  description:  how many seconds did child look at the freeze frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial4_lookingtime_freezeframe
+  description:  how many seconds did child look at the freeze frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial5_lookingtime_freezeframe
+  description:  how many seconds did child look at the freeze frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial6_lookingtime_freezeframe
+  description:  how many seconds did child look at the freeze frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial7_lookingtime_freezeframe
+  description:  how many seconds did child look at the freeze frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial8_lookingtime_freezeframe
+  description:  how many seconds did child look at the freeze frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial9_lookingtime_freezeframe
+  description:  how many seconds did child look at the freeze frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial10_lookingtime_freezeframe
+  description:  how many seconds did child look at the freeze frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial11_lookingtime_freezeframe
+  description:  how many seconds did child look at the freeze frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial12_lookingtime_freezeframe
+  description:  how many seconds did child look at the freeze frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial13_lookingtime_freezeframe
+  description:  how many seconds did child look at the freeze frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial14_lookingtime_freezeframe
+  description:  how many seconds did child look at the freeze frame for?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        coder
+  description:  unique RA identifier (name or anonymous code) for the RA performing the recode
+  type:         open ended string
+  example:      Francis
+  required:     yes
+  NA_allowed:   no
+  
+- field:        coder_status
+  description:  as this is the offline coder data entry template, please input 'offline' as your coder status
+  type:         options
+  options:      ['offline']
+  example:      offline
+  required:     yes
+  NA_allowed:   no
+  
+- field:        character_choice
+  description:  the identity of chosen puppet. if the baby did not make a choice, NA
+  type:         options
+  options:      ['square', 'triangle', 'none', 'NA']
+  required:     yes
+  NA_allowed:   yes
+  
+
