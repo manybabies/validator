@@ -1,0 +1,327 @@
+---
+
+#----------------
+# Required fields
+#----------------
+
+- field:        lab
+  description:  your unique lab ID in the following format - [acronym of your institution, not longer than 4 characters]_[city of your institution] (e.g. <LMU_Munich>)			
+  type:         string
+  format:       string
+  example:      LMU_Munich
+  required:     yes
+  NA_allowed:   no
+  
+- field:        subid
+  description:  unique ID for the participant - [acronym of your institution, not longer than 4 characters]_[participant number, starting with 001]
+  type:         string
+  format:       string
+  example:      LMU_001
+  required:     yes
+  NA_allowed:   no
+  
+- field:        RA
+  description:  unique RA identifier (name or anonymous code)
+  type:         string
+  format:       string
+  example:      Tobias
+  required:     yes
+  NA_allowed:   no
+  
+- field:        trial_sequence
+  description:  which of the two trial orders was used for this participant?
+  type:         options
+  options:      ['A','B']
+  required:     yes
+  NA_allowed:   no
+  
+- field:        session_error
+  description:  (data should be excluded) - note, do not use this field for individual trial level errors if the participant is still going to be included.
+  type:         options
+  options:      ['noerror', 'error']
+  example:      error
+  required:     yes
+  NA_allowed:   no
+  
+- field:        session_error_type
+  description:  NA if no error; suggestions are “experimenter error” or “technical error"
+  required:     no
+  NA_allowed:   yes
+  
+- field:        note
+  description:  NA if you have nothing to note, you could add her information such as 'child was very tired'
+  type:         string
+  format:       open-ended
+  required:     no
+  NA_allowed:   yes
+  
+- field:        participant_gender
+  description:  Gender of the participant (NC for unknown)
+  type:         options
+  options:      ['boy', 'girl', 'other', 'NC']
+  required:     yes
+  NA_allowed:   no
+  
+- field:        age_days
+  description:  chronological age in days. Here is an online converter - https://www.timeanddate.com/date/duration.html
+  type:         integer
+  required:     yes
+  NA_allowed:   no
+  
+- field:        gestation_week
+  description:  In which week of pregnancy was the child born?
+  type:         integer
+  required:     yes
+  NA_allowed:   no
+  
+- field:        residence_country
+  description:  Place of residence (country) of the participant.
+  type:         string
+  format:       open ended
+  example:      Germany
+  required:     yes
+  NA_allowed:   no
+  
+- field:        daycare
+  description:  Is the child currently in daycare?
+  type:         options
+  options:      ['yes', 'no']
+  required:     yes
+  NA_allowed:   no
+  
+- field:        hours_week_daycare
+  description:  sum of hours the child usually spends in daycare per week (or NA if child is not in daycare)
+  type:         integer
+  required:     yes
+  NA_allowed:   no
+  
+- field:        lang1
+  description:  Native or most-heard language
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   no
+
+- field:        lang1_exposure
+  description:  Percentage exposure to lang1. Note that exposures to all languages for a child should sum to 100!
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   no
+  
+- field:        lang2
+  description:  Second most-heard language (or NA if no second language)
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+
+- field:        lang2_exposure
+  description:  Percentage exposure to lang2 (or NA if no second language)
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        lang3
+  description:  Second most-heard language (or NA if no second language)
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+
+- field:        lang3_exposure
+  description:  Percentage exposure to lang3 (or NA if no second language)
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        hearing
+  description:  yes if potential exclusion based on hearing
+  type:         options
+  options:      ['yes', 'no']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        hearing_info
+  description:  briefly explain if prev is yes
+  type:         open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        vision
+  description:  yes if potential exclusion based on vision
+  type:         options
+  options:      ['yes', 'no']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        vision_info
+  description:  briefly explain if prev is yes
+  type:         open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cognitive_developmental
+  description:  yes if potential exclusion based on cog/dev
+  type:         options
+  options:      ['yes', 'no']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cognitive_developmental_info
+  description:  briefly explain if prev is yes
+  type:         open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sib1_age
+  description:  age in months of oldest sibling, or NA if no sibling
+  type:         integer
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        sib1_gender
+  description:  sib1 gender, or NA if no sibling, NC if unknown
+  type:         options
+  options:      ['boy', 'girl', 'other', 'NC']
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        sib2_age
+  description:  age in months of oldest sibling, or NA if no sibling
+  type:         integer
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        sib2_gender
+  description:  sib2 gender, or NA if no sibling, NC if unknown
+  type:         options
+  options:      ['boy', 'girl', 'other', 'NC']
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        sib3_age
+  description:  age in months of oldest sibling, or NA if no sibling
+  type:         integer
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        sib3_gender
+  description:  sib3 gender, or NA if no sibling, NC if unknown
+  type:         options
+  options:      ['boy', 'girl', 'other', 'NC']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sib4_age
+  description:  age in months of oldest sibling, or NA if no sibling
+  type:         integer
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        sib4_gender
+  description:  sib4 gender, or NA if no sibling, NC if unknown
+  type:         options
+  options:      ['boy', 'girl', 'other', 'NC']
+  required:     yes
+  NA_allowed:   yes  
+  
+- field:        sib5_age
+  description:  age in months of oldest sibling, or NA if no sibling
+  type:         integer
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        sib5_gender
+  description:  sib5 gender, or NA if no sibling, NC if unknown
+  type:         options
+  options:      ['boy', 'girl', 'other', 'NC']
+  required:     yes
+  NA_allowed:   yes  
+  
+- field:        parentA_gender
+  description:  parent A's gender (NC if unkown or parent prefered not to answer)
+  type:         options
+  options:      ['man', 'woman', 'other', 'NC']
+  required:     yes
+  NA_allowed:   no
+  
+- field:        parentA_native_lang1
+  description:  Native language (if more than one, add others to variables below)
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+
+- field:        parentA_native_lang2
+  description:  Further Native language
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        parentA_native_lang3
+  description:  Further Native language
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        parentA_education
+  description:  parent A's years of education after Kindergarden (e.g. in the US 12 = finish high school, 14 = finish associates degree, etc.)
+  type:         integer
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        parentB_gender
+  description:  parent B's gender (NC if unkown or parent prefered not to answer)
+  type:         options
+  options:      ['man', 'woman', 'other', 'NC']
+  required:     yes
+  NA_allowed:   no
+  
+- field:        parentB_native_lang1
+  description:  Native language (if more than one, add others to variables below)
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+
+- field:        parentB_native_lang2
+  description:  Further Native language
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        parentB_native_lang3
+  description:  Further Native language
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        parentB_education
+  description:  parent B's years of education after Kindergarden (e.g. in the US 12 = finish high school, 14 = finish associates degree, etc.)
+  type:         integer
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+
+- field:        recruitment
+  description:  Labid of the lab that recruited the participant
+  type:         string
+  format:       string
+  example:      LMU
+  required:     yes
+  NA_allowed:   no
+  
+- field:        anything_else
+  description:  Did caregivers report anthing else in the questionnaire?
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
