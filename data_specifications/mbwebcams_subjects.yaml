@@ -93,7 +93,7 @@
   description:  sum of hours the child usually spends in daycare per week (or NA if child is not in daycare)
   type:         integer
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
   
 - field:        lang1
   description:  Native or most-heard language
