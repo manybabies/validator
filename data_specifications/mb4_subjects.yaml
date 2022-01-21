@@ -21,7 +21,7 @@
   NA_allowed:   no
   
 - field:        date_tested
-  description:  Day child was tested e.g. 01/13/2018
+  description:  Day child was tested, formatted YYYY-MM-DD, e.g. 2020-01-01
   type:         date
   required:     yes
   NA_allowed:   no
@@ -89,13 +89,13 @@
   NA_allowed:   yes
 
 - field:        infant_duedate
-  description:  Day child was due e.g. 01/13/2018
+  description:  Day child was due, formatted YYYY-MM-DD, e.g. 2020-01-01
   type:         date
   required:     yes
   NA_allowed:   yes
 
 - field:        infant_birthdate
-  description:  Day child was born e.g. 01/13/2018
+  description:  Day child was born, formatted YYYY-MM-DD, e.g. 2020-01-01
   type:         date
   required:     yes
   NA_allowed:   no
