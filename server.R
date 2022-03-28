@@ -49,7 +49,7 @@ shinyServer(function(input, output, session) {
     if (valid) {
       cat("\nDataset is valid!")
     } else {
-      cat("\nDatset is NOT valid, please correct and try again!")
+      cat("\nDataset is NOT valid, please correct and try again!")
     }
     
   })
