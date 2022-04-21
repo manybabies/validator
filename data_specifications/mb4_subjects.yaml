@@ -26,6 +26,26 @@
   required:     yes
   NA_allowed:   no
 
+- field:        age_group
+  description:  the infants' age bin (e.g. a 5.5 month old will be in the "five" month group)
+  type:         options
+  options:      ['five', 'six', 'seven', 'eight', 'nine', 'ten']
+  required:     yes
+  NA_allowed:   no
+  
+- field:        age_days
+  description:  The infants' age in days, please use this calculator to compute age in days. copy and paste errors are common here, so please double check prior to data upload https://www.calculator.net/age-calculator.html.
+  type:         numeric
+  required:     yes
+  NA_allowed:   no
+  
+- field:        premature_days
+  description:  If the baby was born premature, enter in days the number of days early the baby was born, using this age calculator if helpful- https://www.calculator.net/age-calculator.html.
+  type:         numeric
+  required:     yes
+  NA_allowed:   no
+  
+  
 - field:        method
   description:  which method was used for this participant
   type:         options
@@ -87,18 +107,6 @@
   example:      yes
   required:     yes
   NA_allowed:   yes
-
-- field:        infant_duedate
-  description:  Day child was due, formatted YYYY-MM-DD, e.g. 2020-01-01
-  type:         date
-  required:     yes
-  NA_allowed:   yes
-
-- field:        infant_birthdate
-  description:  Day child was born, formatted YYYY-MM-DD, e.g. 2020-01-01
-  type:         date
-  required:     yes
-  NA_allowed:   no
   
 - field:        cb_order
   description:  which counterbalancing ordering was the child in. Note that this is not what the child is supposed to see, but rather what they actually saw during test
