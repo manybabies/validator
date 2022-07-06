@@ -1,0 +1,705 @@
+---
+
+#----------------
+# Required fields
+#----------------
+
+- field:        lab_id
+  description:  laboratory identifier, unique
+  type:         string
+  format:       uncapitalized
+  example:      "babylab_paris"
+  required:     yes
+  NA_allowed:   no
+  
+- field:        subj_id
+  description:  subject identifier, non-identifying, unique
+  type:         string
+  format:       alphanumeric
+  example:      a24519
+  required:     yes
+  NA_allowed:   no
+
+- field:        child_screen
+  description:  the length for the child's daily interaction time (in minutes) with screen
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        child_siblings
+  description:  whether the child has siblings
+  type:         options
+  options:      ['Y', 'N']
+  example:      Y
+  required:     yes
+  NA_allowed:   no
+
+- field:        sibling_days
+  description:  if the child has siblings, list their age in days
+  type:         string
+  format:       open-ended
+  required:     no
+  NA_allowed:   yes
+
+- field:        child_book
+  description:  the length for the child's daily engagement time (in minutes) in book-reading
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JBR_include
+  description:  use "Y" if the joint book reading task (JBR) is included in the measurements
+  type:         options
+  options:      ['Y', 'N']
+  example:      Y
+  required:     yes
+  NA_allowed:   no
+
+- field:        JBR_engagement
+  description:  use "Y" if infants are engaged during the joint book reading task (JBR)
+  type:         options
+  options:      ['Y', 'N']
+  example:      Y
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JBR_video
+  description:  use "Y" if data for the video for JBR is available
+  type:         options
+  options:      ['Y', 'N']
+  example:      Y
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JBR_audio
+  description:  use "Y" if data for the audio for JBR is available
+  type:         options
+  options:      ['Y', 'N']
+  example:      Y
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JBR_book
+  description:  the book type used for JBR, NA
+  type:         options
+  options:      ['binder', 'flip', 'NA']
+  example:      binder
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JBR_seat
+  description:  how the infant was seated during JBR
+  type:         options
+  options:      ['babychair', 'caregiverslap', 'NA']
+  example:      babychair
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JBR_time
+  description:  how many minutes the JBR task took?
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        JBR_notes
+  description:  enter any additional non-identifying information that should be known about this participant/task
+  type:         string
+  format:       open-ended
+  required:     no
+  NA_allowed:   yes
+
+- field:        JBR_total_all
+  description:  Total number of utterances (including related and unrelated utterances, and excluding the cover page)
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JBR_total_related
+  description:  Total number of utterances (including related only)
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JBR_total_words
+  description:  Total number of words
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JBR_SimplePro
+  description:  total number of scores for prosocial evaluation in the simplified coding  
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JBR_SimpleAnti
+  description:  total number of scores for antisocial evaluation in the simplified coding   
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JBR_disagreement
+  description:  number of disagreements of two coders
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        background_include
+  description:  use "Y" if family background questionnaire (spin-off) is included in the measurements
+  type:         options
+  options:      ['Y', 'N']
+  example:      Y
+  required:     yes
+  NA_allowed:   no
+
+- field:        background_notes
+  description:  enter any additional non-identifying information that should be known about this participant/survey
+  type:         string
+  format:       open-ended
+  required:     no
+  NA_allowed:   yes
+
+- field:        IPB_include
+  description:  use "Y" if Survey 3 Infant Prosocial Behaviour Parent Interview (IPB) is included in the measurements
+  type:         options
+  options:      ['Y', 'N']
+  example:      Y
+  required:     yes
+  NA_allowed:   no
+
+- field:        IPB_notes
+  description:  enter any additional non-identifying information that should be known about this participant/survey
+  type:         string
+  format:       open-ended
+  required:     no
+  NA_allowed:   yes
+
+- field:        PR_include
+  description:  use "Y" if Survey 2 Parental reflectivity questionnaire (PR) is included in the measurements
+  type:         options
+  options:      ['Y', 'N']
+  example:      Y
+  required:     yes
+  NA_allowed:   no
+
+- field:        PR_notes
+  description:  enter any additional non-identifying information that should be known about this participant/survey
+  type:         string
+  format:       open-ended
+  required:     no
+  NA_allowed:   yes
+
+- field:        JS_include
+  description:  use "Y" if Survey 1 Justice sensitivity short scales (JS) is included in the measurements
+  type:         options
+  options:      ['Y', 'N']
+  example:      Y
+  required:     yes
+  NA_allowed:   no
+
+- field:        JS_notes
+  description:  enter any additional non-identifying information that should be known about this participant/survey
+  type:         string
+  format:       open-ended
+  required:     no
+  NA_allowed:   yes
+
+- field:        IC_include
+  description:  use "Y" if Survey 4 The individualism-collectivism measurement (IC) is included in the measurements
+  type:         options
+  options:      ['Y', 'N']
+  example:      Y
+  required:     yes
+  NA_allowed:   no
+
+- field:        IC_notes
+  description:  enter any additional non-identifying information that should be known about this participant/survey
+  type:         string
+  format:       open-ended
+  required:     no
+  NA_allowed:   yes
+
+- field:        primary_caregiver
+  description:  use "Y" if the respondent is the child's primary caregiver
+  type:         options
+  options:      ['Y', 'N']
+  example:      Y
+  required:     yes
+  NA_allowed:   no
+
+- field:        book_frequency
+  description:  frequency of book reading activities with the child
+  type:         options
+  options:      ['Never', 'Rarely (one or two times per week)', 'Sometimes (three - six times per week)', 'Often (daily)', 'Very Often (multiple times a day)']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        caregiver_race
+  description:  primary caregiver's race/ethnicity
+  type:         options
+  options:      ['American Indian or Alaska Native', 'Asian', 'Black or African American', 'Native Hawaiian or Other Pacific Islander', 'White', 'Prefer not to say', 'Other', 'NA']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        child_race
+  description:  the child's race/ethnicity
+  type:         options
+  options:      ['American Indian or Alaska Native', 'Asian', 'Black or African American', 'Native Hawaiian or Other Pacific Islander', 'White', 'Prefer not to say', 'Other', 'NA']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        edu_caregiver
+  description:  primary caregiver's highest education degree
+  type:         options
+  options:      ['No high school diploma', 'High school diploma', 'Some college', '4-year college degree', 'Graduate school degree', 'Other', 'NA']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_HelpExpectedAge_adults
+  description:  the caregiver's expected age of when infants can help adults
+  type:         options
+  options:      ['0 - 3 months', '3 - 6 months', '6 - 9 months', '9 - 12 months', '12 - 15 months', '15 - 18 months', '18 - 21 months', '21 - 24 months', '24 - 27 months', '27 - 30 months', '30 - 33 months', '33 - 36 months', '36 - 39 months', '39 - 42 months', '42 - 45 months', '45 - 48 months', '48 - 51 months', '51 - 54 months', '54 - 57 months', '57 - 60 months', '60+ months']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ComfortExpectedAge_adults
+  description:  the caregiver's expected age of when infants can comfort adults
+  type:         options
+  options:      ['0 - 3 months', '3 - 6 months', '6 - 9 months', '9 - 12 months', '12 - 15 months', '15 - 18 months', '18 - 21 months', '21 - 24 months', '24 - 27 months', '27 - 30 months', '30 - 33 months', '33 - 36 months', '36 - 39 months', '39 - 42 months', '42 - 45 months', '45 - 48 months', '48 - 51 months', '51 - 54 months', '54 - 57 months', '57 - 60 months', '60+ months']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ShareExpectedAge_adults
+  description:  the caregiver's expected age of when infants can share with adults
+  type:         options
+  options:      ['0 - 3 months', '3 - 6 months', '6 - 9 months', '9 - 12 months', '12 - 15 months', '15 - 18 months', '18 - 21 months', '21 - 24 months', '24 - 27 months', '27 - 30 months', '30 - 33 months', '33 - 36 months', '36 - 39 months', '39 - 42 months', '42 - 45 months', '45 - 48 months', '48 - 51 months', '51 - 54 months', '54 - 57 months', '57 - 60 months', '60+ months']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_CooperateExpectedAge_adults
+  description:  the caregiver's expected age of when infants can cooperate with adults
+  type:         options
+  options:      ['0 - 3 months', '3 - 6 months', '6 - 9 months', '9 - 12 months', '12 - 15 months', '15 - 18 months', '18 - 21 months', '21 - 24 months', '24 - 27 months', '27 - 30 months', '30 - 33 months', '33 - 36 months', '36 - 39 months', '39 - 42 months', '42 - 45 months', '45 - 48 months', '48 - 51 months', '51 - 54 months', '54 - 57 months', '57 - 60 months', '60+ months']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_HelpExpectedAge_Kids
+  description:  the caregiver's expected age of when infants can help other kids
+  type:         options
+  options:      ['0 - 3 months', '3 - 6 months', '6 - 9 months', '9 - 12 months', '12 - 15 months', '15 - 18 months', '18 - 21 months', '21 - 24 months', '24 - 27 months', '27 - 30 months', '30 - 33 months', '33 - 36 months', '36 - 39 months', '39 - 42 months', '42 - 45 months', '45 - 48 months', '48 - 51 months', '51 - 54 months', '54 - 57 months', '57 - 60 months', '60+ months']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ComfortExpectedAge_Kids
+  description:  the caregiver's expected age of when infants can comfort other kids
+  type:         options
+  options:      ['0 - 3 months', '3 - 6 months', '6 - 9 months', '9 - 12 months', '12 - 15 months', '15 - 18 months', '18 - 21 months', '21 - 24 months', '24 - 27 months', '27 - 30 months', '30 - 33 months', '33 - 36 months', '36 - 39 months', '39 - 42 months', '42 - 45 months', '45 - 48 months', '48 - 51 months', '51 - 54 months', '54 - 57 months', '57 - 60 months', '60+ months']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ShareExpectedAge_Kids
+  description:  the caregiver's expected age of when infants can share with other kids
+  type:         options
+  options:      ['0 - 3 months', '3 - 6 months', '6 - 9 months', '9 - 12 months', '12 - 15 months', '15 - 18 months', '18 - 21 months', '21 - 24 months', '24 - 27 months', '27 - 30 months', '30 - 33 months', '33 - 36 months', '36 - 39 months', '39 - 42 months', '42 - 45 months', '45 - 48 months', '48 - 51 months', '51 - 54 months', '54 - 57 months', '57 - 60 months', '60+ months']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_CooperateExpectedAge_Kids
+  description:  the caregiver's expected age of when infants can cooperate with other kids
+  type:         options
+  options:      ['0 - 3 months', '3 - 6 months', '6 - 9 months', '9 - 12 months', '12 - 15 months', '15 - 18 months', '18 - 21 months', '21 - 24 months', '24 - 27 months', '27 - 30 months', '30 - 33 months', '33 - 36 months', '36 - 39 months', '39 - 42 months', '42 - 45 months', '45 - 48 months', '48 - 51 months', '51 - 54 months', '54 - 57 months', '57 - 60 months', '60+ months']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_HelpWhy1
+  description:  an example of the infant's helping
+  type:         string
+  format:       open-ended
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_HelpWhy2
+  description:  an example of the infant's helping
+  type:         string
+  format:       open-ended
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ComfortWhy1
+  description:  an example of the infant's Comforting
+  type:         string
+  format:       open-ended
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ComfortWhy2
+  description:  an example of the infant's Comforting
+  type:         string
+  format:       open-ended
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ShareWhy1
+  description:  an example of the infant's Sharing
+  type:         string
+  format:       open-ended
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ShareWhy2
+  description:  an example of the infant's Sharing
+  type:         string
+  format:       open-ended
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_CooperateWhy1
+  description:  an example of the infant's Cooperating
+  type:         string
+  format:       open-ended
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_CooperateWhy2
+  description:  an example of the infant's Cooperating
+  type:         string
+  format:       open-ended
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_HelpFrequency
+  description:  the infant's helping frequency
+  type:         options
+  options:      ['Never', 'Rarely (one or two times per week)', 'Sometimes (three - six times per week)', 'Often (daily)', 'Very Often (multiple times a day)']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_HelpAge
+  description:  the age of the infant's first helping
+  type:         options
+  options:      ['Never', 'Just born', '1 month', '2 months', '3 months', '4 months', '5 months', '6 months', '7 months', '8 months', '9 months', '10 months', '11 months', '12 months']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_HelpExample
+  description:  an example of the infant's helping
+  type:         string
+  format:       open-ended
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ComfortFrequency
+  description:  the infant's comforting frequency
+  type:         options
+  options:      ['Never', 'Rarely (one or two times per week)', 'Sometimes (three - six times per week)', 'Often (daily)', 'Very Often (multiple times a day)']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ComfortAge
+  description:  the age of the infant's first comforting
+  type:         options
+  options:      ['Never', 'Just born', '1 month', '2 months', '3 months', '4 months', '5 months', '6 months', '7 months', '8 months', '9 months', '10 months', '11 months', '12 months']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ComfortExample
+  description:  an example of the infant's comforting
+  type:         string
+  format:       open-ended
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ShareFrequency
+  description:  the infant's sharing frequency
+  type:         options
+  options:      ['Never', 'Rarely (one or two times per week)', 'Sometimes (three - six times per week)', 'Often (daily)', 'Very Often (multiple times a day)']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ShareAge
+  description:  the age of the infant's first sharing
+  type:         options
+  options:      ['Never', 'Just born', '1 month', '2 months', '3 months', '4 months', '5 months', '6 months', '7 months', '8 months', '9 months', '10 months', '11 months', '12 months']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ShareExample
+  description:  an example of the infant's sharing
+  type:         string
+  format:       open-ended
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_CooperateFrequency
+  description:  the infant's cooperating frequency
+  type:         options
+  options:      ['Never', 'Rarely (one or two times per week)', 'Sometimes (three - six times per week)', 'Often (daily)', 'Very Often (multiple times a day)']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_CooperateAge
+  description:  the age of the infant's first cooperating
+  type:         options
+  options:      ['Never', 'Just born', '1 month', '2 months', '3 months', '4 months', '5 months', '6 months', '7 months', '8 months', '9 months', '10 months', '11 months', '12 months']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_CooperateExample
+  description:  an example of the infant's cooperating
+  type:         string
+  format:       open-ended
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_SocialGameFrequency
+  description:  the frequency of social game playing between the caregiver and the infant
+  type:         options
+  options:      ['Never', 'Rarely (one or two times per week)', 'Sometimes (three - six times per week)', 'Often (daily)', 'Very Often (multiple times a day)']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ProsocialLearning1
+  description:  The first example of how the infant learns about, or will learn about, prosocial behaviors
+  type:         string
+  format:       open-ended
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ProsocialLearning2
+  description:  The second example of how the infant learns about, or will learn about, prosocial behaviors
+  type:         string
+  format:       open-ended
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ProsocialLearning3
+  description:  The third example of how the infant learns about, or will learn about, prosocial behaviors
+  type:         string
+  format:       open-ended
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IPB_ProsocialLearning4
+  description:  The fourth example of how the infant learns about, or will learn about, prosocial behaviors
+  type:         string
+  format:       open-ended
+  required:     yes
+  NA_allowed:   yes
+
+- field:        PR_Q1
+  description:  the answer for question 1 in PR (I am often curious to find out how my baby feels.)
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        PR_Q2
+  description:  the answer for question 2 in PR (I like to think about the reasons behind the way my baby reacts.)
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        PR_Q3
+  description:  the answer for question 3 in PR (I try to see situations through the eyes of my baby.)
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        PR_Q4
+  description:  the answer for question 4 in PR (I believe there is no point in trying to guess what my baby feels.)
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        PR_Q5
+  description:  the answer for question 5 in PR (I try to understand the reasons why my baby is difficult or fussy.)
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JS_victim1
+  description:  the answer for question 1 in JS
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JS_victim2
+  description:  the answer for question 2 in JS
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JS_observer1
+  description:  the answer for question 3 in JS
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JS_observer2
+  description:  the answer for question 4 in JS
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JS_beneficiary1
+  description:  the answer for question 5 in JS
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JS_beneficiary2
+  description:  the answer for question 6 in JS
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JS_perpetrator1
+  description:  the answer for question 7 in JS
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        JS_perpetrator2
+  description:  the answer for question 8 in JS
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IC1
+  description:  the answer for question 1 in IC
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IC2
+  description:  the answer for question 2 in IC
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IC3
+  description:  the answer for question 3 in IC
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IC4
+  description:  the answer for question 4 in IC
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IC5
+  description:  the answer for question 5 in IC
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IC6
+  description:  the answer for question 6 in IC
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IC7
+  description:  the answer for question 7 in IC
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IC8
+  description:  the answer for question 8 in IC
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IC9
+  description:  the answer for question 9 in IC
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IC10
+  description:  the answer for question 10 in IC
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IC11
+  description:  the answer for question 11 in IC
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IC12
+  description:  the answer for question 12 in IC
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IC13
+  description:  the answer for question 13 in IC
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IC14
+  description:  the answer for question 14 in IC
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IC15
+  description:  the answer for question 15 in IC
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        IC16
+  description:  the answer for question 16 in IC
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        date_survey_completed
+  description:  date that the caregiver completed all the surveys, e.g. 2020-01-01, e.g. 2020-01-01, formatted YYYY-MM-DD, e.g. 2020-01-01
+  type:         date
+  required:     yes
+  NA_allowed:   no
