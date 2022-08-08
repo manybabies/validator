@@ -1,0 +1,288 @@
+---
+
+#----------------
+# Required fields
+#----------------
+
+- field:        labid
+  description:  Unique lab identifier (must match what you chose in the laboratory questionnaire).
+  type:         string
+  format:       string
+  example:      "lmuMunich"
+  required:     yes
+  NA_allowed:   no
+
+- field:        participant_id
+  description:  unique ID for the participant - [acronym of your institution, not longer than 4 characters]_[3-digit participant number ]
+  type:         string
+  format:       string
+  example:      LMU_583
+  required:     yes
+  NA_allowed:   no
+
+- field:        testing_date
+  description:  Date of testing, year/month/day, e.g. July 21, 2022 = 20220721
+  type:         integer 
+  format:       integer 
+  example:      20220721
+  required:     yes
+  NA_allowed:   no
+  
+- field:        pilot
+  description:  yes = pilot data, no = final sample; You do NOT need to report pilot data, but if you do, it should be clearly marked here.
+  type:         options
+  options:      ['yes','no']
+  required:     yes
+  NA_allowed:   no
+  
+- field:        method
+  type:         options
+  options:      ['In-lab', 'web-based']
+  required:     yes
+  NA_allowed:   no
+  
+- field:        zero-coordinate
+  description:  eye tracker’s point zero coordinate
+  type:         options
+  options:      ['upperleft','upperright','lowerleft','lowerright']
+  required:     yes
+  NA_allowed:   no
+
+- field:        centered_screen
+  description:  Was the video centered on screen?
+  type:         options
+  options:      ['yes','no']
+  required:     yes
+  NA_allowed:   no
+  
+- field:        test_order
+  description:  Which order was the child in (see https://docs.google.com/document/d/1i0EhXU1LGdwEal3xUSQG3d26bHeC1VTyfvmLFx4k9nU/edit).
+  type:         integer 
+  format:       integer
+  required:     yes
+  NA_allowed:   no
+  
+- field:        session_error
+  description:  Sessions with ‘error’ value will be excluded from the central MB2 analysis. Do not use this field for individual trial level errors.
+  type:         options
+  options:      ['noerror', 'error']
+  required:     yes
+  NA_allowed:   no
+  
+- field:        session_error_info
+  description:  Explanation of what caused the session error using exclusion criteria 1-4 defined in the lab manual (i.e., 1. Early termination, 2. Interference of caregiver, 3. Experimenter error, 4. Technical problems). Write NA if no session level error
+  type:         options
+  options:      ['1', '2', '3', '4']
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        session_error_notes
+  description:  Use this column to report anything that doesn’t fit somewhere else, rather than adding that information in another column.
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        second_session
+  type:         options
+  options:      ['yes','no']
+  required:     yes
+  NA_allowed:   no
+  
+- field:        fam1_error
+  description:  Familiarization trial 1 with ‘error’ value will be excluded from analysis.
+  type:         options
+  options:      ['noerror', 'error']
+  required:     yes
+  NA_allowed:   no
+  
+- field:        fam1_error_info
+  description:  NA if no error; suggestions are “experimenter error” or “interference”. Decision-making for whether a given trial reaches the level of exclusion are made by the original coder, NOT centrally, so please do not provide overly detailed or ambiguous information here.
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        fam2_error
+  description:  Familiarization trial 2 with ‘error’ value will be excluded from analysis.
+  type:         options
+  options:      ['noerror', 'error']
+  required:     yes
+  NA_allowed:   no
+
+- field:        fam2_error_info
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        fam3_error
+  description:  Familiarization trial 3 with ‘error’ value will be excluded from analysis.
+  type:         options
+  options:      ['noerror', 'error']
+  required:     yes
+  NA_allowed:   no
+
+- field:        fam3_error_info
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fam4_error
+  description:  Familiarization trial 4 with ‘error’ value will be excluded from analysis.
+  type:         options
+  options:      ['noerror', 'error']
+  required:     yes
+  NA_allowed:   no
+
+- field:        fam4_error_info
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        test1_error
+  description:  Test trial 1 with ‘error’ value will be excluded from analysis.
+  type:         options
+  options:      ['noerror', 'error']
+  required:     yes
+  NA_allowed:   no
+
+- field:        test1_error_info
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        test2_error
+  description:  Test trial 2 with ‘error’ value will be excluded from analysis.
+  type:         options
+  options:      ['noerror', 'error']
+  required:     yes
+  NA_allowed:   no
+
+- field:        test2_error_info
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial_error_notes
+  description:  Use this field to make any comments about the trial that don’t fit anywhere else (or enter NA if you don’t have anything to say).
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        ra_id
+  description:  Unique RA identifier (name or anonymous code).
+  type:         string
+  format:       string
+  required:     yes
+  NA_allowed:   no
+
+- field:        participant_gender
+  description:  For this and all other gender columns, use ‘other’ if this (or a similar response) is indicated. Put ‘NC’ if it was left blank by the caregiver or if this data was not collected.
+  type:         options
+  options:      ['man', 'woman', 'other', 'NC']
+  required:     yes
+  NA_allowed:   no
+
+- field:        age_years
+  description:  Chronological age in years. Here is an online converter - https://www.timeanddate.com/date/duration.html
+  type:         integer 
+  format:       integer
+  required:     yes
+  NA_allowed:   no
+
+- field:        residence_city
+  description:  Place of residence (city) of the participant.
+  type:         string
+  format:       string
+  required:     yes
+  NA_allowed:   no
+
+- field:        residence_country
+  description:  Place of residence (country) of the participant.
+  type:         string
+  format:       string
+  required:     yes
+  NA_allowed:   no
+
+- field:        nationality
+  description:  Nationality of the participant.
+  type:         string
+  format:       string
+  required:     yes
+  NA_allowed:   no
+
+- field:        native_lang1
+  description:  Native language (if more than one, add others to variables below).
+  type:         string
+  format:       string
+  required:     yes
+  NA_allowed:   no
+
+- field:        native_lang2
+  description:  Further Native language
+  type:         string
+  format:       string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        hearing
+  description:  Put ‘yes’ if there is potential exclusion based on hearing problems.
+  type:         options
+  options:      ['yes','no']
+  required:     yes
+  NA_allowed:   no
+
+- field:        hearing_info
+  description:  Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        vision
+  description:  Put ‘yes’ if there is potential exclusion based on vision problems.
+  type:         options
+  options:      ['yes','no']
+  required:     yes
+  NA_allowed:   no
+
+- field:        vision_info
+  description:  Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        medical_issues
+  description:  Put ‘yes’ if potential exclusion based on medical issues/diagnosed conditions.
+  type:         options
+  options:      ['yes','no']
+  required:     yes
+  NA_allowed:   no
+
+- field:        medical_issues_info
+  description:  Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        education
+  description:  Participant´s years of education after Kindergarten (e.g. in the US 12 = finish high school, 14 = finish associates degree, etc.).
+  type:         integer 
+  format:       integer
+  required:     yes
+  NA_allowed:   no
+
+- field:        anything_else
+  description:  Did the participant report anything else in the questionnaire?
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes

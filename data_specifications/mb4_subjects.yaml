@@ -219,22 +219,8 @@
   required:     yes
   NA_allowed:   no
   
-- field:        caregiver_gender
+- field:        primarycaregiver_gender
   description:  gender of the caregiver that participated in and/or brought the baby to the study with the baby
-  type:         options
-  options:      ['male', 'female', 'other', 'NA']
-  required:     yes
-  NA_allowed:   no
-  
-- field:        parentA_gender
-  description:  Gender of parent A
-  type:         options
-  options:      ['male', 'female', 'other', 'NA']
-  required:     yes
-  NA_allowed:   no
-  
-- field:        parentB_gender
-  description:  Gender of parent B
   type:         options
   options:      ['male', 'female', 'other', 'NA']
   required:     yes
