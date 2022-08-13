@@ -41,7 +41,7 @@
   required:     yes
   NA_allowed:   no
   
-- field:        zero-coordinate
+- field:        zero_coordinate
   description:  eye tracker’s point zero coordinate
   type:         options
   options:      ['upperleft','upperright','lowerleft','lowerright']
@@ -56,7 +56,7 @@
   NA_allowed:   no
   
 - field:        test_order
-  description:  Which order was the child in (see https://docs.google.com/document/d/1i0EhXU1LGdwEal3xUSQG3d26bHeC1VTyfvmLFx4k9nU/edit).
+  description:  Which order was the participant in (see https://docs.google.com/document/d/1i0EhXU1LGdwEal3xUSQG3d26bHeC1VTyfvmLFx4k9nU/edit).
   type:         integer 
   format:       integer
   required:     yes
@@ -70,7 +70,7 @@
   NA_allowed:   no
   
 - field:        session_error_info
-  description:  Explanation of what caused the session error using exclusion criteria 1-4 defined in the lab manual (i.e., 1. Early termination, 2. Interference of caregiver, 3. Experimenter error, 4. Technical problems). Write NA if no session level error
+  description:  Explanation of what caused the session error using exclusion criteria 1-4 defined in the lab manual (i.e., 1. Early termination, 2. Interference, 3. Experimenter error, 4. Technical problems). Write NA if no session level error
   type:         options
   options:      ['1', '2', '3', '4']
   required:     yes
