@@ -1,0 +1,27 @@
+lab_id,subj_id,trial_type,stimulus,trial_num,looking_time,total_trial_time,trial_error,trial_error_type,notes
+bll-manitoba,mb_001,training,fam_abb_7,-1,107.36,120,noerror,NA,NA
+bll-manitoba,mb_001,ABA_1,test_stream_lonilo.wav,1,11.32,13.98,error,coder unblinded,NA
+bll-manitoba,mb_001,ABB_1,test_stream_lonini.wav,2,13.11,15,noerror,NA,NA
+bll-manitoba,mb_001,ABA_2,test_stream_tisoti.wav,3,4.11,10.34,noerror,NA,NA
+bll-manitoba,mb_001,ABB_2,test_stream_tisoso.wav,4,2.86,7.03,noerror,NA,"Someone cracked the door to the testing room, but neither mom nor baby seemed to notice at all; you can see the lighting change on the video"
+bll-manitoba,mb_001,ABB_1,test_stream_lonini.wav,5,14.44,15,noerror,NA,NA
+bll-manitoba,mb_001,ABA_1,test_stream_lonilo.wav,6,9.78,15,noerror,NA,NA
+bll-manitoba,mb_001,ABB_2,test_stream_tisoso.wav,7,8.44,14.28,noerror,NA,"Codable trial, but baby was looking around, looks hard to code"
+bll-manitoba,mb_001,ABA_2,test_stream_tisoti.wav,8,0,2,error,too fussy,NA
+bll-manitoba,mb_001,ABA_2,test_stream_tisoti.wav,9,3.01,8.37,noerror,NA,Very intermittent looking
+bll-manitoba,mb_001,ABB_1,test_stream_lonini.wav,10,NC,NC,error,experiment ended early,NA
+bll-manitoba,mb_001,ABA_1,test_stream_lonilo.wav,11,NC,NC,error,experiment ended early,NA
+bll-manitoba,mb_001,ABB_2,test_stream_tisoso.wav,12,NC,NC,error,experiment ended early,NA
+u-northern-mars,UNM1,training,fam_abb_0,-1,104.29,120,noerror,NA,NA
+u-northern-mars,UNM1,ABB_1,test_stream_lonini.wav,1,3.02,15,noerror,NA,NA
+u-northern-mars,UNM1,ABA_1,test_stream_lonilo.wav,2,14.58,15,noerror,NA,NA
+u-northern-mars,UNM1,ABB_2,test_stream_tisoso.wav,3,12.55,15,noerror,NA,NA
+u-northern-mars,UNM1,ABA_2,test_stream_tisoti.wav,4,2.29,15,noerror,NA,NA
+u-northern-mars,UNM1,ABA_2,test_stream_tisoti.wav,5,9.31,15,noerror,NA,Brief pause before trial 5 to re-position baby
+u-northern-mars,UNM1,ABA_1,test_stream_lonilo.wav,6,4.45,15,noerror,NA,NA
+u-northern-mars,UNM1,ABB_2,test_stream_tisoso.wav,7,14.27,15,noerror,NA,NA
+u-northern-mars,UNM1,ABB_1,test_stream_lonini.wav,8,13.11,15,noerror,NA,NA
+u-northern-mars,UNM1,ABB_2,test_stream_tisoso.wav,9,4.11,15,noerror,NA,NA
+u-northern-mars,UNM1,ABA_1,test_stream_lonilo.wav,10,2.86,15,noerror,NA,NA
+u-northern-mars,UNM1,ABB_1,test_stream_lonini.wav,11,13.44,15,noerror,NA,NA
+u-northern-mars,UNM1,ABA_2,test_stream_tisoti.wav,12,12.78,15,noerror,NA,NA
