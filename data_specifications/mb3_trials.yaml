@@ -1,0 +1,277 @@
+---
+
+#----------------
+# Required fields
+#----------------
+
+- field:        lab_id
+  description:  laboratory identifier, unique
+  type:         string
+  format:       uncapitalized
+  example:      "babylab_paris"
+  required:     yes
+  NA_allowed:   no
+  
+- field:        subj_id
+  description:  subject identifier, non-identifying, unique
+  type:         string
+  format:       alphanumeric
+  example:      a24519
+  required:     yes
+  NA_allowed:   no
+
+
+
+
+
+
+
+  
+
+- field:        pilot
+  description:  whether this participant belongs to the pilot data or the final preregistered sample
+  type:         options
+  options:      ['pilot_sample', 'final_sample']
+  example:      pilot_sample
+  required:     yes
+  NA_allowed:   no
+
+- field:        method
+  description:  which method was used for this participant
+  type:         options
+  options:      ['HPP', 'singlescreen_eyetracker', 'singlescreen_cf']
+  example:      singlescreen_eyetracker
+  required:     yes
+  NA_allowed:   no
+
+- field:        ra_id
+  description:  research assistant identifier, non-identifying, unique
+  type:         string
+  format:       alphanumeric
+  example:      a24519
+  required:     yes
+  NA_allowed:   no
+  
+- field:        age_days
+  description:  The infants' age in days, please use this calculator to compute age in days. copy and paste errors are common here, so please double check prior to data upload https://www.calculator.net/age-calculator.html.
+  type:         numeric
+  required:     yes
+  NA_allowed:   no
+
+- field:        test_order
+  description:  which counterbalancing ordering was the child in. Note that this is not what the child is supposed to see, but rather what they actually saw during test
+  type:         options
+  options:      [1,2,3,4]
+  required:     yes
+  NA_allowed:   no
+
+- field:        meet_eligibility
+  description:  Whether the participant met all eligibility criteria.
+  type:         options
+  options:      ['yes', 'no']
+  example:      yes
+  required:     yes
+  NA_allowed:   no
+
+- field:        exclude_session
+  description:  exclude if data should be excluded, not_excluded if data is included
+  type:         options
+  options:      ['not_excluded', 'excluded']
+  example:      error
+  required:     yes
+  NA_allowed:   no
+
+- field:        exclusion_type_1
+  description:  NA if not_excluded; otherwise enter the first exclusion criteria that occurred
+  type:         options
+  options:      ['DevDisorder', 'Preterm', 'FailToSetHabCrit', 'FailToViewCritPeriod', 'FailToMakeChoice', 'OutsideInterference', 'ExperimenterError', 'EquipmentError', 'FussOut']
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        exclusion_type_2
+  description:  NA if not_excluded; otherwise enter the second exclusion criteria that occurred
+  type:         options
+  options:      ['DevDisorder', 'Preterm', 'FailToSetHabCrit', 'FailToViewCritPeriod', 'FailToMakeChoice', 'OutsideInterference', 'ExperimenterError', 'EquipmentError', 'FussOut']
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        exclusion_type_3
+  description:  NA if not_excluded; otherwise enter the third exclusion criteria that occurred
+  type:         options
+  options:      ['DevDisorder', 'Preterm', 'FailToSetHabCrit', 'FailToViewCritPeriod', 'FailToMakeChoice', 'OutsideInterference', 'ExperimenterError', 'EquipmentError', 'FussOut']
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        exclusion_type_4
+  description:  NA if not_excluded; otherwise enter the fourth exclusion criteria that occurred
+  type:         options
+  options:      ['DevDisorder', 'Preterm', 'FailToSetHabCrit', 'FailToViewCritPeriod', 'FailToMakeChoice', 'OutsideInterference', 'ExperimenterError', 'EquipmentError', 'FussOut']
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        notes
+  description:  enter any additional non-identifying information that should be known about this participant/session
+  type:         string
+  format:       open-ended
+  required:     no
+  NA_allowed:   yes
+
+- field:        second_session
+  description:  was this the second session child participated in
+  type:         options
+  options:      ['yes', 'no']
+  required:     yes
+  NA_allowed:   no
+
+- field:        primary_language
+  description:  Native or most-heard language
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+
+- field:        percent_primarylanguage
+  description:  What percentage of the child's language exposure is their primary language
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        caregiver_seat
+  description:  was the baby tested in a baby seat or held by a caregiver
+  type:         options
+  options:      ['caregiver', 'seat']
+  required:     yes
+  NA_allowed:   no
+
+- field:        participant_gender
+  description:  Gender. Enter NA if unknown or not given
+  type:         options
+  options:      ['male', 'female', 'other', 'NA']
+  required:     yes
+  NA_allowed:   no
+
+- field:        primarycaregiver_gender
+  description:  gender of the caregiver that participated in and/or brought the baby to the study with the baby
+  type:         options
+  options:      ['male', 'female', 'other', 'NA']
+  required:     yes
+  NA_allowed:   no
+
+- field:        preterm
+  type:         options
+  options:      ['preterm','term']
+  required:     yes
+  NA_allowed:   no
+
+- field:        gestation_weeks
+  type:         integer
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        hearing
+  description:  Put ‘yes’ if there is potential exclusion based on hearing problems.
+  type:         options
+  options:      ['yes','no']
+  required:     yes
+  NA_allowed:   no
+
+- field:        hearing_info
+  description:  Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        vision
+  description:  Put ‘yes’ if there is potential exclusion based on vision problems.
+  type:         options
+  options:      ['yes','no']
+  required:     yes
+  NA_allowed:   no
+
+- field:        vision_info
+  description:  Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cognitive_developmental
+  description:  yes if potential exclusion based on cog/dev
+  type:         options
+  options:      ['yes', 'no']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cognitive_developmental_info
+  description:  briefly explain if prev is yes
+  type:         open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling1_age
+  description:  For this and all following sibling age columns, put their age in full months accomplished, for example 11 months and 5 days = 11. If they have no siblings, mark as NA. "
+  type:         integer
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling1_gender
+  type:         options
+  options:      ['boy','girl','other','NC']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling2_age
+  description:  Age in months.
+  type:         integer
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling2_gender
+  type:         options
+  options:      ['boy','girl','other','NC']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling3_age
+  description:  Age in months.
+  type:         integer
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling3_gender
+  type:         options
+  options:      ['boy','girl','other','NC']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling4_age
+  description:  Age in months.
+  type:         integer
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling4_gender
+  type:         options
+  options:      ['boy','girl','other','NC']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling5_age
+  description:  Age in months.
+  type:         integer
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling5_gender
+  type:         options
+  options:      ['boy','girl','other','NC']
+  required:     yes
+  NA_allowed:   yes
