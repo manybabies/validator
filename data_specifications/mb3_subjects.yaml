@@ -60,8 +60,8 @@
 - field:        meet_eligibility
   description:  Whether the participant met all eligibility criteria.
   type:         options
-  options:      ['Y', 'N']
-  example:      Y
+  options:      ['yes', 'no']
+  example:      yes
   required:     yes
   NA_allowed:   no
 
@@ -111,18 +111,101 @@
 - field:        second_session
   description:  was this the second session child participated in
   type:         options
-  options:      ['Y', 'N']
+  options:      ['yes', 'no']
   required:     yes
   NA_allowed:   no
 
+- field:        primary_language
+  description:  Native or most-heard language
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
 
+- field:        percent_primarylanguage
+  description:  What percentage of the child's language exposure is their primary language
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        caregiver_seat
+  description:  was the baby tested in a baby seat or held by a caregiver
+  type:         options
+  options:      ['caregiver', 'seat']
+  required:     yes
+  NA_allowed:   no
+
+- field:        participant_gender
+  description:  Gender. Enter NA if unknown or not given
+  type:         options
+  options:      ['male', 'female', 'other', 'NA']
+  required:     yes
+  NA_allowed:   no
+
+- field:        primarycaregiver_gender
+  description:  gender of the caregiver that participated in and/or brought the baby to the study with the baby
+  type:         options
+  options:      ['male', 'female', 'other', 'NA']
+  required:     yes
+  NA_allowed:   no
+
+- field:        preterm
+  type:         options
+  options:      ['preterm','term']
+  required:     yes
+  NA_allowed:   no
+
+- field:        gestation_weeks
+  type:         integer
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        hearing
+  description:  Put ‘yes’ if there is potential exclusion based on hearing problems.
+  type:         options
+  options:      ['yes','no']
+  required:     yes
+  NA_allowed:   no
+
+- field:        hearing_info
+  description:  Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        vision
+  description:  Put ‘yes’ if there is potential exclusion based on vision problems.
+  type:         options
+  options:      ['yes','no']
+  required:     yes
+  NA_allowed:   no
+
+- field:        vision_info
+  description:  Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cognitive_developmental
+  description:  yes if potential exclusion based on cog/dev
+  type:         options
+  options:      ['yes', 'no']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cognitive_developmental_info
+  description:  briefly explain if prev is yes
+  type:         open ended string
+  required:     yes
+  NA_allowed:   yes
 
   
-- field:        premature_days
-  description:  If the baby was born premature, enter in days the number of days early the baby was born, using this age calculator if helpful- https://www.calculator.net/age-calculator.html.
-  type:         numeric
-  required:     yes
-  NA_allowed:   no
+
+
   
 - field:        screen_size_inches
   description:  diagonal measurement, in inches, of the stimuli display screen
@@ -210,57 +293,80 @@
   required:     yes
   NA_allowed:   no  
 
-
-
-
-
-- field:        caregiver_seat
-  description:  was the baby tested in a baby seat or held by a caregiver
-  type:         options
-  options:      ['caregiver', 'seat']
+- field:        sibling1_age
+  description:  For this and all following sibling age columns, put their age in full months accomplished, for example 11 months and 5 days = 11. If they have no siblings, mark as NA. "
+  type:         integer
+  format:       integer
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
-- field:        participant_gender
-  description:  Gender. Enter NA if unknown
+- field:        sibling1_gender
   type:         options
-  options:      ['male', 'female', 'other', 'NA']
+  options:      ['boy','girl','other','NC']
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
+
+- field:        sibling2_age
+  description:  Age in months.
+  type:         integer
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling2_gender
+  type:         options
+  options:      ['boy','girl','other','NC']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling3_age
+  description:  Age in months.
+  type:         integer
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling3_gender
+  type:         options
+  options:      ['boy','girl','other','NC']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling4_age
+  description:  Age in months.
+  type:         integer
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling4_gender
+  type:         options
+  options:      ['boy','girl','other','NC']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling5_age
+  description:  Age in months.
+  type:         integer
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling5_gender
+  type:         options
+  options:      ['boy','girl','other','NC']
+  required:     yes
+  NA_allowed:   yes
+
+
+
+
   
-- field:        primarycaregiver_gender
-  description:  gender of the caregiver that participated in and/or brought the baby to the study with the baby
-  type:         options
-  options:      ['male', 'female', 'other', 'NA']
-  required:     yes
-  NA_allowed:   no
 
 
-- field:        hearing_vision
-  description:  Y if potential exclusion based on hearing/vision
-  type:         options
-  options:      ['Y', 'N']
-  required:     yes
-  NA_allowed:   yes
 
-- field:        hearing_vision_info
-  description:  briefly explain if prev is Y
-  type:         open ended string
-  required:     yes
-  NA_allowed:   yes
 
-- field:        cognitive_developmental
-  description:  Y if potential exclusion based on cog/dev
-  type:         options
-  options:      ['Y', 'N']
-  required:     yes
-  NA_allowed:   yes
 
-- field:        cognitive_developmental_info
-  description:  briefly explain if prev is Y
-  type:         open ended string
-  required:     yes
-  NA_allowed:   yes
 
 - field:        infant_handedness
   description:  R if primarily right handed, Lvif primarily left handed, B if uses both equally, U if unknown
@@ -283,19 +389,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        primary_language
-  description:  Native or most-heard language
-  type:         string
-  format:       alphanumeric
-  required:     yes
-  NA_allowed:   yes
 
-- field:        percent_primarylanguage
-  description:  What percentage of the child's language exposure is their primary language
-  type:         numeric
-  format:       integer
-  required:     yes
-  NA_allowed:   yes
 
 - field:        colorblindness_primaryfamily
   description:  Y if history of color blindness in family, N if not
