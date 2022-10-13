@@ -295,6 +295,13 @@
   required:     yes
   NA_allowed:   yes
 
+- field:        choice_experimenter_mask
+  description:  Y if choice experimenter masked, N if not
+  type:         options
+  options:      ['Y', 'N']
+  required:     yes
+  NA_allowed:   yes
+  
 - field:        character_choice
   description:  the identity of chosen puppet. if the baby did not make a choice, NA
   type:         options
