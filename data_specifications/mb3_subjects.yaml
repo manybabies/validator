@@ -1,119 +1,157 @@
 ---
 
 #----------------
-# Required fields
+# Required fields - MB3 basic/central/vital variables
 #----------------
 
 - field:        lab_id
-  description:  laboratory identifier, unique
+  description:  Unique lab identifier (this must match what you chose in the laboratory questionnaire).
   type:         string
-  format:       uncapitalized
-  example:      "babylab_paris"
+  format:       alphanumeric, uncapitalized
+  example:      'babylab_paris'
   required:     yes
   NA_allowed:   no
   
-- field:        subj_id
-  description:  subject identifier, non-identifying, unique
+- field:        participant_id
+  description:  A non-identifying, unique code given to each participant by your lab. 
   type:         string
   format:       alphanumeric
-  example:      a24519
+  example:      'a24519'
   required:     yes
   NA_allowed:   no
 
 - field:        pilot
-  description:  whether this participant belongs to the pilot data or the final preregistered sample
+  description:  Whether this participant belongs to the pilot data or the final preregistered sample
   type:         options
   options:      ['pilot_sample', 'final_sample']
-  example:      pilot_sample
+  example:      'pilot_sample'
   required:     yes
   NA_allowed:   no
 
 - field:        method
-  description:  which method was used for this participant
+  description:  Which experimental method was used for this participant
   type:         options
   options:      ['HPP', 'singlescreen_eyetracker', 'singlescreen_cf']
   example:      singlescreen_eyetracker
   required:     yes
   NA_allowed:   no
 
-- field:        ra_id
-  description:  research assistant identifier, non-identifying, unique
-  type:         string
-  format:       alphanumeric
-  example:      a24519
-  required:     yes
-  NA_allowed:   no
-  
 - field:        age_days
-  description:  The infants' age in days, please use this calculator to compute age in days. copy and paste errors are common here, so please double check prior to data upload https://www.calculator.net/age-calculator.html.
+  description:  The infant's chronological age (since birth) in days, calculated from birth date and date of test. Please use this calculator to compute age in days - https://www.calculator.net/age-calculator.html. Copy and paste errors are common here, so please double check prior to data upload. Note that, for participant privacy reasons, your uploaded data contains only the age in days - not birth dates or testing dates.
   type:         numeric
   required:     yes
   NA_allowed:   no
 
 - field:        test_order
-  description:  which counterbalancing ordering was the child in. Note that this is not what the child is supposed to see, but rather what they actually saw during test
+  description:  The counterbalancing ordering the child saw stimuli in. Note that this is not what the child is supposed to see, but rather what they actually saw during test.
   type:         options
   options:      [1,2,3,4]
   required:     yes
   NA_allowed:   no
 
-- field:        meet_eligibility
-  description:  Whether the participant met all eligibility criteria.
+- field:        session_exclusion
+  description:  Use this field to report if it is the case that ALL data from this participant should be excluded from analysis. Sessions with the value 'exclude' will be reviewed by the central analysis team to standardize participant-level exclusions across labs.
   type:         options
-  options:      ['yes', 'no']
-  example:      yes
+  options:      ['exclude', 'include']
   required:     yes
   NA_allowed:   no
 
-- field:        exclude_session
-  description:  exclude if data should be excluded, not_excluded if data is included
+- field:        session_exclusion_reason_1
+  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. Otherwise enter the first or primary exclusion criterion.
   type:         options
-  options:      ['not_excluded', 'excluded']
-  example:      error
+  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
-- field:        exclusion_type_1
-  description:  NA if not_excluded; otherwise enter the first exclusion criteria that occurred
+- field:        session_exclusion_reason_2
+  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. For session exclusions, enter NA or a second exclusion criterion.
   type:         options
-  options:      ['DevDisorder', 'Preterm', 'FailToSetHabCrit', 'FailToViewCritPeriod', 'FailToMakeChoice', 'OutsideInterference', 'ExperimenterError', 'EquipmentError', 'FussOut']
+  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
   required:     yes
   NA_allowed:   yes
-  
-- field:        exclusion_type_2
-  description:  NA if not_excluded; otherwise enter the second exclusion criteria that occurred
+
+- field:        session_exclusion_reason_3
+  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. For session exclusions, enter NA or a third exclusion criterion.
   type:         options
-  options:      ['DevDisorder', 'Preterm', 'FailToSetHabCrit', 'FailToViewCritPeriod', 'FailToMakeChoice', 'OutsideInterference', 'ExperimenterError', 'EquipmentError', 'FussOut']
+  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
   required:     yes
   NA_allowed:   yes
-  
-- field:        exclusion_type_3
-  description:  NA if not_excluded; otherwise enter the third exclusion criteria that occurred
+
+- field:        session_exclusion_reason_4
+  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. For session exclusions, enter NA or a fourth exclusion criterion.
   type:         options
-  options:      ['DevDisorder', 'Preterm', 'FailToSetHabCrit', 'FailToViewCritPeriod', 'FailToMakeChoice', 'OutsideInterference', 'ExperimenterError', 'EquipmentError', 'FussOut']
+  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
   required:     yes
   NA_allowed:   yes
-  
-- field:        exclusion_type_4
-  description:  NA if not_excluded; otherwise enter the fourth exclusion criteria that occurred
-  type:         options
-  options:      ['DevDisorder', 'Preterm', 'FailToSetHabCrit', 'FailToViewCritPeriod', 'FailToMakeChoice', 'OutsideInterference', 'ExperimenterError', 'EquipmentError', 'FussOut']
-  required:     yes
-  NA_allowed:   yes
-  
-- field:        notes
-  description:  enter any additional non-identifying information that should be known about this participant/session
+
+- field:        session_exclusion_info
+  description:  Enter NA if this participant should be included in analyses. Use this column to give an explanation of the category choices or description of why the session should be excluded from analysis (e.g. 'music audible from another room throughout session' or 'child fussed out after entering test room but prior to completing any trials.')
   type:         string
-  format:       open-ended
-  required:     no
+  format:       open ended string
+  example:      'inattentive'
+  required:     yes
   NA_allowed:   yes
+
+- field:        notes
+  description:  Similar to the trial-level notes, use this column to report anything that doesn't fit somewhere else (rather than adding that information in another column.)
+  type:         open ended string
+  format:       open ended string
+  example:      ‘Technically a second-session baby, but fussed out of the first study almost immediately, took a 20min break before ADS/IDS'
+  required:     yes
+  NA_allowed:   yes
+
+#----------------
+# Additional/secondary variables collected by previous MB projects
+#----------------
+
+- field:        ra_id
+  description:  A research assistant identifier, non-identifying and unique
+  type:         string
+  format:       alphanumeric
+  example:      a24519
+  required:     yes
+  NA_allowed:   no
 
 - field:        second_session
-  description:  was this the second session child participated in
+  description:  Was this the second session the child participated in during the lab visit?
   type:         options
   options:      ['yes', 'no']
   required:     yes
   NA_allowed:   no
+
+- field:        caregiver_seat
+  description:  Was the baby tested in a baby seat or held by a caregiver?
+  type:         options
+  options:      ['caregiver', 'seat']
+  required:     yes
+  NA_allowed:   no
+
+#----------------
+# Family questionnaire variables
+#----------------
+
+- field:        preterm
+  type:         options
+  options:      ['preterm','term']
+  required:     yes
+  NA_allowed:   no
+
+- field:        gestation_weeks
+  type:         integer
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+  
+#----------------
+# Demographic variables/constructs - holding off on these until further input from MB_Demo/MB3 leadership
+#----------------
+
+#-----------------
+# Not reviewed yet
+#-----------------
+
+
+
 
 - field:        primary_language
   description:  Native or most-heard language
@@ -129,12 +167,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        caregiver_seat
-  description:  was the baby tested in a baby seat or held by a caregiver
-  type:         options
-  options:      ['caregiver', 'seat']
-  required:     yes
-  NA_allowed:   no
+
 
 - field:        participant_gender
   description:  Gender. Enter NA if unknown or not given
@@ -150,17 +183,7 @@
   required:     yes
   NA_allowed:   no
 
-- field:        preterm
-  type:         options
-  options:      ['preterm','term']
-  required:     yes
-  NA_allowed:   no
 
-- field:        gestation_weeks
-  type:         integer
-  format:       integer
-  required:     yes
-  NA_allowed:   yes
 
 - field:        hearing
   description:  Put ‘yes’ if there is potential exclusion based on hearing problems.

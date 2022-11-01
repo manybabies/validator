@@ -1,7 +1,7 @@
 ---
 
 #----------------
-# Required fields - MB3 Basic, No questions
+# Required fields - MB3 basic/central variables
 #----------------
 
 - field:        lab_id
