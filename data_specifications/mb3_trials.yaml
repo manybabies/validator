@@ -1,7 +1,7 @@
 ---
 
 #----------------
-# Required fields - MB3 basic/central variables
+# Required fields - MB3 basic/central variables. All labs MUST report these variables, although some may have NA values for individual trials. 
 #----------------
 
 - field:        lab_id
