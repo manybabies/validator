@@ -286,3 +286,45 @@
   format:       open ended string
   required:     yes
   NA_allowed:   yes
+  
+- field:        purpose_experiment
+  description:  What did the participant report was the purpose of the experiment?
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trying_to_study
+  description:  What did the participant report was this experiment trying to study?
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        while_watching
+  description:  What did the participant report he/she was trying to do while watching the videos? Did he/she have any particular goal or strategy?
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        story_videos
+  description:  What did the participant report about the story in the videos?
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        bear_knowledge
+  description:  What did the participant report about the story in the videos?
+  type:         options
+  options:      ['yes','no']
+  required:     yes
+  NA_allowed:   no
+
+- field:        bear_knowledge_info
+  description:  (If ‘yes’) How did this knowledge vs. ignorance come about? (Based on what would the participant say the bear did or did not have knowledge of the mouse?)
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
