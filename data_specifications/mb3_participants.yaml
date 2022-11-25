@@ -156,10 +156,23 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        participant_gender
+- field:        participant_sex
   description:  List the infant participant's sex/gender as reported by the primary caregiver. 
   type:         options
   options:      ['male','female','another_gender']
+  required:     yes
+  NA_allowed:   yes
+
+# Preterm - we just need to get clarity on the exact definition, since it's
+# an exclusion criterion & has different across forms I've seen. 
+# The MB4 item is "Was your child born full term (defined as 36 weeks
+# or more gestation)". The MB3 item says full term is more than 37 and 
+# preterm is less than 37 weeks; exactly 37 weeks isn't included.
+
+- field:        preterm
+  description:  Whether the participant was born prematurely. Full term is defined as NNNNN of gestation.
+  type:         options
+  options:      ['preterm','not_preterm']
   required:     yes
   NA_allowed:   yes
 
@@ -167,60 +180,6 @@
   descriptions: The gestational age at birth of a preterm participant. Note that this should be converted to gestational weeks, even if you ask parents about 'days or weeks early' - different countries define a full term pregnancy differently! This variable can be listed as NA if the participant was born at full term.
   type:         integer
   format:       integer
-  required:     yes
-  NA_allowed:   yes
-
-- field:        hearing_vision
-  description:  Whether the participant has any known vision or hearing impairment. If so, this should be described in the hearing_vision_info variable.
-  type:         options
-  options:      ['hv_impairment','no_hv_impairment']
-  required:     yes
-  NA_allowed:   yes
-
-- field:        hearing_vision_info
-  description:  Briefly explain if the previous column is 'hv_impairment'. Write NA if the previous column is 'no_hv_impairment'.
-  type:         open ended string
-  format:       open ended string
-  required:     yes
-  NA_allowed:   yes
-
-- field:        sibling1_age_years
-  description:  For this and all following sibling age columns, put their age in full years accomplished, for example 2 years and 11 months = 2. If they have no (more) siblings, mark as NA. 
-  type:         integer 
-  format:       integer
-  example:      2
-  required:     yes
-  NA_allowed:   yes
-
-- field:        sibling2_age_years
-  description:  For this and all following sibling age columns, put their age in full years accomplished, for example 2 years and 11 months = 2. If they have no (more) siblings, mark as NA. 
-  type:         integer 
-  format:       integer
-  example:      2
-  required:     yes
-  NA_allowed:   yes
-
-- field:        sibling3_age_years
-  description:  For this and all following sibling age columns, put their age in full years accomplished, for example 2 years and 11 months = 2. If they have no (more) siblings, mark as NA. 
-  type:         integer 
-  format:       integer
-  example:      2
-  required:     yes
-  NA_allowed:   yes
-
-- field:        sibling4_age_years
-  description:  For this and all following sibling age columns, put their age in full years accomplished, for example 2 years and 11 months = 2. If they have no (more) siblings, mark as NA. 
-  type:         integer 
-  format:       integer
-  example:      2
-  required:     yes
-  NA_allowed:   yes
-
-- field:        sibling5_age_years
-  description:  For this and all sibling age columns, list their age in full years accomplished, for example 2 years and 11 months = 2. If they have no (more) siblings, mark as NA. 
-  type:         integer 
-  format:       integer
-  example:      2
   required:     yes
   NA_allowed:   yes
 
@@ -315,18 +274,6 @@
 # ...and allow labs to put freeform information (one or more variables) 
 # into those columns
 
-# Preterm - we just need to get clarity on the exact definition, since it's
-# an exclusion criterion & has different across forms I've seen. 
-# The MB4 item is "Was your child born full term (defined as 36 weeks
-# or more gestation)". The MB3 item says full term is more than 37 and 
-# preterm is less than 37 weeks; exactly 37 weeks isn't included.
-
-- field:        preterm
-  description:  Whether the participant was born prematurely. Full term is defined as 36 or more weeks of gestation.
-  type:         options
-  options:      ['preterm','not_preterm']
-  required:     yes
-  NA_allowed:   yes
 
 # For caregiver info, some items were just split out into 'parent 1' and
 # 'parent 2' on the MB3 form, but for machine-readable data entry it will
@@ -369,14 +316,6 @@
   required:     yes
   NA_allowed:   yes
 
-# Additional items listed on MB3 for caregiver info, 5 columns per each
-#    Caregiver gender
-#    Caregiver places of birth 
-#    Caregiver place of current residence
-#    Whether Caregiver is a biological parent of the child
-#    Caregiver number of days per week and number of hours per day caring for child
-#    Caregiver highest level of education
-
 # Total family income
 # Race and ethnicity
 
@@ -395,17 +334,5 @@
   format:       open ended string
   required:     yes
   NA_allowed:   yes
-
-#-----------------
-# Proposed to remove
-#-----------------
-
-# ear infections
-# handedness (MB4 only)
-# color blindness (MB4 only)
-# minutes of screen time (MB4 only)
-# minutes of book time (MB4 only)
-# Gender of all siblings
-
 
 
