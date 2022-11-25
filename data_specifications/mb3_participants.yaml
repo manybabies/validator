@@ -7,7 +7,7 @@
 #----------------
 
 - field:        lab_id
-  description:  Unique lab identifier (this must match what you chose in the laboratory questionnaire).
+  description:  Unique lab identifier (must match what you chose in the laboratory questionnaire).
   type:         string
   format:       alphanumeric, uncapitalized
   example:      'babylab_paris'
@@ -23,7 +23,7 @@
   NA_allowed:   no
 
 - field:        pilot
-  description:  Whether this participant belongs to the pilot data or the final preregistered sample
+  description:  Whether this participant belongs to the pilot data or the final preregistered sample. You do NOT need to report pilot data, but if you do, it should be clearly marked here.
   type:         options
   options:      ['pilot_sample', 'final_sample']
   example:      'pilot_sample'
@@ -45,14 +45,14 @@
   NA_allowed:   no
 
 - field:        test_order
-  description:  The counterbalancing ordering of stimuli for this session. Note that this is not what the child is supposed to see, but rather what they actually saw during test.
+  description:  The counterbalancing ordering of stimuli for this session. Note that this is not what the child is supposed to see, but rather what they actually saw during the session.
   type:         options
   options:      ['fam_ABA_first_ABA','fam_ABA_first_ABB','fam_ABB_first_ABA','fam_ABB_first_ABB']
   required:     yes
   NA_allowed:   no
 
 - field:        session_exclusion
-  description:  Use this field to report if it is the case that ALL data from this participant should be excluded from analysis. Sessions with the value 'exclude' will be reviewed by the central analysis team to standardize participant-level exclusions across labs.
+  description:  Sessions with 'exclude' value will be excluded from the central MB3 analysis. Do not use this field for individual trial level errors. Use this field to report if it is the case that ALL data from this participant should be excluded from analysis. Sessions with the value 'exclude' will be reviewed by the central analysis team to standardize participant-level exclusions across labs.
   type:         options
   options:      ['exclude', 'include']
   required:     yes
@@ -96,7 +96,7 @@
 
 - field:        notes
   description:  Similar to the trial-level notes, use this column to report anything that doesn't fit somewhere else (rather than adding that information in another column.)
-  type:         open ended string
+  type:         string
   format:       open ended string
   example:      ‘Technically a second-session baby, but fussed out of the first study almost immediately, took a 20min break before ADS/IDS'
   required:     yes
@@ -113,7 +113,7 @@
   format:       alphanumeric
   example:      a24519
   required:     no
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        second_ra_id
   description:  A second research assistant identifier, non-identifying and unique. Enter NA if only one RA/experimenter/staff member was involved in testing.
@@ -145,59 +145,59 @@
   NA_allowed:   no
 
 #----------------
-# Family Questionnaire - Proposed final items. Variables that 
-# should be more closely reviewed by MB_Demo are separated out below.
+# Family Questionnaire - Final items as given here: https://docs.google.com/document/d/1b-ZaJpbVzvN_fUApXlZkZiT9jxGUYRhHbAC1qOucufo/edit
+# Note that labs are expected/allowed to modify some of these items to be appropriate for local conditions; cross-lab comparison of
+# responses should be regarded with caution!!
 #----------------
 
 - field:        respondent_relationship
   description:  The relationship between the person filling out the form and the participant.  
-  type:         options
-  options:      ['mother','father','another_parent_or_guardian', 'another_relationship']
+  type:         string
+  example:      father
   required:     yes
   NA_allowed:   yes
 
 - field:        participant_sex
-  description:  List the infant participant's sex/gender as reported by the primary caregiver. 
-  type:         options
-  options:      ['male','female','another_gender']
+  description:  List the infant participant's sex as reported by the family member responding to the form. 
+  type:         string
   required:     yes
   NA_allowed:   yes
 
-# Preterm - we just need to get clarity on the exact definition, since it's
-# an exclusion criterion & has different across forms I've seen. 
-# The MB4 item is "Was your child born full term (defined as 36 weeks
-# or more gestation)". The MB3 item says full term is more than 37 and 
-# preterm is less than 37 weeks; exactly 37 weeks isn't included.
-
-- field:        preterm
-  description:  Whether the participant was born prematurely. Full term is defined as NNNNN of gestation.
-  type:         options
-  options:      ['preterm','not_preterm']
+- field:        participant_place_of_birth
+  description:  List the infant's place of birth (city, state, country)
+  type:         string
   required:     yes
   NA_allowed:   yes
 
-- field:        gestation_weeks
-  descriptions: The gestational age at birth of a preterm participant. Note that this should be converted to gestational weeks, even if you ask parents about 'days or weeks early' - different countries define a full term pregnancy differently! This variable can be listed as NA if the participant was born at full term.
-  type:         integer
-  format:       integer
+- field:        participant_current_residence
+  description:  List the infant's current residence (city, state, country)
+  type:         string
   required:     yes
   NA_allowed:   yes
 
-#----------------
-# Family Questionnaire - Language (gets its own section because of 
-# potential complexity!)
-#----------------
+- field:        caregiver1_gender
+  description:  List the gender of the first parent/caregiver
+  type:         string
+  required:     yes
+  NA_allowed:   yes
 
-# NOTES
-# MB4 - Asked just for a primary Language and percent primary language; I 
-# suspect MB3 may want more info since it's a langaage study.
-# MB3 form - Note that the current items on MB3 as written are challenging to 
-# convert to a machine-readable form, and there's potential for ambiguity 
-# in how to 'translate' the freeform written responses into variables. 
+- field:        caregiver1_place_of_birth
+  description:  List the first caregiver's place of birth (city, state, country)
+  type:         string
+  required:     yes
+  NA_allowed:   yes
 
-# For actual columns/vars, propose to use the items from Catia's param 
-# file. Then maybe add additional variables if needed, see MB_Demo 
-# section below
+- field:        caregiver2_gender
+  description:  List the gender of the second parent/caregiver
+  type:         string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        caregiver2_place_of_birth
+  description:  List the second caregiver's place of birth (city, state, country)
+  type:         string
+  required:     yes
+  NA_allowed:   yes
 
 - field:        lang1_name
   description:  The infant's primary or most-heard language
@@ -247,90 +247,105 @@
   required:     yes
   NA_allowed:   yes
 
+- field:        num_adults_household
+  description:  How  many adults are in this household?
+  type:         integer 
+  format:       integer
+  example:      4
+  required:     yes
+  NA_allowed:   yes
+
+- field:        num_children_household
+  description:  How  many children are in this household?
+  type:         integer 
+  format:       integer
+  example:      2
+  required:     yes
+  NA_allowed:   yes
+
+- field:        race_construct_response
+  description:  The child's racial identit(ies) as reported by the family respondent. This item varies significantly by lab.
+  type:         string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        ethnicity_construct_response
+  description:  The child's ethnic identit(ies) as reported by the family respondent. This item varies significantly by lab.
+  type:         string
+  required:     yes
+  NA_allowed:   yes
+
+
 #----------------
 # Demographic variables/constructs - holding off on these until further 
 # input from MB_Demo/MB3 leadership!
 #----------------
 
-# General notes on this section! 
-# Remember that *not* having labs report any/all of these back to MB3 
-# central is an option - MB1 did not collect most of these from labs 
-# (although labs may have collected them for their own purposes.)
-#
-# Also note there is a reidentification concern - the more of this 
-# info is shared in the public dataset, the more likely a participant 
-#can be reidentified by a combo.
-#
-# I'm proposing exact variable definitions for only some of these items
-# where there was a corresponding version in another param file. But as 
-# a general proposal, we could also just fall back to a list of open-string
-# columns for each of the main constructs, e.g. 
-# - construct_raceethnicity_item
-# - cosntruct_raceethnicity_response
-# - construct_income_item
-# - construct_income_response
-# - construct_education_item
-# - construct_education_response
-# ...and allow labs to put freeform information (one or more variables) 
-# into those columns
+# Preterm - we just need to get clarity on the exact definition, since it's
+# an exclusion criterion & has different across forms I've seen. 
+# The MB4 item is "Was your child born full term (defined as 36 weeks
+# or more gestation)". The MB3 item says full term is more than 37 and 
+# preterm is less than 37 weeks; exactly 37 weeks isn't included.
 
-
-# For caregiver info, some items were just split out into 'parent 1' and
-# 'parent 2' on the MB3 form, but for machine-readable data entry it will
-# make sense for this & following items to use a standard list of 
-# caregivers in parallel with the sibling and language variables. EG if there
-# are 5 lines in the 'caregiving matrix':
-
-- field:        caregiver1_role
-  description:  For this and all caregiver columns, report the description. Please use a small/concise number of categories in your lab, e.g. 'mother', 'father', 'grandparent', 'legal guardian'. Mark NA when there are no additional caregivers to list.
-  type:         string
-  format:       alphanumeric
+- field:        preterm
+  description:  Whether the participant was born prematurely. Full term is defined as NNNNN of gestation.
+  type:         options
+  options:      ['preterm','not_preterm']
   required:     yes
   NA_allowed:   yes
 
-- field:        caregiver2_role
-  description:  For this and all caregiver columns, report the description. Please use a small/concise number of categories in your lab, e.g. 'mother', 'father', 'grandparent', 'legal guardian'. Mark NA when there are no additional caregivers to list.
-  type:         string
-  format:       alphanumeric
+- field:        gestation_weeks
+  descriptions: The gestational age at birth of a preterm participant. Note that this should be converted to gestational weeks, even if you ask parents about 'days or weeks early' - different countries define a full term pregnancy differently! This variable can be listed as NA if the participant was born at full term.
+  type:         integer
+  format:       integer
   required:     yes
   NA_allowed:   yes
 
-- field:        caregiver3_role
-  description:  For this and all caregiver columns, report the description. Please use a small/concise number of categories in your lab, e.g. 'mother', 'father', 'grandparent', 'legal guardian'. Mark NA when there are no additional caregivers to list.
-  type:         string
-  format:       alphanumeric
-  required:     yes
-  NA_allowed:   yes
 
-- field:        caregiver4_role
-  description:  For this and all caregiver columns, report the description. Please use a small/concise number of categories in your lab, e.g. 'mother', 'father', 'grandparent', 'legal guardian'. Mark NA when there are no additional caregivers to list.
-  type:         string
-  format:       alphanumeric
-  required:     yes
-  NA_allowed:   yes
-
-- field:        caregiver5_role
-  description:  For this and all caregiver columns, report the description. Please use a small/concise number of categories in your lab, e.g. 'mother', 'father', 'grandparent', 'legal guardian'. Mark NA when there are no additional caregivers to list.
-  type:         string
-  format:       alphanumeric
-  required:     yes
-  NA_allowed:   yes
 
 # Total family income
 # Race and ethnicity
 
 # Developmental concerns (these are the MB4 items)
 
-- field:        cognitive_developmental
-  description:  Whether the caregiver reports any concerns about the participant's development. If so, this should be described in the cognitive_developmental_info variable.
+- field:        medical_issue
+  description:  Whether the caregiver reports the child having any medical issues or diagnosed conditions. If so, this should be described in the med_issue_info variable.
   type:         options
-  options:      ['cd_concern','no_cd_concern']
+  options:      ['med_issue','no_med_issue']
+  required:     yes
+  NA_allowed:   no
+
+- field:        medical_issue_info
+  description:  Enter the respondent's description if the previous column is 'med_issue'. Write NA if the previous column is 'no_med_issue'.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        developmental_concern
+  description:  Whether the caregiver reports any concerns about the participant's development. If so, this should be described in the developmental_concern_info variable.
+  type:         options
+  options:      ['dev_concern','no_dev_concern']
   required:     yes
   NA_allowed:   no
   
-- field:        cognitive_developmental_info
-  description:  Briefly explain if the previous column is 'cd_concern'. Write NA if the previous column is 'no_cd_concern'.
-  type:         open ended string
+- field:        developmental_concern_info
+  description:  Enter the respondent's description if the previous column is 'dev_concern'. Write NA if the previous column is 'no_dev_concern'.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        caregiver1_education_construct_response
+  description:  Highest level of education for the first parent/caregiver - this item is expected to vary significantly across labs.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        household_income_construct_response
+  description:  Combined household gross income (before taxes) - this item is expected to vary significantly across labs..
+  type:         string
   format:       open ended string
   required:     yes
   NA_allowed:   yes
