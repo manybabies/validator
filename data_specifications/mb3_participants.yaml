@@ -286,7 +286,7 @@
   NA_allowed:   yes
 
 - field:        preterm
-  description:  Whether the participant was born prematurely. Full term is defined as NNNNN of gestation.
+  description:  Whether the participant was born prematurely. Full term is defined as 37 or more weeks of gestation; preterm is defined as less than 37 weeks of gestation.
   type:         options
   options:      ['preterm','not_preterm']
   required:     yes
