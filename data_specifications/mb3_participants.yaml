@@ -1,0 +1,411 @@
+---
+
+#----------------
+# Required fields - MB3 basic/central/vital variables. 
+# All labs MUST report these variables, although some may have NA 
+# values for individual participants. 
+#----------------
+
+- field:        lab_id
+  description:  Unique lab identifier (this must match what you chose in the laboratory questionnaire).
+  type:         string
+  format:       alphanumeric, uncapitalized
+  example:      'babylab_paris'
+  required:     yes
+  NA_allowed:   no
+  
+- field:        participant_id
+  description:  A non-identifying, unique code given to each participant by your lab. 
+  type:         string
+  format:       alphanumeric
+  example:      'a24519'
+  required:     yes
+  NA_allowed:   no
+
+- field:        pilot
+  description:  Whether this participant belongs to the pilot data or the final preregistered sample
+  type:         options
+  options:      ['pilot_sample', 'final_sample']
+  example:      'pilot_sample'
+  required:     yes
+  NA_allowed:   no
+
+- field:        method
+  description:  Which experimental method was used for this participant
+  type:         options
+  options:      ['HPP', 'singlescreen_eyetracker', 'singlescreen_cf']
+  example:      singlescreen_eyetracker
+  required:     yes
+  NA_allowed:   no
+
+- field:        participant_age_days
+  description:  The infant's chronological age (since birth) in days, calculated from birth date and date of test. Please use this calculator to compute age in days - https://www.calculator.net/age-calculator.html. Copy and paste errors are common here, so please double check prior to data upload. Note that, for participant privacy reasons, your uploaded data contains only the age in days - not birth dates or testing dates.
+  type:         numeric
+  required:     yes
+  NA_allowed:   no
+
+- field:        test_order
+  description:  The counterbalancing ordering of stimuli for this session. Note that this is not what the child is supposed to see, but rather what they actually saw during test.
+  type:         options
+  options:      ['fam_ABA_first_ABA','fam_ABA_first_ABB','fam_ABB_first_ABA','fam_ABB_first_ABB']
+  required:     yes
+  NA_allowed:   no
+
+- field:        session_exclusion
+  description:  Use this field to report if it is the case that ALL data from this participant should be excluded from analysis. Sessions with the value 'exclude' will be reviewed by the central analysis team to standardize participant-level exclusions across labs.
+  type:         options
+  options:      ['exclude', 'include']
+  required:     yes
+  NA_allowed:   no
+
+- field:        session_exclusion_reason_1
+  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. Otherwise enter the first or primary exclusion criterion.
+  type:         options
+  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        session_exclusion_reason_2
+  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. For session exclusions, enter NA or a second exclusion criterion.
+  type:         options
+  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        session_exclusion_reason_3
+  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. For session exclusions, enter NA or a third exclusion criterion.
+  type:         options
+  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        session_exclusion_reason_4
+  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. For session exclusions, enter NA or a fourth exclusion criterion.
+  type:         options
+  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        session_exclusion_info
+  description:  Enter NA if this participant should be included in analyses. Use this column to give an explanation of the category choices or description of why the session should be excluded from analysis (e.g. 'music audible from another room throughout session' or 'child fussed out after entering test room but prior to completing any trials.')
+  type:         string
+  format:       open ended string
+  example:      'inattentive'
+  required:     yes
+  NA_allowed:   yes
+
+- field:        notes
+  description:  Similar to the trial-level notes, use this column to report anything that doesn't fit somewhere else (rather than adding that information in another column.)
+  type:         open ended string
+  format:       open ended string
+  example:      ‘Technically a second-session baby, but fussed out of the first study almost immediately, took a 20min break before ADS/IDS'
+  required:     yes
+  NA_allowed:   yes
+
+#----------------
+# Additional/secondary EXPERIMENTAL variables. Labs MAY report 
+# these variables, but validation will not fail if they are absent. 
+#----------------
+
+- field:        first_ra_id
+  description:  A research assistant identifier, non-identifying and unique. If there is more than one RA present, please choose a standard role in your lab sessions (e.g. the person who operates the camera) and report that person's ID.
+  type:         string
+  format:       alphanumeric
+  example:      a24519
+  required:     no
+  NA_allowed:   no
+
+- field:        second_ra_id
+  description:  A second research assistant identifier, non-identifying and unique. Enter NA if only one RA/experimenter/staff member was involved in testing.
+  type:         string
+  format:       alphanumeric
+  example:      a24519
+  required:     no
+  NA_allowed:   yes
+
+- field:        second_session
+  description:  Was this the second session the child participated in during the lab visit?
+  type:         options
+  options:      ['yes', 'no']
+  required:     no
+  NA_allowed:   no
+
+- field:        caregiver_seat
+  description:  Was the baby tested in a baby seat or held by a caregiver?
+  type:         options
+  options:      ['caregiver', 'seat']
+  required:     no
+  NA_allowed:   no
+
+- field:        caregiver_occlusion
+  description:  Was the caregiver blinded by wearing an eye mask or by closing their eyes?
+  type:         options
+  options:      ['eyemask', 'eyes_closed']
+  required:     no
+  NA_allowed:   no
+
+#----------------
+# Family Questionnaire - Proposed final items. Variables that 
+# should be more closely reviewed by MB_Demo are separated out below.
+#----------------
+
+- field:        respondent_relationship
+  description:  The relationship between the person filling out the form and the participant.  
+  type:         options
+  options:      ['mother','father','another_parent_or_guardian', 'another_relationship']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_gender
+  description:  List the infant participant's sex/gender as reported by the primary caregiver. 
+  type:         options
+  options:      ['male','female','another_gender']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        gestation_weeks
+  descriptions: The gestational age at birth of a preterm participant. Note that this should be converted to gestational weeks, even if you ask parents about 'days or weeks early' - different countries define a full term pregnancy differently! This variable can be listed as NA if the participant was born at full term.
+  type:         integer
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        hearing_vision
+  description:  Whether the participant has any known vision or hearing impairment. If so, this should be described in the hearing_vision_info variable.
+  type:         options
+  options:      ['hv_impairment','no_hv_impairment']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        hearing_vision_info
+  description:  Briefly explain if the previous column is 'hv_impairment'. Write NA if the previous column is 'no_hv_impairment'.
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling1_age_years
+  description:  For this and all following sibling age columns, put their age in full years accomplished, for example 2 years and 11 months = 2. If they have no (more) siblings, mark as NA. 
+  type:         integer 
+  format:       integer
+  example:      2
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling2_age_years
+  description:  For this and all following sibling age columns, put their age in full years accomplished, for example 2 years and 11 months = 2. If they have no (more) siblings, mark as NA. 
+  type:         integer 
+  format:       integer
+  example:      2
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling3_age_years
+  description:  For this and all following sibling age columns, put their age in full years accomplished, for example 2 years and 11 months = 2. If they have no (more) siblings, mark as NA. 
+  type:         integer 
+  format:       integer
+  example:      2
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling4_age_years
+  description:  For this and all following sibling age columns, put their age in full years accomplished, for example 2 years and 11 months = 2. If they have no (more) siblings, mark as NA. 
+  type:         integer 
+  format:       integer
+  example:      2
+  required:     yes
+  NA_allowed:   yes
+
+- field:        sibling5_age_years
+  description:  For this and all sibling age columns, list their age in full years accomplished, for example 2 years and 11 months = 2. If they have no (more) siblings, mark as NA. 
+  type:         integer 
+  format:       integer
+  example:      2
+  required:     yes
+  NA_allowed:   yes
+
+#----------------
+# Family Questionnaire - Language (gets its own section because of 
+# potential complexity!)
+#----------------
+
+# NOTES
+# MB4 - Asked just for a primary Language and percent primary language; I 
+# suspect MB3 may want more info since it's a langaage study.
+# MB3 form - Note that the current items on MB3 as written are challenging to 
+# convert to a machine-readable form, and there's potential for ambiguity 
+# in how to 'translate' the freeform written responses into variables. 
+
+# For actual columns/vars, propose to use the items from Catia's param 
+# file. Then maybe add additional variables if needed, see MB_Demo 
+# section below
+
+- field:        lang1_name
+  description:  The infant's primary or most-heard language
+  type:         string
+  format:       string
+  example:      'Dutch'
+  required:     yes
+  NA_allowed:   no
+
+- field:        lang1_exposure
+  description:  Percentage exposure to the first/primary language. Note that exposures to all languages for a child should sum to 100!
+  type:         integer 
+  format:       integer
+  example:      70
+  required:     yes
+  NA_allowed:   no
+  
+- field:        lang2_name
+  description:  Second most-heard language. Put NA if they do not have a second language.
+  type:         string
+  format:       string
+  example:      'English'
+  required:     yes
+  NA_allowed:   yes
+
+- field:        lang2_exposure
+  description:  Percentage exposure to lang2. Exposures to all languages for a child should sum to 100. Put NA if they do not have a second language.
+  type:         integer 
+  format:       integer
+  example:      20
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        lang3plus_name
+  description:  Additional languages heard by this child. If there are more than three languages, list all remaining languages together in this column. Put NA if they do not have a third+ language.
+  type:         string
+  format:       string
+  example:      'German and Somali'
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        lang3plus_exposure
+  description:  The total percent exposure to the third and any additional languages heard by this child. Put NA if they do not have a third+ language.
+  type:         integer 
+  format:       integer
+  example:      10
+  required:     yes
+  NA_allowed:   yes
+
+#----------------
+# Demographic variables/constructs - holding off on these until further 
+# input from MB_Demo/MB3 leadership!
+#----------------
+
+# General notes on this section! 
+# Remember that *not* having labs report any/all of these back to MB3 
+# central is an option - MB1 did not collect most of these from labs 
+# (although labs may have collected them for their own purposes.)
+#
+# Also note there is a reidentification concern - the more of this 
+# info is shared in the public dataset, the more likely a participant 
+#can be reidentified by a combo.
+#
+# I'm proposing exact variable definitions for only some of these items
+# where there was a corresponding version in another param file. But as 
+# a general proposal, we could also just fall back to a list of open-string
+# columns for each of the main constructs, e.g. 
+# - construct_raceethnicity_item
+# - cosntruct_raceethnicity_response
+# - construct_income_item
+# - construct_income_response
+# - construct_education_item
+# - construct_education_response
+# ...and allow labs to put freeform information (one or more variables) 
+# into those columns
+
+# Preterm - we just need to get clarity on the exact definition, since it's
+# an exclusion criterion & has different across forms I've seen. 
+# The MB4 item is "Was your child born full term (defined as 36 weeks
+# or more gestation)". The MB3 item says full term is more than 37 and 
+# preterm is less than 37 weeks; exactly 37 weeks isn't included.
+
+- field:        preterm
+  description:  Whether the participant was born prematurely. Full term is defined as 36 or more weeks of gestation.
+  type:         options
+  options:      ['preterm','not_preterm']
+  required:     yes
+  NA_allowed:   yes
+
+# For caregiver info, some items were just split out into 'parent 1' and
+# 'parent 2' on the MB3 form, but for machine-readable data entry it will
+# make sense for this & following items to use a standard list of 
+# caregivers in parallel with the sibling and language variables. EG if there
+# are 5 lines in the 'caregiving matrix':
+
+- field:        caregiver1_role
+  description:  For this and all caregiver columns, report the description. Please use a small/concise number of categories in your lab, e.g. 'mother', 'father', 'grandparent', 'legal guardian'. Mark NA when there are no additional caregivers to list.
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+
+- field:        caregiver2_role
+  description:  For this and all caregiver columns, report the description. Please use a small/concise number of categories in your lab, e.g. 'mother', 'father', 'grandparent', 'legal guardian'. Mark NA when there are no additional caregivers to list.
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+
+- field:        caregiver3_role
+  description:  For this and all caregiver columns, report the description. Please use a small/concise number of categories in your lab, e.g. 'mother', 'father', 'grandparent', 'legal guardian'. Mark NA when there are no additional caregivers to list.
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+
+- field:        caregiver4_role
+  description:  For this and all caregiver columns, report the description. Please use a small/concise number of categories in your lab, e.g. 'mother', 'father', 'grandparent', 'legal guardian'. Mark NA when there are no additional caregivers to list.
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+
+- field:        caregiver5_role
+  description:  For this and all caregiver columns, report the description. Please use a small/concise number of categories in your lab, e.g. 'mother', 'father', 'grandparent', 'legal guardian'. Mark NA when there are no additional caregivers to list.
+  type:         string
+  format:       alphanumeric
+  required:     yes
+  NA_allowed:   yes
+
+# Additional items listed on MB3 for caregiver info, 5 columns per each
+#    Caregiver gender
+#    Caregiver places of birth 
+#    Caregiver place of current residence
+#    Whether Caregiver is a biological parent of the child
+#    Caregiver number of days per week and number of hours per day caring for child
+#    Caregiver highest level of education
+
+# Total family income
+# Race and ethnicity
+
+# Developmental concerns (these are the MB4 items)
+
+- field:        cognitive_developmental
+  description:  Whether the caregiver reports any concerns about the participant's development. If so, this should be described in the cognitive_developmental_info variable.
+  type:         options
+  options:      ['cd_concern','no_cd_concern']
+  required:     yes
+  NA_allowed:   no
+  
+- field:        cognitive_developmental_info
+  description:  Briefly explain if the previous column is 'cd_concern'. Write NA if the previous column is 'no_cd_concern'.
+  type:         open ended string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+#-----------------
+# Proposed to remove
+#-----------------
+
+# ear infections
+# handedness (MB4 only)
+# color blindness (MB4 only)
+# minutes of screen time (MB4 only)
+# minutes of book time (MB4 only)
+# Gender of all siblings
+
+
+

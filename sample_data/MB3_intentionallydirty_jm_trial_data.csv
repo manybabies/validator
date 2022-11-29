@@ -1,0 +1,27 @@
+lab_id,participant_id,trial_type,trial_num,looking_time_seconds,trial_time_seconds,trial_error,trial_error_info,notes
+bll-manitoba,mb_001,fam,0,107.36,120,no_error,NA,NA
+bll-manitoba,mb_001,different,one,11.32,13.98,error,coder unblinded,NA
+bll-manitoba,mb_001,same,two,13.11,15,no_error,NA,NA
+bll-manitoba,mb_001,different,three,4.11,10.34,no_error,NA,NA
+bll-manitoba,mb_001,same,four,2.86,7.03,no_error,NA,"Someone cracked the door to the testing room, but neither mom nor baby seemed to notice at all; you can see the lighting change on the video"
+bll-manitoba,mb_001,same,five,14.44,15,no_error,NA,NA
+bll-manitoba,mb_001,different,six,9.78,15,no_error,NA,NA
+bll-manitoba,mb_001,same,seven,8.44,14.28,no_error,NA,"Codable trial, but baby was looking around, looks hard to code"
+bll-manitoba,mb_001,different,8,0,2,error,too fussy,NA
+bll-manitoba,mb_001,different,9,3.01,8.37,no_error,NA,Very intermittent looking
+bll-manitoba,mb_001,same,10,NA,NA,error,experiment ended early,NA
+bll-manitoba,mb_001,different,11,NA,NA,error,experiment ended early,NA
+bll-manitoba,mb_001,same,12,NA,NA,error,experiment ended early,NA
+u-northern-mars,UNM1,fam,0,0.32,120,no,NaN,NA
+u-northern-mars,UNM1,same,1,0.302,15,no,NaN,NA
+u-northern-mars,UNM1,different,2,0.1458,15,no,NaN,NA
+u-northern-mars,UNM1,same,3,0.1255,15,no,NaN,NA
+u-northern-mars,UNM1,different,4,0.229,15,no,NaN,NA
+u-northern-mars,UNM1,different,5,0.931,15,no,NaN,Brief pause before trial 5 to re-position baby
+u-northern-mars,UNM1,different,6,0.445,15,no,NaN,NA
+u-northern-mars,UNM1,same,7,0.1427,15,no,NaN,NA
+u-northern-mars,UNM1,same,8,0.1311,15,no,NaN,NA
+u-northern-mars,UNM1,same,9,0.411,15,no,NaN,NA
+u-northern-mars,UNM1,different,10,0.286,15,no,NaN,NA
+u-northern-mars,UNM1,same,11,0.1344,15,no,NaN,NA
+u-northern-mars,UNM1,different,12,0.1278,15,no,NaN,NA
