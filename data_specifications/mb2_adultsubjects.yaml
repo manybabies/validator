@@ -26,7 +26,7 @@
   format:       integer 
   example:      20220721
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
   
 - field:        pilot
   description:  yes = pilot data, no = final sample; You do NOT need to report pilot data, but if you do, it should be clearly marked here.
@@ -320,7 +320,7 @@
   type:         options
   options:      ['yes','no']
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        bear_knowledge_info
   description:  (If ‘yes’) How did this knowledge vs. ignorance come about? (Based on what would the participant say the bear did or did not have knowledge of the mouse?)
