@@ -23,7 +23,7 @@
 - field:        trial_type
   description:  The string 'fam' should be used to label familiarization trials, whereas test trials will be 'same' or 'different' depending on whether the rule pattern was the same as that in the familiarization phase or not. Note that the values of this variable are all lowercase. 
   type:         options
-  options:      ['fam', 'same', 'different']
+  options:      ['fam', 'consistent', 'inconsistent']
   required:     yes
   NA_allowed:   no
 
