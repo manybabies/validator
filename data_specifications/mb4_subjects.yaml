@@ -24,7 +24,7 @@
   description:  Day child was tested, formatted YYYY-MM-DD, e.g. 2020-01-01
   type:         date
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 - field:        age_group
   description:  the infants' age bin (e.g. a 5.5 month old will be in the "five" month group)
