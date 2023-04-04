@@ -22,7 +22,11 @@ shinyUI(fluidPage(
     mainPanel(
       tabsetPanel(
         tabPanel("Validation Results", 
-                 p('Welcome to the validator! Choose a study and upload a file to check validity.'), 
+                 p(strong('Welcome to the validator!')),
+                 p(em('You can check your lab id here:'), 
+                   tags$a(href="https://docs.google.com/spreadsheets/d/1O_c4QoRwBUQvpCABFC2XIlx4upsvHZm02VDV8xDUg8s/edit?usp=sharing",
+                                                               "lab id list")),
+                 p(strong('Choose a study and upload a file to check validity.')), 
                  verbatimTextOutput("validator_output")),
         tabPanel("Specification", 
                  p('This is the full text of the specification you have chosen'),
