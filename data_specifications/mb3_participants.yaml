@@ -140,7 +140,7 @@
 - field:        caregiver_occlusion
   description:  Was the caregiver blinded by wearing an eye mask or by closing their eyes?
   type:         options
-  options:      ['eyemask', 'eyes_closed']
+  options:      ['eyemask', 'eyes_closed', 'neither']
   required:     no
   NA_allowed:   no
 
