@@ -30,7 +30,7 @@
 - field:        stimulus_filename
   description:  The name of the actual sound file that was playing per trial
   type:         options
-  options:      ['fam_abb_0.wav', 'fam_abb_1.wav','fam_abb_2.wav','fam_abb_3.wav','fam_abb_4.wav','fam_abb_5.wav','fam_abb_6.wav','fam_abb_7.wav','fam_aba_0.wav','fam_aba_1.wav','fam_aba_2.wav','fam_aba_3.wav','fam_aba_4.wav','fam_aba_5.wav','fam_aba_6.wav','fam_aba_7.wav','test_stream_lonini.wav','test_stream_lonilo.wav','test_stream_tisoso.wav','test_stream_tisoti.wav']
+  options:      ['fam_abb_0.wav', 'fam_abb_1.wav','fam_abb_2.wav','fam_abb_3.wav','fam_abb_4.wav','fam_abb_5.wav','fam_abb_6.wav','fam_abb_7.wav','fam_aba_0.wav','fam_aba_1.wav','fam_aba_2.wav','fam_aba_3.wav','fam_aba_4.wav','fam_aba_5.wav','fam_aba_6.wav','fam_aba_7.wav','test_abb_lonini.wav','test_aba_lonilo.wav','test_abb_tisoso.wav','test_aba_tisoti.wav']
   required:     yes
   NA_allowed:   no
 
