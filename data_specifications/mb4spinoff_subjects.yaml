@@ -707,13 +707,13 @@
 - field:        JBR_identity
   description:  the caregiver identity who completed the JBR task
   type:         options
-  options:      ['mother', 'father']
+  options:      ['mother', 'father', 'other']
   required:     yes
   NA_allowed:   yes
 
 - field:        survey_identity
   description:  the caregiver identity who completed the surveys
   type:         options
-  options:      ['mother', 'father']
+  options:      ['mother', 'father', 'other']
   required:     yes
   NA_allowed:   yes
