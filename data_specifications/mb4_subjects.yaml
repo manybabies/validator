@@ -208,7 +208,7 @@
 - field:        caregiver_seat
   description:  was the baby tested in a baby seat or held by a caregiver
   type:         options
-  options:      ['caregiver', 'seat']
+  options:      ['caregiver', 'seat', 'caregiver_seat', 'seat_caregiver', 'other']
   required:     yes
   NA_allowed:   no
 
