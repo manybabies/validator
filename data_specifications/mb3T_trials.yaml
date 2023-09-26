@@ -1,0 +1,85 @@
+---
+
+#----------------
+# Required fields - MB3 basic/central variables. All labs MUST report these variables, although some may have NA values for individual trials. 
+#----------------
+
+- field:        lab_id
+  description:  Unique lab identifier (this must match what you chose in the laboratory questionnaire).
+  type:         string
+  format:       alphanumeric, uncapitalized
+  example:      'babylab_paris'
+  required:     yes
+  NA_allowed:   no
+  
+- field:        participant_id
+  description:  A non-identifying, unique code given to each participant by your lab. 
+  type:         string
+  format:       alphanumeric
+  example:      'a24519'
+  required:     yes
+  NA_allowed:   no
+
+- field:        trial_type
+  description:  The string 'fam' should be used to label familiarization trials, whereas test trials will be 'consistent' or 'inconsistent' depending on whether the rule pattern was the same as that in the familiarization phase or not. Note that the values of this variable are all lowercase. 
+  type:         options
+  options:      ['fam', 'consistent', 'inconsistent']
+  required:     yes
+  NA_allowed:   no
+
+- field:        stimulus_filename
+  description:  The name of the actual sound file that was playing per trial
+  type:         options
+  options:      ['fam_abb_0.wav', 'fam_abb_1.wav','fam_abb_2.wav','fam_abb_3.wav','fam_abb_4.wav','fam_abb_5.wav','fam_abb_6.wav','fam_abb_7.wav','fam_aba_0.wav','fam_aba_1.wav','fam_aba_2.wav','fam_aba_3.wav','fam_aba_4.wav','fam_aba_5.wav','fam_aba_6.wav','fam_aba_7.wav','test_abb_lonini.wav','test_aba_lonilo.wav','test_abb_tisoso.wav','test_aba_tisoti.wav']
+  required:     yes
+  NA_allowed:   no
+
+- field:        session_no
+  description:  Whether the data pertains to the first (test) or second (retest) session.
+  type:         options
+  options:      ['1','2']
+  required:     yes
+  NA_allowed:   no
+
+- field:        trial_num
+  description:  Trial number, from 1 to 12 (with 0 denoting familiarization trial)
+  type:         numeric
+  format:       integer
+  example:      1
+  required:     yes
+  NA_allowed:   no
+
+- field:        looking_time_seconds
+  description:  Looking time in seconds, to at least 2 decimal places. If a trial was not conducted because the experiment ended early, enter NA. If a looking time value exists, it should be reported even if you believe this trial should be excluded from analysis.
+  type:         numeric
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial_time_seconds
+  description:  Total trial time duration in seconds, to at least 2 decimal places. If a trial was not conducted because the experiment ended early, enter NA in this cell. If a trial time value exists, it should be reported even if you believe this trial should be excluded from analysis.
+  type:         numeric
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial_error
+  description:  Trials with the value 'error' will be excluded from analysis
+  type:         options
+  options:      ['no_error', 'error']
+  required:     yes
+  NA_allowed:   no
+
+- field:        trial_error_info
+  description:  NA if there is no error on this trial. The decision of whether a given trial reaches the level of exclusion for e.g. fussiness is made by the original coder, NOT centrally. Please do not provide overly detailed or ambiguous information here - use a short, standardized description (e.g. 'coder unblinded', 'experiment ended early'), and provide more detail in the notes column. 
+  type:         string
+  format:       open ended string
+  example:      'inattentive'
+  required:     yes
+  NA_allowed:   yes
+
+- field:        notes
+  description:  Use this field to make any comments about the trial that don't fit into another column. Enter NA if you don't have anything to say about this trial. 
+  type:         string
+  format:       open ended string
+  example:      'Baby was calm but staring at shoes, showing shoes to parent for the entire trial' 
+  required:     yes
+  NA_allowed:   yes
