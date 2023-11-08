@@ -217,14 +217,14 @@
   type:         options
   options:      ['male', 'female', 'other', 'NA']
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
   
 - field:        primarycaregiver_gender
   description:  gender of the caregiver that participated in and/or brought the baby to the study with the baby
   type:         options
   options:      ['male', 'female', 'other', 'NA']
   required:     yes
-  NA_allowed:   no
+  NA_allowed:   yes
 
 
 - field:        hearing_vision
