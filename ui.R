@@ -23,9 +23,9 @@ shinyUI(fluidPage(
       tabsetPanel(
         tabPanel("Validation Results", 
                  p(strong('Welcome to the validator!')),
-                 p(em('You can check your lab id here:'), 
-                   tags$a(href="https://docs.google.com/spreadsheets/d/1O_c4QoRwBUQvpCABFC2XIlx4upsvHZm02VDV8xDUg8s/edit?usp=sharing",
-                                                               "lab id list")),
+                 p(em('You can check your LabID here:'), 
+                   tags$a(href="https://manybabies.org/labids/",
+                                                               "LabID list")),
                  p(strong('Choose a study and upload a file to check validity.')), 
                  verbatimTextOutput("validator_output")),
         tabPanel("Specification", 
