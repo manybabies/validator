@@ -26,7 +26,7 @@
   description:  The version of the CDI your lab chose.
   type:         string
   options:      alphanumeric
-  example:      'Fragebogen zur frühkindlichen Sprachentwicklung, FRAKIS'
+  example:      'Fragebogen zur fruhkindlichen Sprachentwicklung, FRAKIS'
   required:     yes
   NA_allowed:   no
 
@@ -328,7 +328,7 @@
 #----------------
 
 - field:        cdi_ev_raw
-  description:  Expressive vocabulary: the number of words reported by the parent
+  description:  Expressive vocabulary - the number of words reported by the parent
   type:         integer 
   format:       integer
   example:      4
@@ -339,12 +339,12 @@
   description:  Percentile conversion of the expressive vocabulary (ev) for the CDI in your language (if available). N/A if there is no existing percentile conversion for the CDI in your language.
   type:         integer 
   format:       integer
-  example:      49
+  example:      60
   required:     yes
   NA_allowed:   yes
 
 - field:        cdi_mlu_raw
-  description:  Mean length of utterance: The average number of morphemes (or words) per utterance (refer to the CDI manual for calculation instructions).
+  description:  Mean length of utterance - The average number of morphemes (or words) per utterance (refer to the CDI manual for calculation instructions).
   type:         integer 
   format:       integer
   example:      4
@@ -352,7 +352,7 @@
   NA_allowed:   yes
 
 - field:        cdi_mlu_percent
-  description:  Percentile conversion of Mean length of utterance (mlu) for the CDI in your language (if available) N/A if there is no existing percentile conversion for the CDI in your language.
+  description:  Percentile conversion of Mean length of utterance (mlu) for the CDI in your language (if available) N/A if there is no existing percentile conversion for the CDI in your language
   type:         integer 
   format:       integer
   example:      4
@@ -360,7 +360,7 @@
   NA_allowed:   yes
 
 - field:        cdi_gc_raw
-  description:  Sentence/Grammar complexity: The number and types of complex sentences used (refer to the CDI manual for calculation instructions)
+  description:  Sentence/Grammar complexity - The number and types of complex sentences used (refer to the CDI manual for calculation instructions)
   type:         integer 
   format:       integer
   example:      4
