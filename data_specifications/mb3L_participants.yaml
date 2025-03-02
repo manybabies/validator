@@ -1,0 +1,376 @@
+---
+
+#----------------
+# Required fields - MB3 basic/central/vital variables. 
+# All labs MUST report these variables, although some may have NA 
+# values for individual participants. 
+#----------------
+
+- field:        lab_id
+  description:  Unique lab identifier (must match what you chose in the laboratory questionnaire).
+  type:         string
+  format:       alphanumeric, uncapitalized
+  example:      'babylab_paris'
+  required:     yes
+  NA_allowed:   no
+  
+- field:        participant_id
+  description:  A non-identifying, unique code given to each participant by your lab. 
+  type:         string
+  format:       alphanumeric
+  example:      'a24519'
+  required:     yes
+  NA_allowed:   no
+
+- field:        cdi_version
+  description:  The version of the CDI your lab chose.
+  type:         string
+  options:      alphanumeric
+  example:      'Fragebogen zur frühkindlichen Sprachentwicklung, FRAKIS'
+  required:     yes
+  NA_allowed:   no
+
+- field:        cdi_process_questionnaire
+  description:  Style of administering the questionnaire in your lab. Choose which one suits your lab practices best.
+  type:         options
+  options:      ['online', 'paper pencil', 'web_CDI']
+  example:      online
+  required:     yes
+  NA_allowed:   no
+
+- field:        cdi_participant_birth
+  description:  Participant's date of birt
+  type:         string
+  format:       alphanumeric
+  example:      '12 May 2024'
+  required:     yes
+  NA_allowed:   no
+
+- field:        cdi_date
+  description:  The infant's chronological age (since birth) in days, calculated from birth date and date of test. Please use this calculator to compute age in days - https://www.calculator.net/age-calculator.html. Copy and paste errors are common here, so please double check prior to data upload. Note that, for participant privacy reasons, your uploaded data contains only the age in days - not birth dates or testing dates.
+  type:         numeric
+  required:     yes
+  NA_allowed:   no
+
+- field:        cdi_participant_age
+  description:  The infant's chronological age (since birth) in days, calculated from birth date and date of test. Please use this calculator to compute age in days - https://www.calculator.net/age-calculator.html. Copy and paste errors are common here, so please double check prior to data upload. Note that, for participant privacy reasons, your uploaded data contains only the age in days - not birth dates or testing dates.
+  type:         numeric
+  required:     yes
+  NA_allowed:   no
+
+- field:        session_exclusion
+  description:  Sessions with 'exclude' value will be excluded from the central MB3 analysis. Do not use this field for individual trial level errors. Use this field to report if it is the case that ALL data from this participant should be excluded from analysis. Sessions with the value 'exclude' will be reviewed by the central analysis team to standardize participant-level exclusions across labs.
+  type:         options
+  options:      ['exclude', 'include']
+  required:     yes
+  NA_allowed:   no
+
+- field:        session_exclusion_reason_1
+  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. Otherwise enter the first or primary exclusion criterion.
+  type:         options
+  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        session_exclusion_reason_2
+  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. For session exclusions, enter NA or a second exclusion criterion.
+  type:         options
+  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        session_exclusion_reason_3
+  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. For session exclusions, enter NA or a third exclusion criterion.
+  type:         options
+  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        session_exclusion_reason_4
+  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. For session exclusions, enter NA or a fourth exclusion criterion.
+  type:         options
+  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        session_exclusion_info
+  description:  Enter NA if this participant should be included in analyses. Use this column to give an explanation of the category choices or description of why the session should be excluded from analysis (e.g. 'music audible from another room throughout session' or 'child fussed out after entering test room but prior to completing any trials.')
+  type:         string
+  format:       open ended string
+  example:      'inattentive'
+  required:     yes
+  NA_allowed:   yes
+
+- field:        notes
+  description:  Similar to the trial-level notes, use this column to report anything that doesn't fit somewhere else (rather than adding that information in another column.)
+  type:         string
+  format:       open ended string
+  example:      ‘Technically a second-session baby, but fussed out of the first study almost immediately, took a 20min break before ADS/IDS'
+  required:     yes
+  NA_allowed:   yes
+
+#----------------
+# Additional/secondary EXPERIMENTAL variables. Labs MAY report 
+# these variables, but validation will not fail if they are absent. 
+#----------------
+
+- field:        first_ra_id
+  description:  A research assistant identifier, non-identifying and unique. If there is more than one RA present, please choose a standard role in your lab sessions (e.g. the person who operates the camera) and report that person's ID.
+  type:         string
+  format:       alphanumeric
+  example:      a24519
+  required:     no
+  NA_allowed:   yes
+
+- field:        second_ra_id
+  description:  A second research assistant identifier, non-identifying and unique. Enter NA if only one RA/experimenter/staff member was involved in testing.
+  type:         string
+  format:       alphanumeric
+  example:      a24519
+  required:     no
+  NA_allowed:   yes
+
+- field:        second_session
+  description:  Was this the second session the child participated in during the lab visit?
+  type:         options
+  options:      ['yes', 'no']
+  required:     no
+  NA_allowed:   no
+
+- field:        caregiver_seat
+  description:  Was the baby tested in a baby seat or held by a caregiver?
+  type:         options
+  options:      ['caregiver', 'seat']
+  required:     no
+  NA_allowed:   no
+
+- field:        caregiver_occlusion
+  description:  Was the caregiver blinded by wearing an eye mask or by closing their eyes?
+  type:         options
+  options:      ['eyemask', 'eyes_closed', 'neither']
+  required:     no
+  NA_allowed:   no
+
+#----------------
+# Family Questionnaire - Final items as given here: https://docs.google.com/document/d/1b-ZaJpbVzvN_fUApXlZkZiT9jxGUYRhHbAC1qOucufo/edit
+# Note that labs are expected/allowed to modify some of these items to be appropriate for local conditions; cross-lab comparison of
+# responses should be regarded with caution!!
+#----------------
+
+- field:        cdi_respondent_relationship
+  description:  The relationship between the person filling out the form and the participant.  
+  type:         string
+  format:       open ended string
+  example:      father
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_sex
+  description:  List the infant participant's sex as reported by the family member responding to the form. 
+  type:         options
+  options:      ['female', 'male', 'another_response']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_current_residence
+  description:  List the infant's current residence (city, state, country)
+  type:         string
+  format:       open ended string
+  example:      'Dayton, OH, USA'
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cdi_lang1_name
+  description:  The infant's primary or most-heard language
+  type:         string
+  format:       string
+  example:      'Dutch'
+  required:     yes
+  NA_allowed:   no
+
+- field:        cdi_lang1_exposure
+  description:  Percentage exposure to the first/primary language. Note that exposures to all languages for a child should sum to 100!
+  type:         integer 
+  format:       integer
+  example:      70
+  required:     yes
+  NA_allowed:   no
+  
+- field:        cdi_lang2_name
+  description:  Second most-heard language. Put NA if they do not have a second language.
+  type:         string
+  format:       string
+  example:      'English'
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cdi_lang2_exposure
+  description:  Percentage exposure to lang2. Exposures to all languages for a child should sum to 100. Put NA if they do not have a second language.
+  type:         integer 
+  format:       integer
+  example:      20
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        cdi_lang3plus_name
+  description:  Additional languages heard by this child. If there are more than three languages, list all remaining languages together in this column. Put NA if they do not have a third+ language.
+  type:         string
+  format:       string
+  example:      'German and Somali'
+  required:     yes
+  NA_allowed:   yes
+  
+- field:        cdi_lang3plus_exposure
+  description:  The total percent exposure to the third and any additional languages heard by this child. Put NA if they do not have a third+ language.
+  type:         integer 
+  format:       integer
+  example:      10
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cdi_num_adults_household
+  description:  How  many adults are in this household?
+  type:         integer 
+  format:       integer
+  example:      4
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cdi_num_children_household
+  description:  How  many children are in this household?
+  type:         integer 
+  format:       integer
+  example:      2
+  required:     yes
+  NA_allowed:   yes
+
+- field:        race_construct_response
+  description:  The child's racial identit(ies) as reported by the family respondent. This item varies significantly by lab.
+  type:         string
+  format:       string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        ethnicity_construct_response
+  description:  The child's ethnic identit(ies) as reported by the family respondent. This item varies significantly by lab.
+  type:         string
+  format:       string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        preterm
+  description:  Whether the participant was born prematurely. Full term is defined as NNNNN of gestation.
+  type:         options
+  options:      ['preterm','not_preterm']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        gestation_weeks
+  descriptions: The gestational age at birth of a preterm participant. Note that this should be converted to gestational weeks, even if you ask parents about 'days or weeks early' - different countries define a full term pregnancy differently! This variable can be listed as NA if the participant was born at full term.
+  type:         integer
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cdi_medical_issue
+  description:  Whether the caregiver reports the child having any medical issues or diagnosed conditions. If so, this should be described in the med_issue_info variable.
+  type:         options
+  options:      ['med_issue','no_med_issue']
+  required:     yes
+  NA_allowed:   no
+
+- field:        cdi_medical_issue_info
+  description:  Enter the respondent's description if the previous column is 'med_issue'. Write NA if the previous column is 'no_med_issue'.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cdi_hearing_difficulties
+  description:  Whether the caregiver reports any concerns about the participant's hearing. If so, this should be described in the cdi_hearing_difficulties_info variable.
+  type:         options
+  options:      ['hearing_issue','no_hearing_issue']
+  required:     yes
+  NA_allowed:   no
+  
+- field:        cdi_hearing_difficulties_info
+  description:  Enter the respondent's description if the previous column is 'hearing_issue'. Write NA if the previous column is 'no_hearing_issue'.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        caregiver1_education_construct_response
+  description:  Highest level of education for the first parent/caregiver - this item is expected to vary significantly across labs.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        caregiver2_education_construct_response
+  description:  Highest level of education for the second parent/caregiver - this item is expected to vary significantly across labs.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        household_income_construct_response
+  description:  Combined household gross income (before taxes) - this item is expected to vary significantly across labs..
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+#----------------
+# CDI measures
+# All labs MUST report these variables, although some may have NA 
+# values for individual participants. 
+#----------------
+
+- field:        cdi_ev_raw
+  description:  Expressive vocabulary: the number of words reported by the parent
+  type:         integer 
+  format:       integer
+  example:      4
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cdi_ev_percent
+  description:  Percentile conversion of the expressive vocabulary (ev) for the CDI in your language (if available). N/A if there is no existing percentile conversion for the CDI in your language.
+  type:         integer 
+  format:       integer
+  example:      49
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cdi_mlu_raw
+  description:  Mean length of utterance: The average number of morphemes (or words) per utterance (refer to the CDI manual for calculation instructions).
+  type:         integer 
+  format:       integer
+  example:      4
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cdi_mlu_percent
+  description:  Percentile conversion of Mean length of utterance (mlu) for the CDI in your language (if available) N/A if there is no existing percentile conversion for the CDI in your language.
+  type:         integer 
+  format:       integer
+  example:      4
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cdi_gc_raw
+  description:  Sentence/Grammar complexity: The number and types of complex sentences used (refer to the CDI manual for calculation instructions)
+  type:         integer 
+  format:       integer
+  example:      4
+  required:     yes
+  NA_allowed:   yes
+
+- field:        cdi_gc_percent
+  description:  Percentile conversion of Sentence/Grammar complexity complexity (gc) for the CDI in your language (if available) N/A if there is no existing percentile conversion for the CDI in your language.
+  type:         integer 
+  format:       integer
+  example:      4
+  required:     yes
+  NA_allowed:   yes
