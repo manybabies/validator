@@ -130,27 +130,6 @@
   required:     no
   NA_allowed:   yes
 
-- field:        second_session
-  description:  Was this the second session the child participated in during the lab visit?
-  type:         options
-  options:      ['yes', 'no']
-  required:     no
-  NA_allowed:   no
-
-- field:        caregiver_seat
-  description:  Was the baby tested in a baby seat or held by a caregiver?
-  type:         options
-  options:      ['caregiver', 'seat']
-  required:     no
-  NA_allowed:   no
-
-- field:        caregiver_occlusion
-  description:  Was the caregiver blinded by wearing an eye mask or by closing their eyes?
-  type:         options
-  options:      ['eyemask', 'eyes_closed', 'neither']
-  required:     no
-  NA_allowed:   no
-
 #----------------
 # Family Questionnaire - Final items as given here: https://docs.google.com/document/d/1b-ZaJpbVzvN_fUApXlZkZiT9jxGUYRhHbAC1qOucufo/edit
 # Note that labs are expected/allowed to modify some of these items to be appropriate for local conditions; cross-lab comparison of
