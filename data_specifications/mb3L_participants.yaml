@@ -25,7 +25,7 @@
 - field:        cdi_version
   description:  The version of the CDI your lab chose.
   type:         string
-  options:      alphanumeric
+  format:       alphanumeric
   example:      'Fragebogen zur fruhkindlichen Sprachentwicklung, FRAKIS'
   required:     yes
   NA_allowed:   no
@@ -39,7 +39,7 @@
   NA_allowed:   no
 
 - field:        cdi_participant_birth
-  description:  Participant's date of birt
+  description:  Participant's date of birth
   type:         string
   format:       alphanumeric
   example:      '12 May 2024'
@@ -47,7 +47,7 @@
   NA_allowed:   no
 
 - field:        cdi_date
-  description:  The infant's chronological age (since birth) in days, calculated from birth date and date of test. Please use this calculator to compute age in days - https://www.calculator.net/age-calculator.html. Copy and paste errors are common here, so please double check prior to data upload. Note that, for participant privacy reasons, your uploaded data contains only the age in days - not birth dates or testing dates.
+  description:  Date on which the CDI was filled out
   type:         numeric
   required:     yes
   NA_allowed:   no
@@ -86,13 +86,6 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        session_exclusion_reason_4
-  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. For session exclusions, enter NA or a fourth exclusion criterion.
-  type:         options
-  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
-  required:     yes
-  NA_allowed:   yes
-
 - field:        session_exclusion_info
   description:  Enter NA if this participant should be included in analyses. Use this column to give an explanation of the category choices or description of why the session should be excluded from analysis (e.g. 'music audible from another room throughout session' or 'child fussed out after entering test room but prior to completing any trials.')
   type:         string
@@ -105,7 +98,7 @@
   description:  Similar to the trial-level notes, use this column to report anything that doesn't fit somewhere else (rather than adding that information in another column.)
   type:         string
   format:       open ended string
-  example:      ‘Technically a second-session baby, but fussed out of the first study almost immediately, took a 20min break before ADS/IDS'
+  example:      'Technically a second-session baby, but fussed out of the first study almost immediately, took a 20min break before ADS/IDS'
   required:     yes
   NA_allowed:   yes
 
