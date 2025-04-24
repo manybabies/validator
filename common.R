@@ -13,13 +13,11 @@ studies <- data_frame(file = dir(path = "data_specifications")) %>%
 validate_dataset_field <- function(dataset_contents, field) {
   if (field$required) {
     if (field$field %in% names(dataset_contents)) {
-      if (is.na(dataset_contents[[field$field]])){
-        if(field$NA_allowed != TRUE){
-          cat(sprintf("Dataset has blank or NA for required field: '%s'.\n",
-                    field$field))
-          return(FALSE)
-        }
+      if (any(is.na(dataset_contents[[field$field]])) && !field$NA_allowed) {
+        cat(sprintf("Dataset has blank or NA for required variable: '%s'.\n", field$field))
+        return(list(FALSE, NA))
       }
+      
       if (field$type == "options") {
         if (class(field$options) == "list") {
           options <- names(unlist(field$options, recursive = FALSE))
