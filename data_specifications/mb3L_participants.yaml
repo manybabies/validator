@@ -30,7 +30,7 @@
   required:     yes
   NA_allowed:   no
 
-- field:        cdi_process_questionnaire
+- field:        method
   description:  Style of administering the questionnaire in your lab. Choose which one suits your lab practices best.
   type:         options
   options:      ['online', 'paper pencil', 'web_CDI']
@@ -38,21 +38,7 @@
   required:     yes
   NA_allowed:   no
 
-- field:        cdi_participant_birth
-  description:  Participant's date of birth
-  type:         string
-  format:       alphanumeric
-  example:      '12 May 2024'
-  required:     yes
-  NA_allowed:   no
-
-- field:        cdi_date
-  description:  Date on which the CDI was filled out
-  type:         numeric
-  required:     yes
-  NA_allowed:   no
-
-- field:        cdi_participant_age
+- field:        participant_age_days
   description:  The infant's chronological age (since birth) in days, calculated from birth date and date of test. Please use this calculator to compute age in days - https://www.calculator.net/age-calculator.html. Copy and paste errors are common here, so please double check prior to data upload. Note that, for participant privacy reasons, your uploaded data contains only the age in days - not birth dates or testing dates.
   type:         numeric
   required:     yes
@@ -81,6 +67,13 @@
 
 - field:        session_exclusion_reason_3
   description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. For session exclusions, enter NA or a third exclusion criterion.
+  type:         options
+  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        session_exclusion_reason_4
+  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. For session exclusions, enter NA or a fourth exclusion criterion.
   type:         options
   options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
   required:     yes
@@ -129,7 +122,7 @@
 # responses should be regarded with caution!!
 #----------------
 
-- field:        cdi_respondent_relationship
+- field:        respondent_relationship
   description:  The relationship between the person filling out the form and the participant.  
   type:         string
   format:       open ended string
@@ -152,7 +145,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        cdi_lang1_name
+- field:        lang1_name
   description:  The infant's primary or most-heard language
   type:         string
   format:       string
@@ -160,7 +153,7 @@
   required:     yes
   NA_allowed:   no
 
-- field:        cdi_lang1_exposure
+- field:        lang1_exposure
   description:  Percentage exposure to the first/primary language. Note that exposures to all languages for a child should sum to 100!
   type:         integer 
   format:       integer
@@ -168,7 +161,7 @@
   required:     yes
   NA_allowed:   no
   
-- field:        cdi_lang2_name
+- field:        lang2_name
   description:  Second most-heard language. Put NA if they do not have a second language.
   type:         string
   format:       string
@@ -176,7 +169,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        cdi_lang2_exposure
+- field:        lang2_exposure
   description:  Percentage exposure to lang2. Exposures to all languages for a child should sum to 100. Put NA if they do not have a second language.
   type:         integer 
   format:       integer
@@ -184,7 +177,7 @@
   required:     yes
   NA_allowed:   yes
   
-- field:        cdi_lang3plus_name
+- field:        lang3plus_name
   description:  Additional languages heard by this child. If there are more than three languages, list all remaining languages together in this column. Put NA if they do not have a third+ language.
   type:         string
   format:       string
@@ -192,7 +185,7 @@
   required:     yes
   NA_allowed:   yes
   
-- field:        cdi_lang3plus_exposure
+- field:        lang3plus_exposure
   description:  The total percent exposure to the third and any additional languages heard by this child. Put NA if they do not have a third+ language.
   type:         integer 
   format:       integer
@@ -200,7 +193,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        cdi_num_adults_household
+- field:        num_adults_household
   description:  How  many adults are in this household?
   type:         integer 
   format:       integer
@@ -208,7 +201,7 @@
   required:     yes
   NA_allowed:   yes
 
-- field:        cdi_num_children_household
+- field:        num_children_household
   description:  How  many children are in this household?
   type:         integer 
   format:       integer
