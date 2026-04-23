@@ -1,0 +1,334 @@
+- field: lab_id
+  description: Unique lab identifier (must match what you chose in the laboratory
+    questionnaire).
+  type: string
+  options: ~
+  format: uncapitalized
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry for lab_id. Please ensure your lab_id matches what
+    you chose in the laboratory questionnaire.
+- field: participant_id
+  description: A non-identifying, unique code given to each participant by your lab.
+  type: string
+  options: ~
+  format: uncapitalized
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry for participant_id. The allowed examples are ‘MB5_001’
+    , ‘MB5_002’
+- field: pilot
+  description: Whether this participant belongs to the pilot data or the final preregistered
+    sample. You do NOT need to report pilot data, but if you do, it should be clearly 'NA'
+    marked here.
+  type: options
+  options:
+  - pilot_sample
+  - final_sample
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry for pilot. Value must be either 'pilot_sample' or 'final_sample'.
+    Do not leave this field blank.
+- field: mb5n_components_completed
+  description: Which MB5N components this participant completed.
+  type: options
+  options:
+  - survey_only
+  - survey_and_interaction
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry. Value must be either 'survey_only' or 'survey_and_interaction'.
+- field: survey_completed
+  description: Whether the parent completed the MB5N questionnaire. Use 'partial'
+    if some items were left incomplete; note which items are missing in notes.
+  type: options
+  options:
+  - 'yes'
+  - 'no'
+  - partial
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry for survey_completed. Value must be 'yes', 'no', or
+    'partial'. If partial, note which items are missing in the notes column.
+- field: survey_timing
+  description: When the survey was administered. Use 'remote' if the family completed
+    it outside of the lab visit. Use 'NA' if survey was not completed.
+  type: options
+  options:
+  - after_interaction
+  - remote
+  - 'NA'
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry for survey_timing. Value must be 'after_interaction',
+    'remote', or 'NA' if survey was not completed.
+- field: interaction_completed
+  description: Whether the parent-child interaction session was completed. Use 'partial'
+    if the session was started but not fully completed (e.g., only one play phase
+    completed). Use 'NA' if lab is not contributing the interaction component.
+  type: options
+  options:
+  - 'yes'
+  - 'no'
+  - partial
+  - 'NA'
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry for interaction_completed. Value must be 'yes', 'no',
+    'partial', or 'NA' if lab is not contributing the interaction component.
+- field: play_surface
+  description: Whether the play session took place on the floor or at a table.
+  type: options
+  options:
+  - floor
+  - table
+  - 'NA'
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry for play_surface. Value must be 'floor', 'table', or
+    'NA' if interaction component was not completed.
+- field: participant_positioning
+  description: How the caregiver and infant were positioned relative to each other
+    during the interaction.
+  type: options
+  options:
+  - child_on_lap
+  - child_across_from_caregiver
+  - child_next_to_caregiver
+  - 'NA'
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry for participant_positioning. Value must be 'child_on_lap',
+    'child_across_from_caregiver', 'child_next_to_caregiver', or 'NA' if interaction
+    component was not completed.
+- field: camera_setup
+  description: Whether the session was recorded with one or two cameras.
+  type: options
+  options:
+  - single_camera
+  - dual_camera
+  - 'NA'
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry for camera_setup. Value must be 'single_camera', 'dual_camera',
+    or 'NA' if interaction component was not completed.
+- field: toy_assignment
+  description: The specific order used for this participant. See Toy Order list for
+    the object-label-condition mapping.
+  type: options
+  options:
+  - order1
+  - order2
+  - 'NA'
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry for toy_assignment. Valid values are 'order1','order2',
+    and 'NA'.See Toy Order list for object-label-condition mapping. Use 'NA' if interaction
+    component was not completed.
+- field: first_ra_id
+  description: A research assistant identifier, non-identifying and unique. If there
+    is more than one RA present, please choose a standard role in your lab sessions
+    (e.g. the person who operates the camera) and report that person's ID. Unique
+    RA identifier (anonymous code). We are collecting information about which RA ran
+    a given participant for possible secondary analysis about variability in RA coding.
+    As with all our analyses, the goal is not to assess individual performance, but
+    to examine sources of variability. However, you may wish to provide this information
+    as an anonymous code. Like with the participants, the coding scheme is up to you.
+  type: string
+  options: ~
+  format: uncapitalized
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry for first_ra_id. Please provide a unique anonymous
+    identifier for the RA who ran this participant (e.g. the person who operates the
+    camera). Do not use real names.
+- field: second_ra_id
+  description: A second research assistant identifier, non-identifying and unique.
+    Enter 'NA' if only one RA/experimenter/staff member was involved in testing.
+  type: string
+  options: ~
+  format: uncapitalized
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: yes
+  error_message: Invalid entry for second_ra_id. Please provide a unique anonymous
+    identifier for the second RA, or enter 'NA' if only one RA was involved in testing.
+- field: video_recorded
+  description: Whether the interaction session was video recorded.
+  type: options
+  options:
+  - 'yes'
+  - 'no'
+  - 'NA'
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry for video_recorded. Value must be 'yes', 'no', or 'NA'
+    if interaction component was not completed.
+- field: video_quality
+  description: Lab's assessment of overall video quality. Use 'acceptable' if there
+    are minor issues but the video is usable. Use 'poor' if significant portions of
+    the video are unusable (describe in notes). Use 'NA' if no video was recorded.
+  type: options
+  options:
+  - good
+  - acceptable
+  - poor
+  - 'NA'
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry for video_quality. Value must be 'good', 'acceptable',
+    'poor', or 'NA' if no video was recorded. If 'poor', describe the issues in the
+    notes column.
+- field: video_sharing
+  description: How (if at all) the video is being shared. Use 'databrary' if uploaded
+    to Databrary, 'partner_lab' if shared under a data sharing agreement, 'not_shared'
+    if kept in-house, and 'NA' if no video was recorded.
+  type: options
+  options:
+  - databrary
+  - partner_lab
+  - not_shared
+  - 'NA'
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry for video_sharing. Value must be 'databrary', 'partner_lab',
+    'not_shared', or 'NA' if no video was recorded.
+- field: video_databrary_id
+  description: The file name or identifier used for this participant's video on Databrary.
+    Use 'NA' if not uploaded to Databrary.
+  type: string
+  options: ~
+  format: uncapitalized
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: yes
+  error_message: Invalid entry for video_databrary_id. Please provide the Databrary
+    file name/identifier for this participant's video (e.g. ManyBabies5N_babylabPrinceton_MB5_001),
+    or enter 'NA' if not uploaded to Databrary.
+- field: coding_status
+  description: Current coding status for this participant's video. Use 'NA' if no
+    video was recorded.
+  type: options
+  options:
+  - lab_coded
+  - submitted_for_central_coding
+  - submitted_for_partner_coding
+  - not_coded
+  - pending
+  - 'NA'
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry for coding_status. Value must be 'lab_coded', 'submitted_for_central_coding',
+    'submitted_for_partner_coding', 'not_coded', 'pending', or 'NA' if no video was
+    recorded.
+- field: session_exclusion
+  description: Use 'exclude' only if ALL data from this participant should be excluded
+    from analysis. Sessions marked 'exclude' will be reviewed centrally. Do not use
+    this field for partial session issues — describe those in notes.
+  type: options
+  options:
+  - exclude
+  - include
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry for session_exclusion. Value must be 'exclude' or 'include'.
+    Use 'exclude' only if ALL data from this participant should be excluded. For partial
+    session issues, use 'include' and describe in the notes column instead.
+- field: session_exclusion_reason
+  description: Primary reason for session-level exclusion. Use 'NA' if session_exclusion
+    is 'include'. If there are multiple reasons, use notes.
+  type: options
+  options:
+  - equipment_failure
+  - video_not_recorded
+  - experimenter_error
+  - participant_refusal
+  - outside_age_range
+  - fuss_out
+  - outside_interference
+  - 'NA'
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: no
+  error_message: Invalid entry for session_exclusion_reason. Value must be one of
+    the specified reasons, or 'NA' if session_exclusion is 'include'. If there are
+    multiple exclusion reasons, use the primary reason here and describe the rest
+    in the notes column.
+- field: session_exclusion_info
+  description: Free-text description of the reason for session exclusion. Use 'NA'
+    if session_exclusion is 'include'.
+  type: string
+  options: ~
+  format: uncapitalized
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: yes
+  error_message: Invalid entry for session_exclusion_info. Please provide a free-text
+    description of the exclusion reason, or enter 'NA' if session_exclusion is 'include'.
+- field: notes
+  description: Use this field for any information that does not fit in other columns.
+    Do not embed comments in other columns — if something is worth noting, put it
+    here. Enter 'NA' if nothing to report.
+  type: string
+  options: ~
+  format: uncapitalized
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: yes
+  error_message: Invalid entry for notes. Please provide any relevant notes about
+    this session, or enter 'NA' if nothing to report. Do not embed comments in other
+    columns.
