@@ -33,7 +33,7 @@
   lowerlimit: .na
   upperlimit: .na
   required: yes
-  NA_allowed: no
+  NA_allowed: yes
   error_message: Invalid entry for pilot. Value must be either 'pilot_sample' or 'final_sample'.
     Do not leave this field blank.
 - field: mb5n_components_completed
@@ -70,12 +70,11 @@
   options:
   - after_interaction
   - remote
-  - 'NA'
   format: open
   lowerlimit: .na
   upperlimit: .na
   required: yes
-  NA_allowed: no
+  NA_allowed: yes
   error_message: Invalid entry for survey_timing. Value must be 'after_interaction',
     'remote', or 'NA' if survey was not completed.
 - field: interaction_completed
@@ -87,12 +86,11 @@
   - 'yes'
   - 'no'
   - partial
-  - 'NA'
   format: open
   lowerlimit: .na
   upperlimit: .na
   required: yes
-  NA_allowed: no
+  NA_allowed: yes
   error_message: Invalid entry for interaction_completed. Value must be 'yes', 'no',
     'partial', or 'NA' if lab is not contributing the interaction component.
 - field: play_surface
@@ -101,12 +99,11 @@
   options:
   - floor
   - table
-  - 'NA'
   format: open
   lowerlimit: .na
   upperlimit: .na
   required: yes
-  NA_allowed: no
+  NA_allowed: yes
   error_message: Invalid entry for play_surface. Value must be 'floor', 'table', or
     'NA' if interaction component was not completed.
 - field: participant_positioning
@@ -117,12 +114,11 @@
   - child_on_lap
   - child_across_from_caregiver
   - child_next_to_caregiver
-  - 'NA'
   format: open
   lowerlimit: .na
   upperlimit: .na
   required: yes
-  NA_allowed: no
+  NA_allowed: yes
   error_message: Invalid entry for participant_positioning. Value must be 'child_on_lap',
     'child_across_from_caregiver', 'child_next_to_caregiver', or 'NA' if interaction
     component was not completed.
@@ -132,12 +128,11 @@
   options:
   - single_camera
   - dual_camera
-  - 'NA'
   format: open
   lowerlimit: .na
   upperlimit: .na
   required: yes
-  NA_allowed: no
+  NA_allowed: yes
   error_message: Invalid entry for camera_setup. Value must be 'single_camera', 'dual_camera',
     or 'NA' if interaction component was not completed.
 - field: toy_assignment
@@ -147,12 +142,11 @@
   options:
   - order1
   - order2
-  - 'NA'
   format: open
   lowerlimit: .na
   upperlimit: .na
   required: yes
-  NA_allowed: no
+  NA_allowed: yes
   error_message: Invalid entry for toy_assignment. Valid values are 'order1','order2',
     and 'NA'.See Toy Order list for object-label-condition mapping. Use 'NA' if interaction
     component was not completed.
@@ -193,12 +187,11 @@
   options:
   - 'yes'
   - 'no'
-  - 'NA'
   format: open
   lowerlimit: .na
   upperlimit: .na
   required: yes
-  NA_allowed: no
+  NA_allowed: yes
   error_message: Invalid entry for video_recorded. Value must be 'yes', 'no', or 'NA'
     if interaction component was not completed.
 - field: video_quality
@@ -210,12 +203,11 @@
   - good
   - acceptable
   - poor
-  - 'NA'
   format: open
   lowerlimit: .na
   upperlimit: .na
   required: yes
-  NA_allowed: no
+  NA_allowed: yes
   error_message: Invalid entry for video_quality. Value must be 'good', 'acceptable',
     'poor', or 'NA' if no video was recorded. If 'poor', describe the issues in the
     notes column.
@@ -228,12 +220,11 @@
   - databrary
   - partner_lab
   - not_shared
-  - 'NA'
   format: open
   lowerlimit: .na
   upperlimit: .na
   required: yes
-  NA_allowed: no
+  NA_allowed: yes
   error_message: Invalid entry for video_sharing. Value must be 'databrary', 'partner_lab',
     'not_shared', or 'NA' if no video was recorded.
 - field: video_databrary_id
@@ -259,12 +250,11 @@
   - submitted_for_partner_coding
   - not_coded
   - pending
-  - 'NA'
   format: open
   lowerlimit: .na
   upperlimit: .na
   required: yes
-  NA_allowed: no
+  NA_allowed: yes
   error_message: Invalid entry for coding_status. Value must be 'lab_coded', 'submitted_for_central_coding',
     'submitted_for_partner_coding', 'not_coded', 'pending', or 'NA' if no video was
     recorded.
@@ -296,12 +286,11 @@
   - outside_age_range
   - fuss_out
   - outside_interference
-  - 'NA'
   format: open
   lowerlimit: .na
   upperlimit: .na
   required: yes
-  NA_allowed: no
+  NA_allowed: yes
   error_message: Invalid entry for session_exclusion_reason. Value must be one of
     the specified reasons, or 'NA' if session_exclusion is 'include'. If there are
     multiple exclusion reasons, use the primary reason here and describe the rest
