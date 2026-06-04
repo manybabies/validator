@@ -23,7 +23,7 @@
     , ‘MB5_002’
 - field: pilot
   description: Whether this participant belongs to the pilot data or the final preregistered
-    sample. You do NOT need to report pilot data, but if you do, it should be clearly 'NA'
+    sample. You do NOT need to report pilot data, but if you do, it should be clearly
     marked here.
   type: options
   options:
@@ -33,7 +33,7 @@
   lowerlimit: .na
   upperlimit: .na
   required: yes
-  NA_allowed: yes
+  NA_allowed: no
   error_message: Invalid entry for pilot. Value must be either 'pilot_sample' or 'final_sample'.
     Do not leave this field blank.
 - field: mb5n_components_completed
@@ -68,15 +68,15 @@
     it outside of the lab visit. Use 'NA' if survey was not completed.
   type: options
   options:
-  - after_interaction
-  - remote
+  - 'after_interaction' 
+  - 'after_mb5'
+  - 'remote' 
   format: open
   lowerlimit: .na
   upperlimit: .na
   required: yes
   NA_allowed: yes
-  error_message: Invalid entry for survey_timing. Value must be 'after_interaction',
-    'remote', or 'NA' if survey was not completed.
+  error_message: Invalid entry for survey_timing. Value must be 'after_interaction', 'after_mb5', 'remote', or 'NA' if survey was not completed.
 - field: interaction_completed
   description: Whether the parent-child interaction session was completed. Use 'partial'
     if the session was started but not fully completed (e.g., only one play phase
@@ -150,6 +150,110 @@
   error_message: Invalid entry for toy_assignment. Valid values are 'order1','order2',
     and 'NA'.See Toy Order list for object-label-condition mapping. Use 'NA' if interaction
     component was not completed.
+- field: whisk_familiarity_parent
+  description: Parent's response to post-interaction question about whether they have seen the whisk.
+  type: options
+  options:
+  - familiar
+  - not_familiar
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: yes
+  error_message: Invalid entry for whisk_familiarity_parent. Value must be 'familiar',
+    'not_familiar', or 'NA' if the parent was not asked.
+- field: whisk_familiarity_child
+  description: Parent's response to post-interaction question about whether their child has seen the whisk.
+  type: options
+  options:
+  - familiar
+  - not_familiar
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: yes
+  error_message: Invalid entry for whisk_familiarity_child. Value must be 'familiar',
+    'not_familiar', or 'NA' if the parent was not asked.
+- field: drain_familiarity_parent
+  description: Parent's response to post-interaction question about whether they have seen the drain stopper.
+  type: options
+  options:
+  - familiar
+  - not_familiar
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: yes
+  error_message: Invalid entry for drain_familiarity_parent. Value must be 'familiar',
+    'not_familiar', or 'NA' if the parent was not asked.
+- field: drain_familiarity_child
+  description: Parent's response to post-interaction question about whether their child has seen the drain stopper.
+  type: options
+  options:
+  - familiar
+  - not_familiar
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: yes
+  error_message: Invalid entry for drain_familiarity_child. Value must be 'familiar',
+    'not_familiar', or 'NA' if the parent was not asked.
+- field: massager_familiarity_parent
+  description: Parent's response to post-interaction question about whether they have seen the scalp massager.
+  type: options
+  options:
+  - familiar
+  - not_familiar
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: yes
+  error_message: Invalid entry for massager_familiarity_parent. Value must be 'familiar',
+    'not_familiar', or 'NA' if the parent was not asked.
+- field: massager_familiarity_child
+  description: Parent's response to post-interaction question about whether their child has seen the scalp massager.
+  type: options
+  options:
+  - familiar
+  - not_familiar
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: yes
+  error_message: Invalid entry for massager_familiarity_child. Value must be 'familiar',
+    'not_familiar', or 'NA' if the parent was not asked.
+- field: funnel_familiarity_parent
+  description: Parent's response to post-interaction question about whether they have seen the funnel.
+  type: options
+  options:
+  - familiar
+  - not_familiar
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: yes
+  error_message: Invalid entry for funnel_familiarity_parent. Value must be 'familiar',
+    'not_familiar', or 'NA' if the parent was not asked.
+- field: funnel_familiarity_child
+  description: Parent's response to post-interaction question about whether their child has seen the funnel.
+  type: options
+  options:
+  - familiar
+  - not_familiar
+  format: open
+  lowerlimit: .na
+  upperlimit: .na
+  required: yes
+  NA_allowed: yes
+  error_message: Invalid entry for funnel_familiarity_child. Value must be 'familiar',
+    'not_familiar', or 'NA' if the parent was not asked.
 - field: first_ra_id
   description: A research assistant identifier, non-identifying and unique. If there
     is more than one RA present, please choose a standard role in your lab sessions
