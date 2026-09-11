@@ -52,12 +52,8 @@ ui <- fluidPage(
             em('You can check your LabID here:'), 
             
             tags$a(href="https://manybabies.org/labids/", 
-                   "LabID list"),
-            tags$a(
-              href = "https://github.com/manybabies/ShinyValidator",
-              "For example, link to this app's Github repo."
-            )
-          ),
+                   "LabID list")
+            ),
           
           p(strong('Choose a study and format to validate your dataset')
           ),
