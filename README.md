@@ -231,163 +231,184 @@ The developer will test your specifications and notify you when your specificati
 
 ---
 
-## 3. User Manual - Developer Documentation (THIS SECTION IS INCOMPLETE)
+## 3. User Manual - Developer Documentation
 
-The validator checks whether a dataset conforms to a predefined set of requirements, including:
-
-* required variables
-* permitted values
-* numeric restrictions
-* string formats
-* regular-expression patterns (Regex)
-
-Validation errors are reported at the level of individual cells, allowing researchers to identify and correct problems directly in their dataset.
+The **Back-end Developer Documentation** provides detailed information about the underlying code of the validator.
 
 <details>
-<summary><strong>Overview</strong></summary>
+<summary><strong>3.1 Application architecture</strong></summary>
 
-The ManyBabies Data Validator intends to provide a standardized way of checking each lab's dataset before they are submitted, to ensure that datasets are compatible and mergeable.
+The validator is organized across five primary R files:
 
-Validation rules are stored in **YAML specification files**. This allows new studies and datasets to be added by creating or modifying a specification file without changing the core validation functions.
+| File             | Purpose                                       |
+| ---------------- | --------------------------------------------- |
+| `app.R`          | Application initialization and launch         |
+| `ui.R`           | User interface and layout                     |
+| `server.R`       | Server-side application logic                 |
+| `common.R`       | Shared functions and validation functions     |
+| `ErrorHandler.R` | Error handling and downloadable error reports |
 
-To create new specification files, you can either manually create one using an existing file as a guide, or use the App's Specification Creation function.
-
-The general workflow is:
-
-1. Select the appropriate study/data specification.
-2. Upload a dataset (must be `.csv`).
-3. The validator compares the dataset against the specification.
-4. Required columns and individual cells are checked.
-5. Validation errors are identified and explained.
-6. The researcher corrects the dataset and validates it again.
+The validator also relies on `.yaml` files stored in the `data_specifications` folder to define study-specific data requirements.
 
 </details>
 
 <details>
-<summary><strong>Features</strong></summary>
+<summary><strong>3.2 app.R</strong></summary>
 
-The validator currently supports both validation and specification creation.
+`app.R` is the entry point for the Shiny application. It:
 
-### Validation Features
+1. Loads the core packages needed to launch the application.
+2. Sources `ui.R` and `server.R`.
+3. Launches the application with `shinyApp()`.
 
-* Checking for required columns
-* Identifying missing values in fields where `NA` is not permitted
-* Validating variables against a predefined set of options
-* Validating numeric variables, enforcing minimum and maximum numeric values, restricting whether decimal values are permitted, and the number of decimal places
-* Validating strings according to capitalization requirements and string length
-* Validating values against regular expressions (Regex)
-* Reporting invalid values and their corresponding row numbers
-* Providing human-readable explanations of validation errors
-* Downloading a copy of the dataset with error values highlighted
-
-### Specification Creation Features
-
-* Auto-generating `.yaml` files without manual coding
-* Generating regular expressions from example values
-* Auto-generated error messages using the specification
-* Custom error messages defined in the data specification
+The file generally does not need to be modified when adapting the validator. If additional R files are added, they should generally be sourced from the appropriate component file rather than directly from `app.R`.
 
 </details>
 
 <details>
-<summary><strong>Data Specifications</strong></summary>
+<summary><strong>3.3 ui.R</strong></summary>
 
-Each study has its own YAML specification file located in:
+`ui.R` defines the application's user interface.
+
+The main interface contains three tabs:
+
+* **Validation Results** — study/format selection, CSV upload, error display options, validation preview, and highlighted-file download.
+* **Specification Creation** — allows users to create a YAML specification by defining the number and properties of variables.
+* **Specification** — displays the human-readable specification for the selected study and format.
+
+### Customizing the UI
+
+User-facing text, instructions, links, and the overall layout can be modified directly in `ui.R`. The welcome messages in the **Validation Results** tab are intended to be replaced with project-specific instructions.
+
+The application uses `shinythemes` for the visual theme and `DT` for the validation preview table.
+
+A small JavaScript component automatically updates specification tab labels as variable names are entered. This should generally be left unchanged unless the specification-creation interface is modified.
+
+</details>
+
+<details>
+<summary><strong>3.4 server.R</strong></summary>
+
+`server.R` contains the server-side logic for the application. It connects the UI inputs to the validation functions in `common.R` and generates the application's outputs.
+
+### Main components
+
+* **Study and format selection** — dynamically updates the available study formats based on the selected study.
+* **Specification display** — loads the selected YAML file and displays its requirements.
+* **Validation errors** — validates the uploaded dataset and displays errors by column or row.
+* **Specification creation** — collects the user's variable settings and converts them into a YAML-compatible structure.
+* **Specification download** — generates and downloads the user-created YAML specification.
+* **Variable tabs** — dynamically creates and removes tabs based on the requested number of variables.
+* **Option and example inputs** — generates additional inputs for option values and example-based string validation.
+* **Highlighted dataset download** — validates the uploaded dataset and creates an Excel file highlighting invalid cells.
+* **Validation preview** — displays the uploaded dataset and highlights invalid cells in the table.
+
+### Validation workflow
+
+The main validation outputs follow this general workflow:
+
+1. Load the YAML specification corresponding to the selected study and format.
+2. Read the uploaded CSV dataset.
+3. Pass the specification and dataset to `validate_dataset()` in `common.R`.
+4. Process the returned issues.
+5. Display the results or generate the highlighted Excel file.
+
+</details>
+
+<details>
+<summary><strong>3.5 common.R</strong></summary>
+
+`common.R` contains the core data-validation functions used by the application. It also identifies available study/format combinations and generates user-facing explanations for validation errors.
+
+### Study and format discovery
+
+The `studies` object is generated automatically by reading `.yaml` files from the `data_specifications` folder. Filenames are split at the underscore to identify the study and format.
+
+For example:
 
 ```text
-data_specifications/
+FishSpeed_RawData.yaml
 ```
 
-The specification describes the variables that are expected in the corresponding dataset and the rules that those variables must satisfy.
+is interpreted as:
 
-### Supported field types
+| study     | format  |
+| --------- | ------- |
+| FishSpeed | RawData |
 
-#### `options`
+Therefore, adding a correctly named YAML file to `data_specifications` automatically makes the study/format available to the application.
 
-Used when a variable can contain only a predefined set of values. For example, if a variable "condition" only has two options, "experimental" and "control":
+### Dataset validation
 
-```yaml
-- field: condition
-  description: experimental condition
-  type: options
-  options:
-    - experimental
-    - control
-  required: yes
-  NA_allowed: no
+`validate_dataset()` is the main validation function. It:
+
+1. Checks that all required columns are present.
+2. Passes each existing field to `validate_dataset_field()`.
+3. Collects any validation issues.
+4. Returns whether the dataset is valid and, if not, a list of issues.
+
+`validate_dataset_field()` determines which validation function should be used based on the field specification:
+
+| Field type | Validation function                     |
+| ---------- | --------------------------------------- |
+| `options`  | `ValidateOption()`                      |
+| `numeric`  | `ValidateNumeric()`                     |
+| `string`   | `ValidateString()` or `ValidateRegex()` |
+
+### Validation functions
+
+The individual validation functions perform the following checks:
+
+* **`ValidateOption()`** — checks whether values match one of the allowed options.
+* **`ValidateNumeric()`** — checks numeric values, ranges, decimal restrictions, and decimal places.
+* **`ValidateString()`** — checks capitalization and character-length restrictions.
+* **`ValidateRegex()`** — checks values against a specified regular expression.
+* **`GenerateRegex()`** — generates a regular expression from compatible example values.
+
+All validation functions return the same basic structure:
+
+```r
+list(TRUE, NULL)
 ```
 
-Any non-missing value that is not included in `options` is flagged as invalid.
+when the field is valid, or:
 
-#### `numeric`
-
-Used for variables that must contain numeric values.
-
-Numeric specifications can additionally define:
-
-* lower and upper limits
-* whether decimal values are allowed
-* the minimum number of decimal places
-* the maximum number of decimal places
-
-For example, if the variable "looking_time" has a range of 0 - 30, and cannot exceed 2 decimal places:
-
-```yaml
-- field: looking_time
-  description: duration of looking time in seconds
-  type: numeric
-  format: restricted
-  lowerlimit: 0
-  upperlimit: 30
-  allow_decimals: yes
-  min_decimals: 0
-  max_decimals: 2
-  required: yes
-  NA_allowed: no
+```r
+list(FALSE, issue)
 ```
 
-#### `string`
+when an error is detected.
 
-Used for variables that must contain string values.
+Issues contain information such as the error type, column, invalid value, and row number. This standardized structure allows the server and error-handling components to process validation errors consistently.
 
-String specifications can additionally define:
+### Error explanations
 
-* whether values must be capitalized or uncapitalized
-* minimum and maximum character length
-* a regular expression pattern that values must match
+`explain_error()` converts validation issues into user-facing explanations. It uses the field specification to describe the relevant requirement, while allowing individual fields to provide a custom `error_message`.
 
-For example, if the variable "participant_code" must contain no lowercase letters and must be between 2 and 10 characters:
+### Developer notes
 
-```yaml
-- field: participant_code
-  description: participant identification code
-  type: string
-  format: capitalized
-  lowerlimit: 2
-  upperlimit: 10
-  required: yes
-  NA_allowed: no
-```
+When adding a new validation function, maintain the existing return structure and include the affected column and row information in the issue object.
 
-The `format` field can be used to apply additional restrictions:
+If adding a new field type, update `validate_dataset_field()` so that the new type is routed to the appropriate validation function.
 
-* `capitalized` — values cannot contain lowercase letters
-* `uncapitalized` — values cannot contain uppercase letters
-* `regex` — values must match the regular expression specified in `pattern`
+</details>
 
-For example, to require a study ID consisting of lowercase letters followed by numbers:
+<details>
+<summary><strong>3.6 ErrorHandler.R</strong></summary>
 
-```yaml
-- field: study_ID
-  description: uniquely identifies a study
-  type: string
-  format: regex
-  pattern: "^[a-z]+[0-9]+$"
-  required: yes
-  NA_allowed: no
-```
+`ErrorHandler.R` contains the function used to generate the downloadable Excel validation report.
 
-The `lowerlimit` and `upperlimit` fields specify the minimum and maximum number of characters allowed. These restrictions can be used with string formats other than `regex`.
+### `highlight_csv_to_xlsx()`
+
+`highlight_csv_to_xlsx()` takes the uploaded dataset and the validation issues returned by `validate_dataset()` and creates an Excel workbook containing:
+
+* **Data** — the original dataset, with invalid cells highlighted.
+* **Error Log** — a record of missing columns and invalid cells, including the row, column, and invalid value where applicable.
+
+Missing columns are recorded in the error log but cannot be highlighted in the dataset because the column does not exist.
+
+The function returns an `openxlsx` workbook object, which is saved by the download handler in `server.R`.
+
 
 </details>
 
