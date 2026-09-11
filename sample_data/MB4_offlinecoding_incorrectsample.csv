@@ -1,0 +1,11 @@
+lab_id,subj_id,trial1_lookingtime_freezeframe,trial2_lookingtime_freezeframe,trial3_lookingtime_freezeframe,trial4_lookingtime_freezeframe,trial5_lookingtime_freezeframe,trial6_lookingtime_freezeframe,trial7_lookingtime_freezeframe,trial8_lookingtime_freezeframe,trial9_lookingtime_freezeframe,trial10_lookingtime_freezeframe,trial11_lookingtime_freezeframe,trial12_lookingtime_freezeframe,trial13_lookingtime_freezeframe,trial14_lookingtime_freezeframe,coder,coder_status,character_choice
+lab01,subj001,12,8.5,15,10,7,13,9,11,14,12,8,10,6,15,RA01,offline,square
+LAB02,subj002,10,7,12,9,8,11,13,10,15,9,7,12,11,8,RA02,offline,triangle
+lab03,subj 003,8,12,10,14,9,11,7,13,10,8,12,9,14,11,RA03,offline,none
+lab04,subj004,15,9,11,8,abc,12,10,9,13,11,7,14,8,10,RA04,offline,square
+lab05,subj005,11,6,13,10,9,8,12,7.5,14,10,11,9,8,13,RA05,offline,triangle
+lab06,subj006,9,14,8,12,10,11,13,15,7,9,10,12,11,8,RA06,offline,circle
+lab07,subj007,13,10,12,9,8,14,11,10,15,12,seven,9,13,11,RA07,online,square
+lab08,subj008,NA,11,9,13,10,12,8,14,11,10,9,13,12,8,RA08,offline,NA
+lab09,subj009,7,8,10,11,NA,9,12,10,13,8,11,14,9,12,RA09,offline,triangle
+lab10,subj010,12,13,11,10,8,9,14,12,10,11,13,8,7,9,RA10,offline,square

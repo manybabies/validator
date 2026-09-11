@@ -1,0 +1,529 @@
+---
+
+#----------------
+# Required fields
+#----------------
+#----------------
+# Required fields
+#----------------
+
+- field: labid
+  description: Unique lab identifier (must match what you chose in the laboratory questionnaire).
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: participant_id
+  description: unique ID for the participant - [acronym of your institution, not longer than 4 characters]_[3-digit participant number]
+  type: string
+  format: regex
+  pattern: '^[A-Za-z]{1,4}_[0-9]{3}$'
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: testing_date
+  description: Date of testing, year/month/day, e.g. September 21, 2026 = 20260921 or NA
+  type: numeric
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: no
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: pilot
+  description: yes = pilot data, no = final sample; You do NOT need to report pilot data, but if you do, it should be clearly marked here.
+  type: options
+  options: ['yes', 'no']
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: zero_coordinate
+  description: eye tracker’s point zero coordinate
+  type: options
+  options: ['upperleft', 'upperright', 'lowerleft', 'lowerright']
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: centered_screen
+  description: Was the video centered on screen?
+  type: options
+  options: ['yes', 'no']
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: test_order
+  description: Which order was the participant in (see https://docs.google.com/document/d/1S40AD7FwW7_ECX1oBrkJXO0R26gMvXWIufI-q-Xh6lg/edit?usp=sharing)
+  type: numeric
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: no
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: session_error
+  description: Sessions with ‘error’ value will be excluded from the central MB2.3 analysis.
+  type: options
+  options: ['noerror', 'error']
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: session_error_info
+  description: Explanation of what caused the session error using exclusion criteria 1-4 defined in the lab manual (i.e., 1. Early termination, 2. Interference, 3. Experimenter error, 4. Technical problems). Use this field to report a reason that ALL data from this participant should be excluded from analysis. Write NA if no session level error
+  type: options
+  options: ['1', '2', '3', '4']
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: session_error_notes
+  description: Use this column to report anything that doesn’t fit somewhere else, rather than adding that information in another column.
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: second_session
+  type: options
+  options: ['yes', 'no']
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: ra_id
+  description: Unique RA identifier (name or anonymous code).
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: participant_gender
+  description: For this and all other gender columns, use ‘other’ if this (or a similar response) is indicated. Put ‘NC’ if it was left blank by the participant or if this data was not collected.
+  type: options
+  options: ['man', 'woman', 'other', 'NC']
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: age_years
+  description: Chronological age in years. Here is an online converter https://www.timeanddate.com/date/duration.html
+  type: numeric
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: no
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: residence_city
+  description: Place of residence (city) of the participant.
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: residence_country
+  description: Place of residence (country) of the participant.
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: nationality
+  description: Nationality of the participant.
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: native_lang1
+  description: Native language (if more than one, add others to variables below).
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: native_lang2
+  description: Further Native language
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: hearing
+  description: Put ‘yes’ if there is potential exclusion based on hearing problems.
+  type: options
+  options: ['yes', 'no']
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: hearing_info
+  description: Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: vision
+  description: Put ‘yes’ if there is potential exclusion based on vision problems.
+  type: options
+  options: ['yes', 'no']
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: vision_info
+  description: Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: medical_issues
+  description: Put ‘yes’ if potential exclusion based on medical issues/diagnosed conditions.
+  type: options
+  options: ['yes', 'no']
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: medical_issues_info
+  description: Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’.
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: education
+  description: Participant´s years of education after Kindergarten (e.g. in the US 12 = finish high school, 14 = finish associates degree, etc.). You can find a guideline for converting level of education into years here https://docs.google.com/document/d/1Wn4TNTNIfcrt99Y2tgT_8KkgXln0Gx4qllFxvL0O520/edit?usp=sharing
+  type: numeric
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: no
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: psychology
+  description: Put ‘yes’ if participant has any training or background in psychology.
+  type: options
+  options: ['yes', 'no']
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+
+- field: psychology_info
+  description: Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’.
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: anything_else
+  description: Did the participant report anything else in the questionnaire?
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: purpose_experiment
+  description: What did the participant report was the purpose of the experiment?
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: story_videos
+  description: What did the participant report about the story in the videos?
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: describe_videos
+  description: How did the participant describe the videos?
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: anything_special
+  description: Did the participant notice anything different or special in one of the videos? If yes, what was different?
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: bear_belief
+  description: Where did the participant report that the bear thought the mouse was?
+  type: options
+  options: ['first', 'second', 'not-remembered']
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: bear_belief_info
+  description: (If ‘first’ or ‘second’) Why did the bear think that the mouse was in that box?
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: see_first
+  description: Did the participant report that the bear saw in which box the mouse hid first?
+  type: options
+  options: ['yes', 'no', 'not-remembered']
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: see_second
+  description: Did the participant report that the bear saw the mouse moving to the second box?
+  type: options
+  options: ['yes', 'no', 'not-remembered']
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: when_realized
+  description: When did the participant report to first think about the bear's perspective on where the mouse was?
+  type: options
+  options: ['video', 'questionnaire', 'not-realized']
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+
+- field: when_realized_info
+  description: (If ‘video’ or ‘questionnaire’) specifically when / at question… (please describe as detailed as possible)
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
