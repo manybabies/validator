@@ -4,28 +4,47 @@
 # Required fields
 #----------------
 
-- field:        subid
-  description:  subject identifier, non-identifying, unique
-  type:         string
-  format:       alphanumeric
-  example:      a24519
-  required:     yes
-  NA_allowed:   no
+- field: subid
+  description: subject identifier, non-identifying, unique
+  type: string
+  options: []
+  format: regex
+  pattern: ^[A-Za-z0-9]+$
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+  error_message: ''
 
-- field:        lab
-  description:  laboratory identifier, unique
-  type:         string
-  format:       uncapitalized
-  example:      "babylab_paris"
-  required:     yes
-  NA_allowed:   no
+- field: lab
+  description: laboratory identifier, unique
+  type: string
+  options: []
+  format: uncapitalized
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+  error_message: ''
 
-- field:        age_days
-  description:  baby's age in days
-  type:         numeric
-  format:       integer value, no numbers
-  example:      365
-  required:     yes
-  NA_allowed:   no
-
-
+- field: age_days
+  description: baby's age in days
+  type: numeric
+  options: []
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: no
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+  error_message: ''

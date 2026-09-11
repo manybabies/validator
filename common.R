@@ -1,125 +1,815 @@
-
-# load specs
 library(tidyverse)
-studies <- data_frame(file = dir(path = "data_specifications")) %>%
-  mutate(file = str_replace(file, ".yaml", "")) %>%
-  separate(file, into = c("study","format"))
+library(stringr)
 
+studies <- tibble(
+  file = list.files(
+    path = "data_specifications",
+    pattern = "\\.yaml$",
+    full.names = FALSE
+  )
+) |>
+  mutate(
+    file = str_remove(file, "\\.yaml$")
+  ) |>
+  separate(
+    file,
+    into = c("study", "format"),
+    sep = "_",
+    extra = "merge",
+    remove = TRUE
+  )
 
-# this code based on github.com/langcog/metalab2/scripts/cache_datsets.R
-# originally by Mika Braginksy (mikabr@mit.edu)
-
-# Validate dataset's values for a given field
-validate_dataset_field <- function(dataset_contents, field) {
-  if (field$required) {
-    if (field$field %in% names(dataset_contents)) {
-      if (any(is.na(dataset_contents[[field$field]])) && !field$NA_allowed) {
-        cat(sprintf("Dataset has blank or NA for required variable: '%s'.\n", field$field))
-        return(list(FALSE, NA))
-      }
+# Main validation function
+validate_dataset <- function(fields, dataset_contents) {
+  
+  issues <- list()
+  
+  # Check for missing columns
+  for (field in fields) {
+    
+    if (
+      field$required &&
+      !(field$field %in% names(dataset_contents))
+    ) {
       
-      if (field$type == "options") {
-        if (class(field$options) == "list") {
-          options <- names(unlist(field$options, recursive = FALSE))
-        } else {
-          options <- field$options
-        }
-        invalid_values <- unique(dataset_contents[[field$field]]) %>%
-          setdiff(options)
-        if (field$NA_allowed) {
-          invalid_values <- na.omit(invalid_values)
-        }
-        if (length(invalid_values)) {
-          for (value in invalid_values) {
-            cat(sprintf("Dataset has invalid value '%s' for field '%s'. Please check the specifications!\n",
-                        value, field$field))
-          }
-          return(FALSE)
-        }
-      } else if (field$type == "multiple_options"){
-        if (class(field$options) == "list") {
-          options <- names(unlist(field$options, recursive = FALSE))
-        } else {
-          options <- field$options
-        }
-        # Need to reprogram how dataset_contents are read off, to account for delimiters
-        delimiter <- field$delimiter
-        # Each line needs to be read off and split up into its own list.
-        # If NA is allowed, '' must be allowed as a thing because it is parsed weirdly.
-        raw_contents <- dataset_contents[[field$field]]
-        updated_fields <- str_split_fixed(raw_contents,';',str_count(raw_contents,pattern=';')+1)
-        invalid_values <- unique(updated_fields) %>%
-          setdiff(options)
-        if (field$NA_allowed) {
-          invalid_values <- na.omit(invalid_values)
-        }
-        if (length(invalid_values)) {
-          for (value in invalid_values) {
-            cat(sprintf("Dataset has invalid value '%s' for field '%s'. Please check the specifications!\n",
-                        value, field$field))
-          }
-          return(FALSE)
-        }
-      } else if (field$type == "numeric") {
-        field_contents <- dataset_contents[[field$field]]
-        if (!(is.numeric(field_contents) || all(is.na(field_contents)))) {
-          cat(sprintf("Dataset has wrong type for numeric field '%s'. Please check the specifications!\n",
-                      field$field))
-          return(FALSE)
-        }
-      } else if (field$type == "string"){
-        field_contents <- dataset_contents[[field$field]]
-        if (field$format == "uncapitalized"){
-          isCap = str_detect(field_contents, "[:upper:]")
-          if (TRUE %in% isCap){
-            cat(sprintf("Dataset has a uppercase letter in lowercase-only field '%s'.\n",
-                        field$field))
-            return(FALSE)
-          }
-        } 
-      } 
-    } else {
-      cat(sprintf("Dataset is missing required field: '%s'.\n",
-                  field$field))
-      return(FALSE)
+      issues[[length(issues) + 1]] <- list(
+        type = "missing_column",
+        column = field$field,
+        invalid_value = NA,
+        invalid_row = integer(0)
+      )
+    }
+  }
+  
+  # Validate cells
+  for (field in fields) {
+    
+    if (!(field$field %in% names(dataset_contents))) {
+      next
     }
     
-  } 
-  return(TRUE)
-}
-
-
-# Validate dataset's values for all fields
-validate_dataset <- function(fields, dataset_contents) {
-
-  valid_fields <- map(fields, function(field) {
-    validate_dataset_field(dataset_contents, field)
-  })
-  valid_dataset <- all(unlist(valid_fields))
+    result <- validate_dataset_field(
+      dataset_contents,
+      field
+    )
+    
+    if (!result[[1]]) {
+      
+      issue <- result[[2]]
+      
+      if (!is.null(issue)) {
+        issues[[length(issues) + 1]] <- issue
+      }
+    }
+  }
   
-  return(valid_dataset)
+  valid <- length(issues) == 0
+  
+  list(
+    valid,
+    issues
+  )
 }
 
+# Validate a field
+validate_dataset_field <- function(dataset_contents, field) {
+  
+  if (!(field$field %in% names(dataset_contents))) {
+    return(list(TRUE, NULL))
+  }
+  
+  field_contents <- dataset_contents[[field$field]]
+  
+  # Check missing values
+  if (!field$NA_allowed) {
+    
+    missing_rows <- which(is.na(field_contents))
+    
+    if (length(missing_rows) > 0) {
+      
+      incorrect <- list(
+        type = "invalid_cell",
+        column = field$field,
+        invalid_value = field_contents[missing_rows],
+        invalid_row = missing_rows
+      )
+      
+      return(list(FALSE, incorrect))
+    }
+  }
+  
+  # Validate field type
+  if (field$type == "options") {
+    
+    return(
+      ValidateOption(
+        dataset_contents,
+        field
+      )
+    )
+    
+  } else if (field$type == "numeric") {
+    
+    return(
+      ValidateNumeric(
+        dataset_contents,
+        field
+      )
+    )
+    
+  } else if (field$type == "string") {
+    
+    if (field$format == "regex") {
+      
+      return(
+        ValidateRegex(
+          dataset_contents,
+          field
+        )
+      )
+      
+    } else {
+      
+      return(
+        ValidateString(
+          dataset_contents,
+          field
+        )
+      )
+    }
+  }
+  
+  return(list(TRUE, NULL))
+}
 
-# # Manipulate a dataset's contents to prepare it for saving
-# tidy_dataset <- function(fields, dataset_contents) {
-#   
-#   # Coerce each field's values to the field's type, discard any columns not in
-#   # field spec, add NA columns for missing (optional) fields
-#   dataset_data <- data_frame(row = 1:nrow(dataset_contents))
-#   for (field in fields) {
-#     if (field$field %in% names(dataset_contents)) {
-#       if (field$type == "string") {
-#         field_fun <- as.character
-#       } else if (field$type == "numeric") {
-#         field_fun <- as.numeric
-#       } else {
-#         field_fun <- function(x) x
-#       }
-#       dataset_data[,field$field] <- field_fun(dataset_contents[[field$field]])
-#     } else {
-#       dataset_data[,field$field] <- NA
-#     }
-#   }
-# }
-#   
+# Validate option fields
+ValidateOption <- function(dataset_contents, field) {
+  
+  field_contents <- dataset_contents[[field$field]]
+  
+  options <- if (is.list(field$options)) {
+    unlist(
+      field$options,
+      use.names = FALSE
+    )
+  } else {
+    field$options
+  }
+  
+  invalid_rows <- which(
+    !is.na(field_contents) &
+      !(field_contents %in% options)
+  )
+  
+  if (length(invalid_rows) > 0) {
+    
+    incorrect <- list(
+      type = "invalid_cell",
+      column = field$field,
+      invalid_value = field_contents[invalid_rows],
+      invalid_row = invalid_rows
+    )
+    
+    return(list(FALSE, incorrect))
+  }
+  
+  return(list(TRUE, NULL))
+}
+
+# Validate numeric fields
+ValidateNumeric <- function(dataset_contents, field) {
+  
+  field_contents <- dataset_contents[[field$field]]
+  
+  invalid_content <- c()
+  invalid_rows <- c()
+  
+  numeric_values <- suppressWarnings(
+    as.numeric(field_contents)
+  )
+  
+  non_numeric_indices <- which(
+    is.na(numeric_values) &
+      !is.na(field_contents)
+  )
+  
+  if (length(non_numeric_indices) > 0) {
+    
+    invalid_content <- c(
+      invalid_content,
+      field_contents[non_numeric_indices]
+    )
+    
+    invalid_rows <- c(
+      invalid_rows,
+      non_numeric_indices
+    )
+  }
+  
+  # Check numeric range
+  if (field$format == "restricted") {
+    
+    lowerLimit <- as.numeric(field$lowerlimit)
+    upperLimit <- as.numeric(field$upperlimit)
+    
+    valid_numeric_indices <- which(
+      !is.na(numeric_values)
+    )
+    
+    below_lower_indices <- valid_numeric_indices[
+      numeric_values[valid_numeric_indices] < lowerLimit
+    ]
+    
+    if (length(below_lower_indices) > 0) {
+      
+      invalid_content <- c(
+        invalid_content,
+        field_contents[below_lower_indices]
+      )
+      
+      invalid_rows <- c(
+        invalid_rows,
+        below_lower_indices
+      )
+    }
+    
+    above_upper_indices <- valid_numeric_indices[
+      numeric_values[valid_numeric_indices] > upperLimit
+    ]
+    
+    if (length(above_upper_indices) > 0) {
+      
+      invalid_content <- c(
+        invalid_content,
+        field_contents[above_upper_indices]
+      )
+      
+      invalid_rows <- c(
+        invalid_rows,
+        above_upper_indices
+      )
+    }
+  }
+  
+  # Check decimal restrictions
+  if (field$allow_decimals == "no") {
+    
+    decimal_indices <- which(
+      !is.na(numeric_values) &
+        numeric_values %% 1 != 0
+    )
+    
+    if (length(decimal_indices) > 0) {
+      
+      invalid_content <- c(
+        invalid_content,
+        field_contents[decimal_indices]
+      )
+      
+      invalid_rows <- c(
+        invalid_rows,
+        decimal_indices
+      )
+    }
+  }
+  
+  # Check decimal places
+  if (field$allow_decimals == "yes") {
+    
+    min_decimals <- as.numeric(field$min_decimals)
+    max_decimals <- as.numeric(field$max_decimals)
+    
+    valid_numeric_indices <- which(
+      !is.na(numeric_values)
+    )
+    
+    decimal_places <- sapply(
+      field_contents[valid_numeric_indices],
+      function(x) {
+        
+        x <- as.character(x)
+        
+        if (!grepl("\\.", x)) {
+          return(0)
+        }
+        
+        nchar(
+          sub(
+            "^[^.]*\\.",
+            "",
+            x
+          )
+        )
+      }
+    )
+    
+    too_few_decimals <- valid_numeric_indices[
+      decimal_places < min_decimals
+    ]
+    
+    too_many_decimals <- valid_numeric_indices[
+      decimal_places > max_decimals
+    ]
+    
+    if (length(too_few_decimals) > 0) {
+      
+      invalid_content <- c(
+        invalid_content,
+        field_contents[too_few_decimals]
+      )
+      
+      invalid_rows <- c(
+        invalid_rows,
+        too_few_decimals
+      )
+    }
+    
+    if (length(too_many_decimals) > 0) {
+      
+      invalid_content <- c(
+        invalid_content,
+        field_contents[too_many_decimals]
+      )
+      
+      invalid_rows <- c(
+        invalid_rows,
+        too_many_decimals
+      )
+    }
+  }
+  
+  if (length(invalid_rows) > 0) {
+    
+    incorrect <- list(
+      type = "invalid_cell",
+      column = field$field,
+      invalid_value = field_contents[invalid_rows],
+      invalid_row = sort(unique(invalid_rows))
+    )
+    
+    return(list(FALSE, incorrect))
+  }
+  
+  return(list(TRUE, NULL))
+}
+
+# Validate string fields
+ValidateString <- function(dataset_contents, field) {
+  
+  field_contents <- dataset_contents[[field$field]]
+  
+  invalid_rows <- c()
+  
+  if (field$format == "uncapitalized") {
+    
+    uppercase_rows <- which(
+      !is.na(field_contents) &
+        grepl("[[:upper:]]", field_contents)
+    )
+    
+    invalid_rows <- c(
+      invalid_rows,
+      uppercase_rows
+    )
+  }
+  
+  if (field$format == "capitalized") {
+    
+    lowercase_rows <- which(
+      !is.na(field_contents) &
+        grepl("[[:lower:]]", field_contents)
+    )
+    
+    invalid_rows <- c(
+      invalid_rows,
+      lowercase_rows
+    )
+  }
+  
+  if (!is.na(field$lowerlimit)) {
+    
+    lowerLimit <- as.numeric(field$lowerlimit)
+    
+    short_rows <- which(
+      !is.na(field_contents) &
+        nchar(field_contents) < lowerLimit
+    )
+    
+    invalid_rows <- c(
+      invalid_rows,
+      short_rows
+    )
+  }
+  
+  if (!is.na(field$upperlimit)) {
+    
+    upperLimit <- as.numeric(field$upperlimit)
+    
+    long_rows <- which(
+      !is.na(field_contents) &
+        nchar(field_contents) > upperLimit
+    )
+    
+    invalid_rows <- c(
+      invalid_rows,
+      long_rows
+    )
+  }
+  
+  invalid_rows <- sort(unique(invalid_rows))
+  
+  if (length(invalid_rows) > 0) {
+    
+    incorrect <- list(
+      type = "invalid_cell",
+      column = field$field,
+      invalid_value = field_contents[invalid_rows],
+      invalid_row = invalid_rows
+    )
+    
+    return(list(FALSE, incorrect))
+  }
+  
+  return(list(TRUE, NULL))
+}
+
+# Generate regex from examples
+GenerateRegex <- function(examples) {
+  
+  examples <- examples[
+    !is.na(examples) &
+      examples != ""
+  ]
+  
+  if (length(examples) < 2) {
+    return(NA)
+  }
+  
+  common_prefix <- examples[1]
+  
+  for (example in examples[-1]) {
+    
+    max_length <- min(
+      nchar(common_prefix),
+      nchar(example)
+    )
+    
+    i <- 1
+    
+    while (
+      i <= max_length &&
+      substr(common_prefix, i, i) ==
+      substr(example, i, i)
+    ) {
+      i <- i + 1
+    }
+    
+    common_prefix <- substr(
+      common_prefix,
+      1,
+      i - 1
+    )
+  }
+  
+  remaining <- substr(
+    examples,
+    nchar(common_prefix) + 1,
+    nchar(examples)
+  )
+  
+  if (all(grepl("^[0-9]+$", remaining))) {
+    return(
+      paste0(
+        "^",
+        common_prefix,
+        "[0-9]+",
+        "$"
+      )
+    )
+  }
+  
+  if (all(grepl("^[a-z]+$", remaining))) {
+    return(
+      paste0(
+        "^",
+        common_prefix,
+        "[a-z]+",
+        "$"
+      )
+    )
+  }
+  
+  if (all(grepl("^[A-Z]+$", remaining))) {
+    return(
+      paste0(
+        "^",
+        common_prefix,
+        "[A-Z]+",
+        "$"
+      )
+    )
+  }
+  
+  if (all(grepl("^[A-Za-z]+$", remaining))) {
+    return(
+      paste0(
+        "^",
+        common_prefix,
+        "[A-Za-z]+",
+        "$"
+      )
+    )
+  }
+  
+  if (all(grepl("^[A-Za-z0-9]+$", remaining))) {
+    return(
+      paste0(
+        "^",
+        common_prefix,
+        "[A-Za-z0-9]+",
+        "$"
+      )
+    )
+  }
+  
+  NA
+}
+
+# Validate regex fields
+ValidateRegex <- function(dataset_contents, field) {
+  
+  field_contents <- dataset_contents[[field$field]]
+  
+  # Check whether regex is valid
+  regex_valid <- tryCatch(
+    {
+      grepl(
+        field$pattern,
+        "",
+        perl = TRUE
+      )
+      
+      TRUE
+    },
+    error = function(e) {
+      FALSE
+    }
+  )
+  
+  if (!regex_valid) {
+    
+    stop(
+      sprintf(
+        "Invalid regular expression for variable '%s': %s",
+        field$field,
+        field$pattern
+      )
+    )
+  }
+  
+  # Find invalid cells
+  invalid_rows <- which(
+    !is.na(field_contents) &
+      !grepl(
+        field$pattern,
+        field_contents,
+        perl = TRUE
+      )
+  )
+  
+  if (length(invalid_rows) > 0) {
+    
+    incorrect <- list(
+      type = "invalid_cell",
+      column = field$field,
+      invalid_value = field_contents[invalid_rows],
+      invalid_row = invalid_rows
+    )
+    
+    return(list(FALSE, incorrect))
+  }
+  
+  return(list(TRUE, NULL))
+}
+
+# Generate error explanations
+explain_error <- function(issue, fields) {
+  
+  field_index <- which(
+    vapply(
+      fields,
+      function(x) {
+        identical(
+          as.character(x$field),
+          as.character(issue$column)
+        )
+      },
+      logical(1)
+    )
+  )
+  
+  if (length(field_index) == 0) {
+    return(
+      "This value does not meet the requirements in the specification."
+    )
+  }
+  
+  field <- fields[[field_index[1]]]
+  
+  # Custom error message
+  error_message <- field$error_message
+  
+  if (
+    !is.null(error_message) &&
+    length(error_message) == 1 &&
+    !is.na(error_message) &&
+    error_message != ""
+  ) {
+    return(as.character(error_message))
+  }
+  
+  # Missing column
+  if (issue$type == "missing_column") {
+    return(
+      "This is a required column, but it was not found in the dataset."
+    )
+  }
+  
+  # Options
+  if (identical(field$type, "options")) {
+    
+    options <- field$options
+    
+    if (is.list(options)) {
+      options <- unlist(
+        options,
+        use.names = FALSE
+      )
+    }
+    
+    options <- as.character(options)
+    
+    return(
+      paste0(
+        "The value must be one of: ",
+        paste(
+          shQuote(options),
+          collapse = ", "
+        ),
+        "."
+      )
+    )
+  }
+  
+  # Numeric
+  if (identical(field$type, "numeric")) {
+    
+    explanations <- character(0)
+    
+    lower <- field$lowerlimit
+    upper <- field$upperlimit
+    
+    if (
+      length(lower) == 1 &&
+      !is.na(lower)
+    ) {
+      explanations <- c(
+        explanations,
+        paste0(
+          "Values must be at least ",
+          lower,
+          "."
+        )
+      )
+    }
+    
+    if (
+      length(upper) == 1 &&
+      !is.na(upper)
+    ) {
+      explanations <- c(
+        explanations,
+        paste0(
+          "Values must be no greater than ",
+          upper,
+          "."
+        )
+      )
+    }
+    
+    allow_decimals <- field$allow_decimals
+    
+    if (
+      length(allow_decimals) == 1 &&
+      identical(
+        as.character(allow_decimals),
+        "no"
+      )
+    ) {
+      explanations <- c(
+        explanations,
+        "Decimal values are not allowed."
+      )
+    }
+    
+    if (
+      length(allow_decimals) == 1 &&
+      identical(
+        as.character(allow_decimals),
+        "yes"
+      )
+    ) {
+      
+      min_decimals <- as.numeric(
+        field$min_decimals
+      )
+      
+      max_decimals <- as.numeric(
+        field$max_decimals
+      )
+      
+      if (
+        length(min_decimals) == 1 &&
+        length(max_decimals) == 1 &&
+        !is.na(min_decimals) &&
+        !is.na(max_decimals)
+      ) {
+        explanations <- c(
+          explanations,
+          paste0(
+            "Values may have ",
+            min_decimals,
+            " to ",
+            max_decimals,
+            " decimal places."
+          )
+        )
+      }
+    }
+    
+    if (length(explanations) > 0) {
+      return(
+        paste(
+          explanations,
+          collapse = " "
+        )
+      )
+    }
+  }
+  
+  # String and regex
+  if (identical(field$type, "string")) {
+    
+    pattern <- field$pattern
+    
+    if (
+      length(pattern) == 1 &&
+      !is.na(pattern)
+    ) {
+      
+      pattern <- as.character(pattern)
+      
+      if (identical(pattern, "^[A-Za-z0-9]+$")) {
+        return(
+          "The value may contain letters and numbers only. Spaces and special characters are not allowed."
+        )
+      }
+      
+      if (identical(pattern, "^[A-Za-z]+$")) {
+        return(
+          "The value may contain letters only. Numbers, spaces, and special characters are not allowed."
+        )
+      }
+      
+      if (identical(pattern, "^[0-9]+$")) {
+        return(
+          "The value may contain numbers only. Letters, spaces, and special characters are not allowed."
+        )
+      }
+      
+      return(
+        paste0(
+          "The value must match the required pattern: ",
+          pattern,
+          "."
+        )
+      )
+    }
+    
+    if (identical(field$format, "uncapitalized")) {
+      return(
+        "The value must contain lowercase letters only."
+      )
+    }
+    
+    if (identical(field$format, "capitalized")) {
+      return(
+        "The value must contain uppercase letters only."
+      )
+    }
+  }
+  
+  return(
+    "The value does not meet the requirements in the specification."
+  )
+}
