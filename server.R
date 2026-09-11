@@ -1,56 +1,1431 @@
 library(shiny)
 library(tidyverse)
 library(yaml)
+library(DT)
 
 source("common.R")
+source("ErrorHandler.R")
 
-
-
-shinyServer(function(input, output, session) {
+server <- function(input, output, session) {
+  
+  ## Study format
+  
   output$study_format <- renderUI({
-    selectInput("format", label = h4("Study Format"),
-                choices = filter(studies, study == input$study)$format)
+    selectInput(
+      "format",
+      label = h4("Study Format"),
+      choices = filter(studies, study == input$study)$format
+    )
   })
   
-  output$specification <- renderPrint({
-    yaml::yaml.load_file(paste0("data_specifications/",
-                                input$study, "_", input$format, 
-                                ".yaml"))
-  })
-    
-  output$validator_output <- renderPrint({
-    req(input$file) 
-    
-    fields <- yaml::yaml.load_file(paste0("data_specifications/",
-                                          input$study, "_", input$format, 
-                                          ".yaml"))
-    
-    
-    # 
   
+  ## Specification
   
-    tryCatch(
-      {
-        df <- read_csv(input$file$datapath)
-        cat("Upload successful!\n\n")
-      },
-      error = function(e) {
-        # return a safeError if a parsing error occurs
-        stop(safeError(e))
-      }
+  output$specification <- renderUI({
+    
+    req(input$study, input$format)
+    
+    yaml_file_path <- paste0(
+      "data_specifications/",
+      input$study,
+      "_",
+      input$format,
+      ".yaml"
     )
     
-    valid <- validate_dataset(fields, df)
+    req(file.exists(yaml_file_path))
     
-    if (valid) {
-      cat("\nDataset is valid!")
-    } else {
-      cat("\nDataset is NOT valid, please correct and try again!")
+    fields <- yaml::yaml.load_file(yaml_file_path)
+    
+    type_labels <- c(
+      options = "Options",
+      numeric = "Numeric",
+      string = "Text"
+    )
+    
+    tagList(
+      h3("Dataset Specification"),
+      
+      p(
+        "The following describes the requirements for each variable ",
+        "in this dataset."
+      ),
+      
+      lapply(fields, function(field) {
+        
+        field_name <- field$field
+        
+        field_type <- if (!is.null(field$type)) {
+          type_labels[[field$type]]
+        } else {
+          "Not specified"
+        }
+        
+        required_text <- if (isTRUE(field$required)) {
+          "Yes"
+        } else {
+          "No"
+        }
+        
+        na_text <- if (isTRUE(field$NA_allowed)) {
+          "Yes"
+        } else {
+          "No"
+        }
+        
+        requirements <- list()
+        
+        requirements[[length(requirements) + 1]] <- tags$li(
+          tags$strong("Required: "),
+          required_text
+        )
+        
+        requirements[[length(requirements) + 1]] <- tags$li(
+          tags$strong("Data type: "),
+          field_type
+        )
+        
+        requirements[[length(requirements) + 1]] <- tags$li(
+          tags$strong("Missing values allowed: "),
+          na_text
+        )
+        
+        ## Options
+        
+        if (field$type == "options") {
+          
+          options <- field$options
+          
+          if (is.list(options)) {
+            options <- unlist(
+              options,
+              use.names = FALSE
+            )
+          }
+          
+          options <- as.character(options)
+          
+          requirements[[length(requirements) + 1]] <- tags$li(
+            tags$strong("Allowed values: "),
+            paste(options, collapse = ", ")
+          )
+        }
+        
+        ## Numeric
+        
+        if (field$type == "numeric") {
+          
+          if (
+            !is.null(field$format) &&
+            field$format == "restricted"
+          ) {
+            
+            requirements[[length(requirements) + 1]] <- tags$li(
+              tags$strong("Allowed range: "),
+              paste0(
+                field$lowerlimit,
+                " to ",
+                field$upperlimit
+              )
+            )
+          }
+          
+          if (
+            !is.null(field$allow_decimals) &&
+            field$allow_decimals == "no"
+          ) {
+            
+            requirements[[length(requirements) + 1]] <- tags$li(
+              tags$strong("Decimal values: "),
+              "Not allowed"
+            )
+            
+          } else if (
+            !is.null(field$allow_decimals) &&
+            field$allow_decimals == "yes"
+          ) {
+            
+            min_decimals <- field$min_decimals
+            max_decimals <- field$max_decimals
+            
+            decimal_text <- if (
+              min_decimals == max_decimals
+            ) {
+              paste0(
+                min_decimals,
+                " decimal place",
+                if (min_decimals != 1) "s" else ""
+              )
+            } else {
+              paste0(
+                min_decimals,
+                "–",
+                max_decimals,
+                " decimal places"
+              )
+            }
+            
+            requirements[[length(requirements) + 1]] <- tags$li(
+              tags$strong("Decimal places: "),
+              decimal_text
+            )
+          }
+        }
+        
+        ## String
+        
+        if (field$type == "string") {
+          
+          validation_text <- switch(
+            field$format,
+            uncapitalized = "Lowercase only",
+            capitalized = "Uppercase only",
+            regex = "Must match the specified pattern",
+            open = "Open text",
+            field$format
+          )
+          
+          requirements[[length(requirements) + 1]] <- tags$li(
+            tags$strong("Text format: "),
+            validation_text
+          )
+          
+          if (
+            !is.null(field$pattern) &&
+            !is.na(field$pattern)
+          ) {
+            
+            requirements[[length(requirements) + 1]] <- tags$li(
+              tags$strong("Pattern: "),
+              tags$code(field$pattern)
+            )
+          }
+          
+          if (
+            !is.null(field$lowerlimit) &&
+            !is.na(field$lowerlimit)
+          ) {
+            
+            requirements[[length(requirements) + 1]] <- tags$li(
+              tags$strong("Minimum length: "),
+              field$lowerlimit
+            )
+          }
+          
+          if (
+            !is.null(field$upperlimit) &&
+            !is.na(field$upperlimit)
+          ) {
+            
+            requirements[[length(requirements) + 1]] <- tags$li(
+              tags$strong("Maximum length: "),
+              field$upperlimit
+            )
+          }
+        }
+        
+        tags$div(
+          style = paste(
+            "border: 1px solid #ddd;",
+            "border-radius: 5px;",
+            "padding: 15px;",
+            "margin-bottom: 15px;",
+            "background-color: #f9f9f9;"
+          ),
+          
+          h4(
+            style = "margin-top: 0;",
+            field_name
+          ),
+          
+          if (
+            !is.null(field$description) &&
+            !is.na(field$description) &&
+            field$description != ""
+          ) {
+            tags$p(
+              tags$em(field$description)
+            )
+          },
+          
+          tags$ul(requirements)
+        )
+      })
+    )
+  })
+  
+  
+  ## Validation errors
+  
+  output$errors_by_column <- renderUI({
+    
+    req(input$file)
+    req(input$study, input$format)
+    
+    yaml_file_path <- paste0(
+      "data_specifications/",
+      input$study,
+      "_",
+      input$format,
+      ".yaml"
+    )
+    
+    req(file.exists(yaml_file_path))
+    
+    fields <- yaml::yaml.load_file(yaml_file_path)
+    
+    df <- readr::read_csv(
+      input$file$datapath,
+      show_col_types = FALSE
+    )
+    
+    validated <- validate_dataset(fields, df)
+    issues <- validated[[2]]
+    
+    if (input$error_view == "none") {
+      return(NULL)
     }
     
+    if (length(issues) == 0) {
+      return(
+        tags$p(
+          style = "color: green;",
+          tags$strong(
+            "No errors found. The dataset matches the specification."
+          )
+        )
+      )
+    }
+    
+    ## Errors by row
+    
+    if (identical(input$error_view, "row")) {
+      
+      row_errors <- list()
+      
+      ## Missing required columns
+      
+      for (issue in issues) {
+        
+        if (
+          !is.null(issue) &&
+          issue$type == "missing_column"
+        ) {
+          
+          row_errors[[length(row_errors) + 1]] <- tags$p(
+            style = "color: red;",
+            
+            paste0(
+              "Missing required column: '",
+              issue$column,
+              "'."
+            ),
+            
+            tags$br(),
+            
+            tags$span(
+              paste0(
+                "(",
+                explain_error(issue, fields),
+                ")"
+              )
+            )
+          )
+        }
+      }
+      
+      ## Collect cell errors
+      
+      cell_errors <- list()
+      
+      for (issue in issues) {
+        
+        if (
+          is.null(issue) ||
+          issue$type != "invalid_cell" ||
+          length(issue$invalid_row) == 0
+        ) {
+          next
+        }
+        
+        for (i in seq_along(issue$invalid_row)) {
+          
+          row <- issue$invalid_row[i]
+          value <- issue$invalid_value[i]
+          
+          explanation <- explain_error(
+            list(
+              type = issue$type,
+              column = issue$column,
+              invalid_value = value,
+              invalid_row = row
+            ),
+            fields
+          )
+          
+          cell_errors[[length(cell_errors) + 1]] <- list(
+            row = row,
+            column = issue$column,
+            value = value,
+            explanation = explanation
+          )
+        }
+      }
+      
+      ## Group errors by row
+      
+      if (length(cell_errors) > 0) {
+        
+        rows <- sort(
+          unique(
+            vapply(
+              cell_errors,
+              function(x) x$row,
+              numeric(1)
+            )
+          )
+        )
+        
+        for (row in rows) {
+          
+          this_row <- Filter(
+            function(x) x$row == row,
+            cell_errors
+          )
+          
+          row_contents <- list()
+          
+          for (error in this_row) {
+            
+            row_contents[[length(row_contents) + 1]] <- tags$div(
+              
+              paste0(
+                error$column,
+                " = '",
+                as.character(error$value),
+                "'"
+              ),
+              
+              tags$br(),
+              
+              tags$span(
+                paste0(
+                  "(",
+                  error$explanation,
+                  ")"
+                )
+              )
+            )
+          }
+          
+          row_errors[[length(row_errors) + 1]] <- tags$p(
+            style = "color: red;",
+            
+            tags$strong(
+              paste0("Row ", row, ":")
+            ),
+            
+            tags$br(),
+            
+            row_contents
+          )
+        }
+      }
+      
+      return(
+        tagList(
+          h4("Errors by row"),
+          row_errors
+        )
+      )
+    }
+    
+    ## Errors by column
+    
+    tagList(
+      h4("Errors by column"),
+      
+      lapply(issues, function(issue) {
+        
+        if (is.null(issue)) {
+          return(NULL)
+        }
+        
+        if (issue$type == "missing_column") {
+          
+          return(
+            tags$p(
+              style = "color: red;",
+              
+              paste0(
+                "Missing required column: '",
+                issue$column,
+                "'."
+              ),
+              
+              tags$br(),
+              
+              tags$span(
+                paste0(
+                  "(",
+                  explain_error(issue, fields),
+                  ")"
+                )
+              )
+            )
+          )
+        }
+        
+        rows <- sort(unique(issue$invalid_row))
+        row_text <- paste(rows, collapse = ", ")
+        
+        tags$p(
+          style = "color: red;",
+          
+          paste0(
+            "Column '",
+            issue$column,
+            "' contains invalid cells in rows: ",
+            row_text,
+            "."
+          ),
+          
+          tags$br(),
+          
+          tags$span(
+            paste0(
+              "(",
+              explain_error(issue, fields),
+              ")"
+            )
+          )
+        )
+      })
+    )
   })
-})
   
-
-
   
+  ## User-created specification
+  
+  userData <- reactive({
+    
+    nVars <- input$numVars
+    data_list <- list()
+    
+    if (nVars > 0) {
+      
+      for (i in 1:nVars) {
+        
+        field_type <- input[[paste0("field_type_", i)]]
+        
+        if (field_type == "numeric") {
+          
+          lowerlimit <- ifelse(
+            input[[paste0("range_req_", i)]] == "yes",
+            input[[paste0("min_value_", i)]],
+            NA
+          )
+          
+          upperlimit <- ifelse(
+            input[[paste0("range_req_", i)]] == "yes",
+            input[[paste0("max_value_", i)]],
+            NA
+          )
+          
+        } else {
+          
+          lowerlimit <- ifelse(
+            field_type == "string" &&
+              input[[paste0("range_req_string", i)]] == "yes",
+            input[[paste0("min_value_s", i)]],
+            NA
+          )
+          
+          upperlimit <- ifelse(
+            field_type == "string" &&
+              input[[paste0("range_req_string", i)]] == "yes",
+            input[[paste0("max_value_s", i)]],
+            NA
+          )
+        }
+        
+        options <- character(0)
+        
+        if (field_type == "options") {
+          
+          n_options <- input[[paste0("num_options_", i)]]
+          
+          if (!is.null(n_options) && !is.na(n_options)) {
+            
+            for (j in seq_len(n_options)) {
+              
+              option_value <- input[[paste0("option_", j, "_", i)]]
+              
+              if (
+                !is.null(option_value) &&
+                !is.na(option_value) &&
+                option_value != ""
+              ) {
+                
+                options <- c(
+                  options,
+                  option_value
+                )
+              }
+            }
+          }
+        }
+        
+        format <- if (
+          field_type == "numeric" &&
+          input[[paste0("range_req_", i)]] == "yes"
+        ) {
+          
+          "restricted"
+          
+        } else if (field_type == "string") {
+          
+          validation <- input[[paste0("string_validation_", i)]]
+          
+          if (
+            validation %in% c(
+              "letters",
+              "numbers",
+              "alphanumeric",
+              "examples"
+            )
+          ) {
+            "regex"
+          } else {
+            validation
+          }
+          
+        } else {
+          "open"
+        }
+        
+        pattern <- if (field_type == "string") {
+          
+          validation <- input[[paste0("string_validation_", i)]]
+          
+          if (validation == "letters") {
+            
+            "^[A-Za-z]+$"
+            
+          } else if (validation == "numbers") {
+            
+            "^[0-9]+$"
+            
+          } else if (validation == "alphanumeric") {
+            
+            "^[A-Za-z0-9]+$"
+            
+          } else if (validation == "examples") {
+            
+            examples <- c(
+              input[[paste0("example_1_", i)]],
+              input[[paste0("example_2_", i)]],
+              input[[paste0("example_3_", i)]]
+            )
+            
+            GenerateRegex(examples)
+            
+          } else {
+            NA
+          }
+          
+        } else {
+          NA
+        }
+        
+        required <- if (
+          input[[paste0("is_required_", i)]] == "yes"
+        ) {
+          TRUE
+        } else {
+          FALSE
+        }
+        
+        NA_allowed <- if (
+          input[[paste0("allow_na_", i)]] == "yes"
+        ) {
+          TRUE
+        } else {
+          FALSE
+        }
+        
+        data_list[[i]] <- list(
+          field = input[[paste0("field_name_", i)]],
+          description = input[[paste0("field_description_", i)]],
+          type = field_type,
+          options = options,
+          format = format,
+          pattern = pattern,
+          lowerlimit = lowerlimit,
+          upperlimit = upperlimit,
+          allow_decimals = if (field_type == "numeric") {
+            input[[paste0("allow_decimals_", i)]]
+          } else {
+            NA
+          },
+          min_decimals = if (
+            field_type == "numeric" &&
+            input[[paste0("allow_decimals_", i)]] == "yes"
+          ) {
+            as.numeric(input[[paste0("min_decimals_", i)]])
+          } else {
+            NA
+          },
+          max_decimals = if (
+            field_type == "numeric" &&
+            input[[paste0("allow_decimals_", i)]] == "yes"
+          ) {
+            as.numeric(input[[paste0("max_decimals_", i)]])
+          } else {
+            NA
+          },
+          required = required,
+          NA_allowed = NA_allowed,
+          error_message = toString(
+            input[[paste0("error_message_", i)]]
+          )
+        )
+      }
+    }
+    
+    data_list
+  })
+  
+  
+  ## Download specification
+  
+  output$downloadSetup <- downloadHandler(
+    
+    filename = function() {
+      paste0(
+        "data_settings_",
+        Sys.Date(),
+        ".yaml"
+      )
+    },
+    
+    contentType = "text/yaml",
+    
+    content = function(file) {
+      
+      tryCatch({
+        
+        data <- userData()
+        
+        yaml::write_yaml(
+          data,
+          file
+        )
+        
+      }, error = function(e) {
+        
+        stop(
+          paste0(
+            "Could not create YAML file: ",
+            e$message
+          )
+        )
+      })
+    }
+  )
+  
+  
+  ## Create variable tabs
+  
+  createVariableTab <- function(i) {
+    
+    tabPanel(
+      
+      title = tags$span(
+        id = paste0("tab_label_", i),
+        paste("Variable", i)
+      ),
+      
+      value = paste0("variable_", i),
+      
+      br(),
+      
+      fluidRow(
+        
+        column(
+          width = 4,
+          
+          h4("Variable Information"),
+          
+          textInput(
+            paste0("field_name_", i),
+            "Variable/column name:"
+          ),
+          
+          textInput(
+            paste0("field_description_", i),
+            "Description:"
+          ),
+          
+          br(),
+          
+          h4("General Settings"),
+          
+          selectInput(
+            paste0("is_required_", i),
+            "Is this variable required?",
+            choices = c(
+              "Yes" = "yes",
+              "No" = "no"
+            )
+          ),
+          
+          selectInput(
+            paste0("allow_na_", i),
+            "Are NA values allowed?",
+            choices = c(
+              "Yes" = "yes",
+              "No" = "no"
+            )
+          )
+        ),
+        
+        column(
+          width = 4,
+          
+          h4("Data Type"),
+          
+          selectInput(
+            paste0("field_type_", i),
+            "Choose your data type:",
+            choices = c(
+              "Options" = "options",
+              "Numeric" = "numeric",
+              "String" = "string"
+            )
+          )
+        ),
+        
+        column(
+          width = 4,
+          
+          ## Numeric
+          
+          conditionalPanel(
+            condition = paste0(
+              "input.field_type_", i,
+              " == 'numeric'"
+            ),
+            
+            h4("Numeric Settings"),
+            
+            selectInput(
+              paste0("range_req_", i),
+              "Are there range restrictions?",
+              choices = c(
+                "No" = "no",
+                "Yes" = "yes"
+              )
+            ),
+            
+            conditionalPanel(
+              condition = paste0(
+                "input.range_req_", i,
+                " == 'yes'"
+              ),
+              
+              fluidRow(
+                
+                column(
+                  width = 6,
+                  numericInput(
+                    paste0("min_value_", i),
+                    "Minimum:",
+                    value = NA
+                  )
+                ),
+                
+                column(
+                  width = 6,
+                  numericInput(
+                    paste0("max_value_", i),
+                    "Maximum:",
+                    value = NA
+                  )
+                )
+              )
+            ),
+            
+            selectInput(
+              paste0("allow_decimals_", i),
+              "Are decimals allowed?",
+              choices = c(
+                "No" = "no",
+                "Yes" = "yes"
+              ),
+              selected = "no"
+            ),
+            
+            conditionalPanel(
+              condition = paste0(
+                "input.allow_decimals_", i,
+                " == 'yes'"
+              ),
+              
+              h5("Decimal Places"),
+              
+              fluidRow(
+                
+                column(
+                  width = 6,
+                  selectInput(
+                    paste0("min_decimals_", i),
+                    "Minimum:",
+                    choices = 0:6,
+                    selected = 0
+                  )
+                ),
+                
+                column(
+                  width = 6,
+                  selectInput(
+                    paste0("max_decimals_", i),
+                    "Maximum:",
+                    choices = 0:6,
+                    selected = 6
+                  )
+                )
+              )
+            )
+          ),
+          
+          ## Options
+          
+          conditionalPanel(
+            condition = paste0(
+              "input.field_type_", i,
+              " == 'options'"
+            ),
+            
+            h4("Option Settings"),
+            
+            selectInput(
+              paste0("num_options_", i),
+              "How many options are allowed?",
+              choices = 1:20,
+              selected = 2
+            ),
+            
+            uiOutput(
+              paste0("option_fields_", i)
+            )
+          ),
+          
+          ## String
+          
+          conditionalPanel(
+            condition = paste0(
+              "input.field_type_", i,
+              " == 'string'"
+            ),
+            
+            h4("String Settings"),
+            
+            selectInput(
+              paste0("string_validation_", i),
+              "String validation:",
+              choices = c(
+                "Open text" = "open",
+                "Lowercase only" = "uncapitalized",
+                "Uppercase only" = "capitalized",
+                "Letters only" = "letters",
+                "Numbers only" = "numbers",
+                "Letters and numbers" = "alphanumeric",
+                "Match example values" = "examples"
+              )
+            ),
+            
+            conditionalPanel(
+              condition = paste0(
+                "input.string_validation_", i,
+                " == 'examples'"
+              ),
+              
+              textInput(
+                paste0("example_1_", i),
+                "Example value 1:"
+              ),
+              textInput(
+                paste0("example_2_", i),
+                "Example value 2:"
+              ),
+              textInput(
+                paste0("example_3_", i),
+                "Example value 3:"
+              ),
+              textInput(
+                paste0("example_4_", i),
+                "Example value 4:"
+              ),
+              textInput(
+                paste0("example_5_", i),
+                "Example value 5:"
+              ),
+              helpText(
+                "Enter five examples of valid values."
+              ),
+              
+              uiOutput(
+                paste0("example_validation_", i)
+              )
+            ),
+            
+            br(),
+            
+            selectInput(
+              paste0("range_req_string", i),
+              "Are there length restrictions?",
+              choices = c(
+                "No" = "no",
+                "Yes" = "yes"
+              )
+            ),
+            
+            conditionalPanel(
+              condition = paste0(
+                "input.range_req_string", i,
+                " == 'yes'"
+              ),
+              
+              fluidRow(
+                
+                column(
+                  width = 6,
+                  numericInput(
+                    paste0("min_value_s", i),
+                    "Minimum:",
+                    value = NA
+                  )
+                ),
+                
+                column(
+                  width = 6,
+                  numericInput(
+                    paste0("max_value_s", i),
+                    "Maximum:",
+                    value = NA
+                  )
+                )
+              )
+            )
+          )
+        )
+      ),
+      
+      fluidRow(
+        
+        column(
+          width = 12,
+          
+          br(),
+          h4("Error Message"),
+          
+          textInput(
+            paste0("error_message_", i),
+            "Enter an error message for your data:"
+          )
+        )
+      )
+    )
+  }
+  
+  
+  ## Manage variable tabs
+  
+  current_num_vars <- reactiveVal(0)
+  
+  observeEvent(input$numVars, {
+    
+    new_num_vars <- input$numVars
+    
+    if (is.null(new_num_vars) || is.na(new_num_vars)) {
+      return()
+    }
+    
+    old_num_vars <- current_num_vars()
+    
+    if (new_num_vars > old_num_vars) {
+      
+      for (i in seq(old_num_vars + 1, new_num_vars)) {
+        
+        insertTab(
+          inputId = "variable_tabs",
+          tab = createVariableTab(i),
+          target = NULL,
+          position = "after",
+          select = TRUE
+        )
+      }
+    }
+    
+    if (new_num_vars < old_num_vars) {
+      
+      for (i in seq(new_num_vars + 1, old_num_vars)) {
+        
+        removeTab(
+          inputId = "variable_tabs",
+          target = paste0("variable_", i)
+        )
+      }
+    }
+    
+    current_num_vars(new_num_vars)
+  })
+  
+  
+  ## Generate option inputs
+  
+  observe({
+    
+    nVars <- input$numVars
+    
+    if (is.null(nVars) || is.na(nVars) || nVars == 0) {
+      return()
+    }
+    
+    for (i in 1:nVars) {
+      
+      local({
+        
+        j <- i
+        
+        output[[paste0("option_fields_", j)]] <- renderUI({
+          
+          n_options <- input[[paste0("num_options_", j)]]
+          
+          if (is.null(n_options) || is.na(n_options)) {
+            return(NULL)
+          }
+          
+          lapply(1:n_options, function(k) {
+            textInput(
+              paste0("option_", k, "_", j),
+              paste0("Option ", k, ":")
+            )
+          })
+        })
+      })
+    }
+  })
+  
+  
+  ## Validate example inputs
+  
+  observe({
+    
+    nVars <- input$numVars
+    
+    if (!is.null(nVars) && !is.na(nVars) && nVars > 0) {
+      
+      for (i in 1:nVars) {
+        
+        local({
+          
+          j <- i
+          
+          output[[paste0("example_validation_", j)]] <- renderUI({
+            
+            validation <- input[[paste0("string_validation_", j)]]
+            
+            if (
+              is.null(validation) ||
+              is.na(validation) ||
+              validation != "examples"
+            ) {
+              return(NULL)
+            }
+            
+            examples <- c(
+              input[[paste0("example_1_", j)]],
+              input[[paste0("example_2_", j)]],
+              input[[paste0("example_3_", j)]],
+              input[[paste0("example_4_", j)]],
+              input[[paste0("example_5_", j)]]
+            )
+            
+            if (
+              any(is.null(examples)) ||
+              any(examples == "")
+            ) {
+              
+              return(
+                tags$p(
+                  style = "color: red;",
+                  "Please enter all five example values."
+                )
+              )
+            }
+            
+            NULL
+          })
+        })
+      }
+    }
+  })
+  
+  
+  ## Download setup button
+  
+  output$downloadSetupButton <- renderUI({
+    
+    nVars <- input$numVars
+    
+    if (is.null(nVars) || nVars == 0) {
+      return(NULL)
+    }
+    
+    all_examples_complete <- TRUE
+    
+    for (i in 1:nVars) {
+      
+      field_type <- input[[paste0("field_type_", i)]]
+      validation <- input[[paste0("string_validation_", i)]]
+      
+      if (
+        !is.null(field_type) &&
+        !is.na(field_type) &&
+        field_type == "string" &&
+        !is.null(validation) &&
+        !is.na(validation) &&
+        validation == "examples"
+      ) {
+        
+        examples <- c(
+          input[[paste0("example_1_", i)]],
+          input[[paste0("example_2_", i)]],
+          input[[paste0("example_3_", i)]],
+          input[[paste0("example_4_", i)]],
+          input[[paste0("example_5_", i)]]
+        )
+        
+        if (
+          any(is.null(examples)) ||
+          any(is.na(examples)) ||
+          any(examples == "")
+        ) {
+          all_examples_complete <- FALSE
+        }
+      }
+    }
+    
+    if (all_examples_complete) {
+      
+      downloadButton(
+        "downloadSetup",
+        "Download Setup"
+      )
+      
+    } else {
+      
+      tagList(
+        tags$button(
+          type = "button",
+          class = "btn btn-default disabled",
+          disabled = "disabled",
+          "Download Setup"
+        ),
+        
+        tags$p(
+          tags$strong(
+            style = "color: red;",
+            "Please enter all five example values before downloading the setup."
+          )
+        )
+      )
+    }
+  })
+  
+  
+  ## Download highlighted dataset
+  
+  output$downloadHighlighted <- downloadHandler(
+    
+    filename = function() {
+      paste0(
+        "highlighted_issues_",
+        Sys.Date(),
+        ".xlsx"
+      )
+    },
+    
+    content = function(file) {
+      
+      req(input$file)
+      
+      if (
+        is.null(input$file$datapath) ||
+        input$file$datapath == ""
+      ) {
+        stop(
+          "No file provided. Please upload a dataset before attempting to download."
+        )
+      }
+      
+      req(input$study, input$format)
+      
+      yaml_file_path <- paste0(
+        "data_specifications/",
+        input$study,
+        "_",
+        input$format,
+        ".yaml"
+      )
+      
+      if (!file.exists(yaml_file_path)) {
+        stop(
+          "The corresponding YAML specification file does not exist. ",
+          "Please check your study and format selection."
+        )
+      }
+      
+      fields <- tryCatch(
+        yaml::yaml.load_file(yaml_file_path),
+        error = function(e) {
+          stop(
+            "Failed to load YAML file. ",
+            "Please ensure the file is valid and accessible."
+          )
+        }
+      )
+      
+      df <- tryCatch(
+        read_csv(input$file$datapath),
+        error = function(e) {
+          stop(
+            "Failed to read the uploaded dataset. ",
+            "Please ensure the file is in a valid CSV format."
+          )
+        }
+      )
+      
+      validated <- tryCatch(
+        validate_dataset(fields, df),
+        error = function(e) {
+          stop(
+            "Error during dataset validation: ",
+            e$message
+          )
+        }
+      )
+      
+      valid <- validated[[1]]
+      issues <- validated[[2]]
+      
+      if (!valid) {
+        
+        wb <- tryCatch(
+          highlight_csv_to_xlsx(df, issues),
+          error = function(e) {
+            stop(
+              "Failed to generate the highlighted workbook: ",
+              e$message
+            )
+          }
+        )
+        
+        tryCatch(
+          openxlsx::saveWorkbook(
+            wb,
+            file,
+            overwrite = TRUE
+          ),
+          error = function(e) {
+            stop(
+              "Failed to save the workbook: ",
+              e$message
+            )
+          }
+        )
+        
+      } else {
+        
+        stop(
+          "No issues to highlight. The dataset is valid!"
+        )
+      }
+    }
+  )
+  
+  
+  ## Validation preview
+  
+  output$validation_preview <- DT::renderDT({
+    
+    req(input$file)
+    req(input$study, input$format)
+    
+    yaml_file_path <- paste0(
+      "data_specifications/",
+      input$study,
+      "_",
+      input$format,
+      ".yaml"
+    )
+    
+    req(file.exists(yaml_file_path))
+    
+    fields <- yaml::yaml.load_file(yaml_file_path)
+    
+    df <- readr::read_csv(
+      input$file$datapath,
+      show_col_types = FALSE
+    )
+    
+    validated <- validate_dataset(
+      fields,
+      df
+    )
+    
+    issues <- validated[[2]]
+    
+    table <- DT::datatable(
+      df,
+      options = list(
+        pageLength = 10,
+        scrollX = TRUE
+      ),
+      rownames = FALSE
+    )
+    
+    ## Highlight invalid cells
+    
+    for (issue in issues) {
+      
+      if (
+        is.null(issue) ||
+        issue$type != "invalid_cell"
+      ) {
+        next
+      }
+      
+      column_name <- issue$column
+      rows <- issue$invalid_row
+      
+      if (
+        column_name %in% names(df) &&
+        length(rows) > 0
+      ) {
+        
+        table <- DT::formatStyle(
+          table,
+          columns = column_name,
+          rows = rows,
+          backgroundColor = "yellow"
+        )
+      }
+    }
+    
+    table
+  })
+}
+

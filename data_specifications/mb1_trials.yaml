@@ -4,26 +4,47 @@
 # Required fields
 #----------------
 
-- field:        study_ID
-  description:  uniquely identifies a study
-  type:         string
-  format:       last name of first author, year, and letter if necessary
-  example:      smith2015a
-  required:     yes
-  NA_allowed:   no
+- field: study_ID
+  description: uniquely identifies a study
+  type: string
+  options: []
+  format: regex
+  pattern: ^[A-Za-z]+[0-9]{4}[a-z]?$
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+  error_message: ''
 
-- field:        long_cite
-  description:  long citation
-  type:         string
-  format:       full APA-style citation
-  example:
-  required:     yes
-  NA_allowed:   no
+- field: long_cite
+  description: long citation
+  type: string
+  options: []
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+  error_message: ''
 
-- field:        short_cite
-  description:  short citation
-  type:         string
-  format:       author (year) APA-style citation
-  example:      Smith (2015)
-  required:     yes
-  NA_allowed:   no
+- field: short_cite
+  description: short citation
+  type: string
+  options: []
+  format: regex
+  pattern: ^[A-Za-z]+ \([0-9]{4}\)$
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+  error_message: ''
