@@ -10,6 +10,8 @@ A Shiny application for validating individual lab datasets against study-specifi
 2. [User Manual - For Project Leads](#2-user-manual---for-project-leads)
 3. [User Manual - Developer Documentation](#3-developer-documentation)
 
+---
+
 ## 1. User Manual - For Data Contributor
 
 This section details instructions on how to use the validator as a lab contributing data to an MB project. The data validator allows you to check whether your dataset meets the formatting and data requirements for a particular project before submitting it.
@@ -63,6 +65,8 @@ Repeat this process until your dataset passes validation.
 ### When your dataset passes
 
 Once the validator reports that your dataset is valid, it meets the requirements defined by the selected project specification and is ready for submission.
+
+---
 
 ## 2. User Manual - For Project Leads
 
@@ -176,6 +180,7 @@ Before distributing the specification to data contributors, you should verify th
 
 The developer will test your specifications and notify you when your specification is added to the live version.
 
+---
 
 ## 3. User Manual - For Developers (THIS SECTION IS INCOMPLETE)
 
