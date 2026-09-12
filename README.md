@@ -203,13 +203,13 @@ Once the specification is complete, press **Download Setup** to download the `.y
 **Important:** Please save your `.yaml` file following the conventional naming scheme:
 
 ```text
-project_format.yaml
+ManyBabies_project_format.yaml
 ```
 
 For example, if you are creating a specification for the MB8 project, and the validation is for the subjects-level data, you could name it:
 
 ```text
-MB8_subjects.yaml
+ManyBabies_MB8_subjects.yaml
 ```
 
 This naming scheme means MB8 will be listed under the "Study" dropdown, and "subjects" will be presented as an option in the "Study Format" dropdown.
