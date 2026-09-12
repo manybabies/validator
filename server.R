@@ -784,6 +784,8 @@ server <- function(input, output, session) {
     
     yaml_file_path <- paste0(
       "data_specifications/",
+      selected_configuration_name(),
+      "_",
       input$study,
       "_",
       input$format,
@@ -2129,6 +2131,8 @@ server <- function(input, output, session) {
       
       yaml_file_path <- paste0(
         "data_specifications/",
+        selected_configuration_name(),
+        "_",
         input$study,
         "_",
         input$format,
@@ -2219,6 +2223,8 @@ server <- function(input, output, session) {
     
     yaml_file_path <- paste0(
       "data_specifications/",
+      selected_configuration_name(),
+      "_",
       input$study,
       "_",
       input$format,

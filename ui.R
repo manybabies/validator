@@ -227,6 +227,7 @@ ui <- fluidPage(
       #downloadConfiguration:hover,
       #downloadConfiguration:focus {
         background-color: #382c55 !important;
+        background-image: none !important;
         border-color: #382c55 !important;
         color: #ffffff !important;
         transform: translateY(-1px);
@@ -613,7 +614,7 @@ ui <- fluidPage(
   tags$script(HTML("
     document.addEventListener('input', function(event) {
       
-      # Variable tab names
+      // Variable tab names
       
       if (event.target.id.startsWith('field_name_')) {
         
@@ -631,7 +632,7 @@ ui <- fluidPage(
         }
       }
       
-      # Instruction Set 1 heading
+      // Instruction Set 1 heading
       
       if (event.target.id === 'config_instruction_set_1_name') {
         
@@ -650,7 +651,7 @@ ui <- fluidPage(
         }
       }
       
-      # Instruction Set 2 heading
+      // Instruction Set 2 heading
       
       if (event.target.id === 'config_instruction_set_2_name') {
         
