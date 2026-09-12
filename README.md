@@ -231,112 +231,327 @@ The developer will test your specifications and notify you when your specificati
 
 ---
 
-## 3. User Manual - Developer Documentation
+# 3. User Manual - For Developers
 
-The **Back-end Developer Documentation** provides detailed information about the underlying code of the validator.
+The **Back-end Developer Documentation** provides detailed information about the underlying code of the validator. Note that this section is identical to that of the base version, [ShinyValidator](https://github.com/manybabies/ShinyValidator), as they share the same underlying infrastructure.
+
+This section is intended for researchers and developers who wish to add new functions, modify existing functionality, or otherwise customize the validator beyond the options described in Section 2.
+
+If you only want to create a validator for your own project, you generally do not need to modify the code described in this section.
+
+---
 
 <details>
 <summary><strong>3.1 Application architecture</strong></summary>
 
 The validator is organized across five primary R files:
 
-| File             | Purpose                                       |
-| ---------------- | --------------------------------------------- |
-| `app.R`          | Application initialization and launch         |
-| `ui.R`           | User interface and layout                     |
-| `server.R`       | Server-side application logic                 |
-| `common.R`       | Shared functions and validation functions     |
-| `ErrorHandler.R` | Error handling and downloadable error reports |
+| File             | Purpose                                            |
+| ---------------- | -------------------------------------------------- |
+| `app.R`          | Application initialization and launch              |
+| `ui.R`           | User interface, layout, and styling                |
+| `server.R`       | Server-side application logic and reactive outputs |
+| `common.R`       | Shared functions and dataset validation            |
+| `ErrorHandler.R` | Error handling and downloadable validation reports |
 
-The validator also relies on `.yaml` files stored in the `data_specifications` folder to define study-specific data requirements.
+The validator also relies on two important collections of YAML files:
+
+| Folder                 | Purpose                                                    |
+| ---------------------- | ---------------------------------------------------------- |
+| `configuration/`       | Defines application-level settings and user-facing content |
+| `data_specifications/` | Defines study- and format-specific dataset requirements    |
+
+The general relationship between these components is:
+
+```text
+Configuration
+     │
+     ├── Application title
+     ├── Instructions
+     ├── Links
+     └── Specification message
+     │
+     ▼
+Selected configuration
+     │
+     ▼
+Study + Format
+     │
+     ▼
+Data specification
+     │
+     ▼
+Uploaded CSV
+     │
+     ▼
+validate_dataset()
+     │
+     ├── Validation Results
+     ├── Validation Preview
+     ├── Error Display
+     └── Highlighted Excel Download
+```
 
 </details>
 
 <details>
-<summary><strong>3.2 app.R</strong></summary>
+<summary><strong>3.2 Configuration system</strong></summary>
+
+The configuration system allows the same Shiny application code to support multiple projects or study collections.
+
+Configuration files are stored in:
+
+```text
+configuration/
+```
+
+and must begin with:
+
+```text
+config_
+```
+
+For example:
+
+```text
+config_default.yaml
+config_ManyBabies.yaml
+```
+
+`ui.R` identifies available configuration files automatically using the filename pattern:
+
+```r
+^config_.+\.(yaml|yml)$
+```
+
+The selected configuration is loaded reactively in `server.R`.
+
+The configuration determines application-level content such as:
+
+```yaml
+app_title:
+welcome_message:
+secondary_message:
+instruction_set_1_name:
+instruction_set_1:
+links:
+instruction_set_2_name:
+instruction_set_2:
+specification_message:
+```
+
+This approach means that user-facing content can be changed without modifying the application logic.
+
+### Configuration-specific specifications
+
+Specifications are associated with configurations through their filenames.
+
+For a configuration:
+
+```text
+config_ManyBabies.yaml
+```
+
+a corresponding specification might be:
+
+```text
+ManyBabies_MB1_subjects.yaml
+```
+
+The configuration name is extracted from the configuration filename and used by `server.R` to identify the appropriate specifications.
+
+This prevents specifications belonging to different projects from being mixed together.
+
+</details>
+
+<details>
+<summary><strong>3.3 app.R</strong></summary>
 
 `app.R` is the entry point for the Shiny application. It:
 
-1. Loads the core packages needed to launch the application.
+1. Loads the core application components.
 2. Sources `ui.R` and `server.R`.
 3. Launches the application with `shinyApp()`.
 
-The file generally does not need to be modified when adapting the validator. If additional R files are added, they should generally be sourced from the appropriate component file rather than directly from `app.R`.
+The file generally does not need to be modified when adapting the validator.
+
+If additional R files are added, they should generally be sourced from the appropriate component file rather than directly from `app.R`.
 
 </details>
 
 <details>
-<summary><strong>3.3 ui.R</strong></summary>
+<summary><strong>3.4 ui.R</strong></summary>
 
-`ui.R` defines the application's user interface.
+`ui.R` defines the application's user interface, layout, and visual styling.
 
-The main interface contains three tabs:
+The sidebar provides:
 
-* **Validation Results** — study/format selection, CSV upload, error display options, validation preview, and highlighted-file download.
-* **Specification Creation** — allows users to create a YAML specification by defining the number and properties of variables.
-* **Specification** — displays the human-readable specification for the selected study and format.
+* configuration selection;
+* study selection;
+* format selection;
+* CSV upload; and
+* navigation between the validator functions.
 
-### Customizing the UI
+The main panel contains four functions:
 
-User-facing text, instructions, links, and the overall layout can be modified directly in `ui.R`. The welcome messages in the **Validation Results** tab are intended to be replaced with project-specific instructions.
+* **Validation Results**
+* **Specification Details**
+* **Specification Creation**
+* **Configuration Creation**
 
-The application uses `shinythemes` for the visual theme and `DT` for the validation preview table.
+### Dynamic UI
 
-A small JavaScript component automatically updates specification tab labels as variable names are entered. This should generally be left unchanged unless the specification-creation interface is modified.
+Several parts of the interface are generated dynamically using `uiOutput()` and server-side `renderUI()` calls.
+
+Examples include:
+
+* study selection;
+* study format selection;
+* configuration creation fields;
+* specification creation variable tabs;
+* validation errors;
+* specification details.
+
+### JavaScript components
+
+A small JavaScript component in `ui.R` updates dynamically generated labels in the specification and configuration creation interfaces.
+
+For example, variable tabs are automatically renamed as users enter variable names.
+
+The configuration creation interface also updates the displayed instruction-set headings when users change the names of Instruction Set 1 or Instruction Set 2.
+
+These JavaScript components should generally be left unchanged unless the corresponding UI elements are modified.
+
+### Styling
+
+The application uses custom CSS in `ui.R` to provide:
+
+* application header styling;
+* content cards;
+* purple accent colors;
+* styled navigation;
+* form controls;
+* buttons;
+* validation tables; and
+* other visual elements.
+
+The application also uses `shinythemes` for the base theme and `DT` for interactive validation tables.
 
 </details>
 
 <details>
-<summary><strong>3.4 server.R</strong></summary>
+<summary><strong>3.5 server.R</strong></summary>
 
-`server.R` contains the server-side logic for the application. It connects the UI inputs to the validation functions in `common.R` and generates the application's outputs.
+`server.R` contains the server-side logic for the application. It connects UI inputs to the validation functions in `common.R` and generates the application's outputs.
 
-### Main components
+### Configuration loading
 
-* **Study and format selection** — dynamically updates the available study formats based on the selected study.
-* **Specification display** — loads the selected YAML file and displays its requirements.
-* **Validation errors** — validates the uploaded dataset and displays errors by column or row.
-* **Specification creation** — collects the user's variable settings and converts them into a YAML-compatible structure.
-* **Specification download** — generates and downloads the user-created YAML specification.
-* **Variable tabs** — dynamically creates and removes tabs based on the requested number of variables.
-* **Option and example inputs** — generates additional inputs for option values and example-based string validation.
-* **Highlighted dataset download** — validates the uploaded dataset and creates an Excel file highlighting invalid cells.
-* **Validation preview** — displays the uploaded dataset and highlights invalid cells in the table.
+The selected configuration is loaded using a reactive expression:
+
+```r
+selected_config <- reactive({
+  req(input$configuration)
+  yaml::read_yaml(
+    file.path("configuration", input$configuration)
+  )
+})
+```
+
+The configuration name is also extracted from the selected filename so that the appropriate data specifications can be identified.
+
+### Study and format selection
+
+Available specifications are determined from the selected configuration.
+
+For example, if the selected configuration is:
+
+```text
+ManyBabies
+```
+
+the application searches for specifications beginning with:
+
+```text
+ManyBabies_
+```
+
+This allows different configurations to have different collections of studies and formats.
+
+### Main server components
+
+`server.R` contains logic for:
+
+* loading the selected configuration;
+* identifying available specifications;
+* generating study and format selectors;
+* displaying configuration-specific instructions;
+* displaying specification details;
+* validating uploaded datasets;
+* displaying errors by column or row;
+* generating the validation preview;
+* generating highlighted Excel downloads;
+* creating specification fields dynamically;
+* creating configuration fields dynamically;
+* generating downloadable YAML specifications; and
+* generating downloadable YAML configurations.
 
 ### Validation workflow
 
 The main validation outputs follow this general workflow:
 
-1. Load the YAML specification corresponding to the selected study and format.
-2. Read the uploaded CSV dataset.
-3. Pass the specification and dataset to `validate_dataset()` in `common.R`.
-4. Process the returned issues.
-5. Display the results or generate the highlighted Excel file.
+1. Identify the selected configuration.
+2. Identify the selected study and format.
+3. Construct the corresponding specification filename.
+4. Load the YAML specification.
+5. Read the uploaded CSV dataset.
+6. Pass the specification and dataset to `validate_dataset()` in `common.R`.
+7. Process the returned issues.
+8. Display the results or generate the highlighted Excel file.
+
+Configuration-specific specification paths generally follow:
+
+```r
+yaml_file_path <- paste0(
+  "data_specifications/",
+  selected_configuration_name(),
+  "_",
+  input$study,
+  "_",
+  input$format,
+  ".yaml"
+)
+```
+
+It is important that all validation-related outputs use this same configuration-aware naming structure.
 
 </details>
 
 <details>
-<summary><strong>3.5 common.R</strong></summary>
+<summary><strong>3.6 common.R</strong></summary>
 
-`common.R` contains the core data-validation functions used by the application. It also identifies available study/format combinations and generates user-facing explanations for validation errors.
+`common.R` contains the core data-validation functions used by the application.
 
 ### Study and format discovery
 
-The `studies` object is generated automatically by reading `.yaml` files from the `data_specifications` folder. Filenames are split at the underscore to identify the study and format.
+Available specifications are identified from the YAML files stored in `data_specifications`.
+
+The configuration name is used to distinguish specifications belonging to different configurations.
 
 For example:
 
 ```text
-FishSpeed_RawData.yaml
+ManyBabies_MB1_subjects.yaml
 ```
 
-is interpreted as:
+can be interpreted as:
 
-| study     | format  |
-| --------- | ------- |
-| FishSpeed | RawData |
+| Component     | Value        |
+| ------------- | ------------ |
+| Configuration | `ManyBabies` |
+| Study         | `MB1`  |
+| Format        | `subjects`    |
 
-Therefore, adding a correctly named YAML file to `data_specifications` automatically makes the study/format available to the application.
+Adding a correctly named specification automatically makes it available to the corresponding configuration.
 
 ### Dataset validation
 
@@ -344,10 +559,10 @@ Therefore, adding a correctly named YAML file to `data_specifications` automatic
 
 1. Checks that all required columns are present.
 2. Passes each existing field to `validate_dataset_field()`.
-3. Collects any validation issues.
+3. Collects validation issues.
 4. Returns whether the dataset is valid and, if not, a list of issues.
 
-`validate_dataset_field()` determines which validation function should be used based on the field specification:
+`validate_dataset_field()` determines which validation function should be used based on the field specification.
 
 | Field type | Validation function                     |
 | ---------- | --------------------------------------- |
@@ -383,7 +598,9 @@ Issues contain information such as the error type, column, invalid value, and ro
 
 ### Error explanations
 
-`explain_error()` converts validation issues into user-facing explanations. It uses the field specification to describe the relevant requirement, while allowing individual fields to provide a custom `error_message`.
+`explain_error()` converts validation issues into user-facing explanations.
+
+It uses the field specification to describe the relevant requirement while allowing individual fields to provide a custom `error_message`.
 
 ### Developer notes
 
@@ -394,9 +611,9 @@ If adding a new field type, update `validate_dataset_field()` so that the new ty
 </details>
 
 <details>
-<summary><strong>3.6 ErrorHandler.R</strong></summary>
+<summary><strong>3.7 ErrorHandler.R</strong></summary>
 
-`ErrorHandler.R` contains the function used to generate the downloadable Excel validation report.
+`ErrorHandler.R` contains the functions used to generate downloadable Excel validation reports.
 
 ### `highlight_csv_to_xlsx()`
 
@@ -409,33 +626,70 @@ Missing columns are recorded in the error log but cannot be highlighted in the d
 
 The function returns an `openxlsx` workbook object, which is saved by the download handler in `server.R`.
 
+### Developer notes
+
+If new issue types are added to `common.R`, update `highlight_csv_to_xlsx()` if those issues should appear in the downloadable error report.
 
 </details>
 
-<details>
-<summary><strong>Contributions</strong></summary>
+---
 
-If you would like to contribute to the validator, please [make a fork](https://help.github.com/en/articles/fork-a-repo).
+# File and Folder Structure
 
-</details>
+A typical ShinyValidator project contains the following structure:
 
-<details>
-<summary><strong>Contact</strong></summary>
+```text
+ShinyValidator/
+│
+├── app.R
+├── ui.R
+├── server.R
+├── common.R
+├── ErrorHandler.R
+├── ShinyValidator.Rproj
+│
+├── configuration/
+│   ├── config_default.yaml
+│   └── config_ManyBabies.yaml
+│
+├── data_specifications/
+│   ├── ManyBabies_StudyA_Format1.yaml
+│   └── ManyBabies_StudyB_Format1.yaml
 
-### Main developer
+```
 
-* [Francis Yuen](francis.yuen@psych.ubc.ca)
+The most important distinction is:
 
-### MB contacts
+**Configurations define how the validator behaves and what it tells the user.**
 
-* [Mike Frank](mcfrank@stanford.edu)
-* [Heidi Baumgartner](heidib@manybabies.org)
+**Specifications define what the user's dataset must contain.**
 
-</details>
+This separation allows the same application code to be reused across different projects.
 
-<details>
-<summary><strong>Credit and Acknowledgement</strong></summary>
+---
 
-We thank Mika Braginky, Jonathan Kominsky, Christopher Green, and Abteen Arab for their work on developing the previous versions of this validator.
+# Summary of the Recommended Workflow
 
-</details>
+For most users, creating a new validator should require little or no R programming.
+
+The recommended workflow is:
+
+```text
+1. Download ShinyValidator
+          ↓
+2. Run the app locally
+          ↓
+3. Create a configuration
+          ↓
+4. Create one or more specifications
+          ↓
+5. Add specifications to data_specifications/
+          ↓
+6. Test with sample datasets
+          ↓
+7. Customize the UI if necessary
+          ↓
+8. Deploy locally or to shinyapps.io
+```
+
+The **Configuration Creation** and **Specification Creation** functions are intended to handle most customization needs. Direct modification of `ui.R`, `server.R`, or `common.R` should generally only be necessary when adding functionality beyond the existing template.
