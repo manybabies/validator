@@ -1,0 +1,14 @@
+app_title: ManyFakes Data Validator
+welcome_message: This is the fake config for a hypothetical network partner ManyFakes
+secondary_message: ~
+instruction_set_1_name: Validation Instructions
+instruction_set_1:
+- Making this different just for testing purposes
+- Click the "Browse" button on the left to select the dataset you want to validate
+links:
+- text: This is just a demo link
+  url: https://www.youtube.com/watch?v=Aq5WXmQQooo
+instruction_set_2_name: Additional instructions
+instruction_set_2: This is a demo for a second instruction line
+specification_message: This is the human-readable version of the specification you
+  have chosen.
