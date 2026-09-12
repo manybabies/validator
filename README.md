@@ -9,6 +9,7 @@ A Shiny application for validating individual lab datasets against study-specifi
 1. [User Manual - For Data Contributor](#1-user-manual---for-data-contributor)
 2. [User Manual - For Project Leads](#2-user-manual---for-project-leads)
 3. [User Manual - Developer Documentation](#3-user-manual---for-developers)
+4. [Files and Folder Structure](#4-files-and-folder-structure)
 
 ---
 
@@ -634,7 +635,7 @@ If new issue types are added to `common.R`, update `highlight_csv_to_xlsx()` if 
 
 ---
 
-# File and Folder Structure
+## 4. File and Folder Structure
 
 A typical ShinyValidator project contains the following structure:
 
