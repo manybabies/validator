@@ -231,7 +231,7 @@ The developer will test your specifications and notify you when your specificati
 
 ---
 
-# 3. User Manual - For Developers
+## 3. User Manual - For Developers
 
 The **Back-end Developer Documentation** provides detailed information about the underlying code of the validator. Note that this section is identical to that of the base version, [ShinyValidator](https://github.com/manybabies/ShinyValidator), as they share the same underlying infrastructure.
 
