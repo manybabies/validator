@@ -9,7 +9,8 @@ A Shiny application for validating individual lab datasets against study-specifi
 1. [User Manual - For Data Contributor](#1-user-manual---for-data-contributor)
 2. [User Manual - For Project Leads](#2-user-manual---for-project-leads)
 3. [User Manual - Developer Documentation](#3-user-manual---for-developers)
-4. [Files and Folder Structure](#4-files-and-folder-structure)
+4. [File and Folder Structure](#4-file-and-folder-structure)
+5. [Summary of the Recommended Workflow](#5-summary-of-the-recommended-workflow)
 
 ---
 
@@ -669,7 +670,7 @@ This separation allows the same application code to be reused across different p
 
 ---
 
-# Summary of the Recommended Workflow
+## 5. Summary of the Recommended Workflow
 
 For most users, creating a new validator should require little or no R programming.
 
