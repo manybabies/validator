@@ -6,20 +6,546 @@ library(DT)
 source("common.R")
 source("ErrorHandler.R")
 
+# Load configuration
+config <- yaml::read_yaml("configuration/config_ManyBabies.yaml")
+
 server <- function(input, output, session) {
   
-  ## Study format
+  # Selected configuration
   
-  output$study_format <- renderUI({
-    selectInput(
-      "format",
-      label = h4("Study Format"),
-      choices = filter(studies, study == input$study)$format
+  selected_config <- reactive({
+    
+    req(input$configuration)
+    
+    yaml::read_yaml(
+      file.path(
+        "configuration",
+        input$configuration
+      )
     )
   })
   
+  # Selected configuration name
   
-  ## Specification
+  selected_configuration_name <- reactive({
+    
+    req(input$configuration)
+    
+    tools::file_path_sans_ext(
+      sub(
+        "^config_",
+        "",
+        input$configuration
+      )
+    )
+  })
+  
+  # Available specifications
+  
+  available_specifications <- reactive({
+    
+    req(selected_configuration_name())
+    
+    config_name <- selected_configuration_name()
+    
+    list.files(
+      "data_specifications",
+      pattern = paste0(
+        "^",
+        config_name,
+        "_.*\\.yaml$"
+      ),
+      full.names = FALSE
+    )
+  })
+  
+  # Specification information
+  
+  specification_info <- reactive({
+    
+    files <- available_specifications()
+    
+    req(length(files) > 0)
+    
+    tibble(
+      file = files,
+      study = sub(
+        "^[^_]+_([^_]+)_.*\\.yaml$",
+        "\\1",
+        files
+      ),
+      format = sub(
+        "^[^_]+_[^_]+_(.*)\\.yaml$",
+        "\\1",
+        files
+      )
+    )
+  })
+  
+  # Study selection
+  
+  output$study_selection <- renderUI({
+    
+    info <- specification_info()
+    
+    studies_available <- unique(info$study)
+    
+    if (length(studies_available) == 0) {
+      
+      div(
+        class = "no-specifications",
+        
+        strong("No specifications available"),
+        
+        p(
+          "No data specifications have been created for this configuration."
+        )
+      )
+      
+    } else {
+      
+      selectInput(
+        "study",
+        h4("Study"),
+        choices = studies_available
+      )
+    }
+  })
+  
+  # Reset study when configuration changes
+  
+  observeEvent(
+    selected_configuration_name(),
+    {
+      info <- specification_info()
+      
+      studies_available <- unique(info$study)
+      
+      updateSelectInput(
+        session,
+        "study",
+        choices = studies_available,
+        selected = if (length(studies_available) > 0) {
+          studies_available[1]
+        } else {
+          NULL
+        }
+      )
+    },
+    ignoreInit = FALSE
+  )
+  
+  # Application title
+  
+  output$app_title <- renderUI({
+    
+    current_config <- selected_config()
+    
+    titlePanel(current_config$app_title)
+  })
+  
+  # Specification message
+  
+  output$specification_message <- renderUI({
+    
+    current_config <- selected_config()
+    
+    p(
+      current_config$specification_message
+    )
+  })
+  
+  # Configuration Creation
+  
+  output$configuration_creation_content <- renderUI({
+    
+    current_config <- selected_config()
+    
+    # Get instruction set names
+    
+    instruction_set_1_name <- if (
+      !is.null(current_config$instruction_set_1_name) &&
+      nzchar(current_config$instruction_set_1_name)
+    ) {
+      current_config$instruction_set_1_name
+    } else {
+      "Instruction Set 1"
+    }
+    
+    instruction_set_2_name <- if (
+      !is.null(current_config$instruction_set_2_name) &&
+      nzchar(current_config$instruction_set_2_name)
+    ) {
+      current_config$instruction_set_2_name
+    } else {
+      "Instruction Set 2"
+    }
+    
+    tagList(
+      
+      h3("Configuration Creation"),
+      
+      h4("Create your configuration"),
+      
+      p(
+        "Customize the text and links used by your ShinyValidator. ",
+        "The fields below are pre-populated with the current configuration."
+      ),
+      
+      # Application title
+      
+      textInput(
+        "config_app_title",
+        "Application title:",
+        value = current_config$app_title
+      ),
+      
+      # Welcome message
+      
+      checkboxInput(
+        "enable_welcome_message",
+        "Enable welcome message",
+        value = !is.null(current_config$welcome_message) &&
+          nzchar(current_config$welcome_message)
+      ),
+      
+      conditionalPanel(
+        condition = "input.enable_welcome_message",
+        
+        textAreaInput(
+          "config_welcome_message",
+          "Welcome message:",
+          value = if (
+            is.null(current_config$welcome_message)
+          ) {
+            ""
+          } else {
+            current_config$welcome_message
+          },
+          rows = 3
+        )
+      ),
+      
+      # Secondary message
+      
+      checkboxInput(
+        "enable_secondary_message",
+        "Enable secondary message",
+        value = !is.null(current_config$secondary_message) &&
+          nzchar(current_config$secondary_message)
+      ),
+      
+      conditionalPanel(
+        condition = "input.enable_secondary_message",
+        
+        textAreaInput(
+          "config_secondary_message",
+          "Secondary message:",
+          value = if (
+            is.null(current_config$secondary_message)
+          ) {
+            ""
+          } else {
+            current_config$secondary_message
+          },
+          rows = 3
+        )
+      ),
+      
+      br(),
+      
+      # Instruction Sets and Links
+      
+      fluidRow(
+        
+        # Instruction Set 1
+        
+        column(
+          width = 4,
+          
+          h4("Instruction Set 1"),
+          
+          textInput(
+            "config_instruction_set_1_name",
+            "Section name:",
+            value = instruction_set_1_name
+          ),
+          
+          checkboxInput(
+            "enable_instruction_set_1",
+            "Enable instruction set",
+            value = !is.null(current_config$instruction_set_1) &&
+              length(current_config$instruction_set_1) > 0
+          ),
+          
+          conditionalPanel(
+            condition = "input.enable_instruction_set_1",
+            
+            numericInput(
+              "num_instruction_lines",
+              "Number of instruction lines:",
+              value = if (
+                is.null(current_config$instruction_set_1)
+              ) {
+                1
+              } else {
+                length(unlist(current_config$instruction_set_1))
+              },
+              min = 1,
+              max = 20
+            ),
+            
+            uiOutput("instruction_fields")
+          )
+        ),
+        
+        # Instruction Set 2
+        
+        column(
+          width = 4,
+          
+          h4("Instruction Set 2"),
+          
+          textInput(
+            "config_instruction_set_2_name",
+            "Section name:",
+            value = instruction_set_2_name
+          ),
+          
+          checkboxInput(
+            "enable_instruction_set_2",
+            "Enable instruction set",
+            value = !is.null(current_config$instruction_set_2) &&
+              length(current_config$instruction_set_2) > 0
+          ),
+          
+          conditionalPanel(
+            condition = "input.enable_instruction_set_2",
+            
+            numericInput(
+              "num_upload_instruction_lines",
+              "Number of instruction lines:",
+              value = if (
+                is.null(current_config$instruction_set_2)
+              ) {
+                1
+              } else {
+                length(unlist(current_config$instruction_set_2))
+              },
+              min = 1,
+              max = 20
+            ),
+            
+            uiOutput("upload_instruction_fields")
+          )
+        ),
+        
+        # Links
+        
+        column(
+          width = 4,
+          
+          h4("Links"),
+          
+          checkboxInput(
+            "enable_links",
+            "Enable Links",
+            value = !is.null(current_config$links) &&
+              length(current_config$links) > 0
+          ),
+          
+          conditionalPanel(
+            condition = "input.enable_links",
+            
+            numericInput(
+              "num_links",
+              "Number of links:",
+              value = if (
+                is.null(current_config$links)
+              ) {
+                1
+              } else {
+                length(current_config$links)
+              },
+              min = 1,
+              max = 20
+            ),
+            
+            uiOutput("link_fields")
+          )
+        )
+      ),
+      
+      br(),
+      
+      downloadButton(
+        "downloadConfiguration",
+        "Download Configuration"
+      )
+    )
+  })
+  
+  # Validation Results configuration content
+  
+  output$validation_config_content <- renderUI({
+    
+    current_config <- selected_config()
+    
+    # Get instruction set names
+    
+    instruction_set_1_name <- if (
+      !is.null(current_config$instruction_set_1_name) &&
+      nzchar(current_config$instruction_set_1_name)
+    ) {
+      current_config$instruction_set_1_name
+    } else {
+      "Instruction Set 1"
+    }
+    
+    instruction_set_2_name <- if (
+      !is.null(current_config$instruction_set_2_name) &&
+      nzchar(current_config$instruction_set_2_name)
+    ) {
+      current_config$instruction_set_2_name
+    } else {
+      "Instruction Set 2"
+    }
+    
+    tagList(
+      
+      h3("Validation Results"),
+      
+      if (
+        !is.null(current_config$welcome_message) &&
+        nzchar(current_config$welcome_message)
+      ) {
+        p(
+          strong(current_config$welcome_message)
+        )
+      },
+      
+      if (
+        !is.null(current_config$secondary_message) &&
+        nzchar(current_config$secondary_message)
+      ) {
+        p(
+          em(current_config$secondary_message)
+        )
+      },
+      
+      fluidRow(
+        
+        # Instruction Sets
+        
+        column(
+          width = 8,
+          
+          if (
+            !is.null(current_config$instruction_set_1) &&
+            length(current_config$instruction_set_1) > 0
+          ) {
+            tagList(
+              h4(instruction_set_1_name),
+              
+              lapply(
+                current_config$instruction_set_1,
+                function(x) p(x)
+              )
+            )
+          },
+          
+          if (
+            !is.null(current_config$instruction_set_2) &&
+            length(current_config$instruction_set_2) > 0
+          ) {
+            tagList(
+              h4(instruction_set_2_name),
+              
+              lapply(
+                current_config$instruction_set_2,
+                function(x) p(x)
+              )
+            )
+          }
+        ),
+        
+        # Links
+        
+        column(
+          width = 4,
+          
+          if (
+            !is.null(current_config$links) &&
+            length(current_config$links) > 0
+          ) {
+            tagList(
+              h4("Links"),
+              
+              lapply(
+                current_config$links,
+                function(link) {
+                  tags$p(
+                    tags$a(
+                      href = link$url,
+                      link$text,
+                      target = "_blank"
+                    )
+                  )
+                }
+              )
+            )
+          }
+        )
+      )
+    )
+  })
+  
+  # Study format
+  
+  output$study_format <- renderUI({
+    
+    req(input$study)
+    
+    info <- specification_info()
+    
+    available_formats <- info %>%
+      filter(study == input$study) %>%
+      pull(format)
+    
+    selectInput(
+      "format",
+      label = h4("Study Format"),
+      choices = available_formats
+    )
+  })
+  
+  # Reset format when study changes
+  
+  observeEvent(
+    input$study,
+    {
+      info <- specification_info()
+      
+      formats_available <- info %>%
+        filter(study == input$study) %>%
+        pull(format) %>%
+        unique()
+      
+      updateSelectInput(
+        session,
+        "format",
+        choices = formats_available,
+        selected = if (length(formats_available) > 0) {
+          formats_available[1]
+        } else {
+          NULL
+        }
+      )
+    },
+    ignoreInit = FALSE
+  )
+  
+  # Specification
   
   output$specification <- renderUI({
     
@@ -27,6 +553,8 @@ server <- function(input, output, session) {
     
     yaml_file_path <- paste0(
       "data_specifications/",
+      selected_configuration_name(),
+      "_",
       input$study,
       "_",
       input$format,
@@ -44,13 +572,6 @@ server <- function(input, output, session) {
     )
     
     tagList(
-      h3("Dataset Specification"),
-      
-      p(
-        "The following describes the requirements for each variable ",
-        "in this dataset."
-      ),
-      
       lapply(fields, function(field) {
         
         field_name <- field$field
@@ -90,7 +611,7 @@ server <- function(input, output, session) {
           na_text
         )
         
-        ## Options
+        # Options
         
         if (field$type == "options") {
           
@@ -111,7 +632,7 @@ server <- function(input, output, session) {
           )
         }
         
-        ## Numeric
+        # Numeric
         
         if (field$type == "numeric") {
           
@@ -172,7 +693,7 @@ server <- function(input, output, session) {
           }
         }
         
-        ## String
+        # String
         
         if (field$type == "string") {
           
@@ -254,8 +775,7 @@ server <- function(input, output, session) {
     )
   })
   
-  
-  ## Validation errors
+  # Validation errors
   
   output$errors_by_column <- renderUI({
     
@@ -264,6 +784,8 @@ server <- function(input, output, session) {
     
     yaml_file_path <- paste0(
       "data_specifications/",
+      selected_configuration_name(),
+      "_",
       input$study,
       "_",
       input$format,
@@ -297,13 +819,13 @@ server <- function(input, output, session) {
       )
     }
     
-    ## Errors by row
+    # Errors by row
     
     if (identical(input$error_view, "row")) {
       
       row_errors <- list()
       
-      ## Missing required columns
+      # Missing required columns
       
       for (issue in issues) {
         
@@ -334,7 +856,7 @@ server <- function(input, output, session) {
         }
       }
       
-      ## Collect cell errors
+      # Collect cell errors
       
       cell_errors <- list()
       
@@ -372,7 +894,7 @@ server <- function(input, output, session) {
         }
       }
       
-      ## Group errors by row
+      # Group errors by row
       
       if (length(cell_errors) > 0) {
         
@@ -440,7 +962,7 @@ server <- function(input, output, session) {
       )
     }
     
-    ## Errors by column
+    # Errors by column
     
     tagList(
       h4("Errors by column"),
@@ -504,8 +1026,146 @@ server <- function(input, output, session) {
     )
   })
   
+  # Configuration Creation — Instruction Set 1
   
-  ## User-created specification
+  output$instruction_fields <- renderUI({
+    
+    req(isTRUE(input$enable_instruction_set_1))
+    
+    n <- input$num_instruction_lines
+    
+    if (is.null(n) || is.na(n) || n < 1) {
+      return(NULL)
+    }
+    
+    current_config <- selected_config()
+    
+    defaults <- if (is.null(current_config$instruction_set_1)) {
+      character(0)
+    } else {
+      as.character(
+        unlist(
+          current_config$instruction_set_1,
+          use.names = FALSE
+        )
+      )
+    }
+    
+    lapply(seq_len(n), function(i) {
+      
+      textInput(
+        paste0("config_instruction_", i),
+        paste0("Instruction ", i, ":"),
+        value = if (i <= length(defaults)) {
+          defaults[i]
+        } else {
+          ""
+        }
+      )
+    })
+  })
+  
+  # Configuration Creation — Instruction Set 2
+  
+  output$upload_instruction_fields <- renderUI({
+    
+    req(isTRUE(input$enable_instruction_set_2))
+    
+    n <- input$num_upload_instruction_lines
+    
+    if (is.null(n) || is.na(n) || n < 1) {
+      return(NULL)
+    }
+    
+    current_config <- selected_config()
+    
+    defaults <- if (is.null(current_config$instruction_set_2)) {
+      character(0)
+    } else {
+      as.character(
+        unlist(
+          current_config$instruction_set_2,
+          use.names = FALSE
+        )
+      )
+    }
+    
+    lapply(seq_len(n), function(i) {
+      
+      textInput(
+        paste0("config_upload_instruction_", i),
+        paste0("Instruction ", i, ":"),
+        value = if (i <= length(defaults)) {
+          defaults[i]
+        } else {
+          ""
+        }
+      )
+    })
+  })
+  
+  # Configuration Creation — Links
+  
+  output$link_fields <- renderUI({
+    
+    req(isTRUE(input$enable_links))
+    
+    n <- input$num_links
+    
+    if (is.null(n) || is.na(n) || n < 1) {
+      return(NULL)
+    }
+    
+    current_config <- selected_config()
+    
+    defaults <- if (is.null(current_config$links)) {
+      list()
+    } else {
+      current_config$links
+    }
+    
+    lapply(seq_len(n), function(i) {
+      
+      default_text <- if (
+        i <= length(defaults) &&
+        !is.null(defaults[[i]][["text"]])
+      ) {
+        as.character(defaults[[i]][["text"]])
+      } else {
+        ""
+      }
+      
+      default_url <- if (
+        i <= length(defaults) &&
+        !is.null(defaults[[i]][["url"]])
+      ) {
+        as.character(defaults[[i]][["url"]])
+      } else {
+        ""
+      }
+      
+      tagList(
+        
+        h5(paste("Link", i)),
+        
+        textInput(
+          paste0("config_link_text_", i),
+          "Link text:",
+          value = default_text
+        ),
+        
+        textInput(
+          paste0("config_link_url_", i),
+          "Hyperlink:",
+          value = default_url
+        ),
+        
+        br()
+      )
+    })
+  })
+  
+  # User-created specification
   
   userData <- reactive({
     
@@ -696,8 +1356,7 @@ server <- function(input, output, session) {
     data_list
   })
   
-  
-  ## Download specification
+  # Download specification
   
   output$downloadSetup <- downloadHandler(
     
@@ -734,8 +1393,199 @@ server <- function(input, output, session) {
     }
   )
   
+  # Download configuration
   
-  ## Create variable tabs
+  output$downloadConfiguration <- downloadHandler(
+    
+    filename = function() {
+      "config.yaml"
+    },
+    
+    contentType = "text/yaml",
+    
+    content = function(file) {
+      
+      # Welcome message
+      
+      welcome_message <- NULL
+      
+      if (isTRUE(input$enable_welcome_message)) {
+        
+        welcome_message <- input$config_welcome_message
+        
+        if (
+          is.null(welcome_message) ||
+          !nzchar(trimws(welcome_message))
+        ) {
+          welcome_message <- NULL
+        }
+      }
+      
+      # Secondary message
+      
+      secondary_message <- NULL
+      
+      if (isTRUE(input$enable_secondary_message)) {
+        
+        secondary_message <- input$config_secondary_message
+        
+        if (
+          is.null(secondary_message) ||
+          !nzchar(trimws(secondary_message))
+        ) {
+          secondary_message <- NULL
+        }
+      }
+      
+      # Instruction Set 1
+      
+      instructions <- character(0)
+      
+      if (isTRUE(input$enable_instruction_set_1)) {
+        
+        n_instructions <- input$num_instruction_lines
+        
+        if (
+          !is.null(n_instructions) &&
+          !is.na(n_instructions) &&
+          n_instructions > 0
+        ) {
+          
+          instructions <- vapply(
+            seq_len(n_instructions),
+            function(i) {
+              
+              value <- input[[paste0(
+                "config_instruction_",
+                i
+              )]]
+              
+              if (is.null(value)) {
+                ""
+              } else {
+                value
+              }
+            },
+            character(1)
+          )
+        }
+      }
+      
+      # Links
+      
+      links <- list()
+      
+      if (isTRUE(input$enable_links)) {
+        
+        n_links <- input$num_links
+        
+        if (
+          !is.null(n_links) &&
+          !is.na(n_links) &&
+          n_links > 0
+        ) {
+          
+          links <- lapply(
+            seq_len(n_links),
+            function(i) {
+              
+              text <- input[[paste0(
+                "config_link_text_",
+                i
+              )]]
+              
+              url <- input[[paste0(
+                "config_link_url_",
+                i
+              )]]
+              
+              list(
+                text = if (is.null(text)) "" else text,
+                url = if (is.null(url)) "" else url
+              )
+            }
+          )
+        }
+      }
+      
+      # Instruction Set 2
+      
+      upload_instructions <- character(0)
+      
+      if (isTRUE(input$enable_instruction_set_2)) {
+        
+        n_upload_instructions <- input$num_upload_instruction_lines
+        
+        if (
+          !is.null(n_upload_instructions) &&
+          !is.na(n_upload_instructions) &&
+          n_upload_instructions > 0
+        ) {
+          
+          upload_instructions <- vapply(
+            seq_len(n_upload_instructions),
+            function(i) {
+              
+              value <- input[[paste0(
+                "config_upload_instruction_",
+                i
+              )]]
+              
+              if (is.null(value)) {
+                ""
+              } else {
+                value
+              }
+            },
+            character(1)
+          )
+        }
+      }
+      
+      # Instruction set names
+      
+      instruction_set_1_name <- input$config_instruction_set_1_name
+      
+      if (
+        is.null(instruction_set_1_name) ||
+        !nzchar(trimws(instruction_set_1_name))
+      ) {
+        instruction_set_1_name <- "Instruction Set 1"
+      }
+      
+      instruction_set_2_name <- input$config_instruction_set_2_name
+      
+      if (
+        is.null(instruction_set_2_name) ||
+        !nzchar(trimws(instruction_set_2_name))
+      ) {
+        instruction_set_2_name <- "Instruction Set 2"
+      }
+      
+      # Create configuration
+      
+      configuration <- list(
+        app_title = input$config_app_title,
+        welcome_message = welcome_message,
+        secondary_message = secondary_message,
+        instruction_set_1_name = instruction_set_1_name,
+        instruction_set_1 = instructions,
+        links = links,
+        instruction_set_2_name = instruction_set_2_name,
+        instruction_set_2 = upload_instructions,
+        specification_message = config$specification_message
+      )
+      
+      # Write YAML
+      
+      yaml::write_yaml(
+        configuration,
+        file
+      )
+    }
+  )
+  
+  # Create variable tabs
   
   createVariableTab <- function(i) {
     
@@ -809,7 +1659,7 @@ server <- function(input, output, session) {
         column(
           width = 4,
           
-          ## Numeric
+          # Numeric
           
           conditionalPanel(
             condition = paste0(
@@ -899,7 +1749,7 @@ server <- function(input, output, session) {
             )
           ),
           
-          ## Options
+          # Options
           
           conditionalPanel(
             condition = paste0(
@@ -921,7 +1771,7 @@ server <- function(input, output, session) {
             )
           ),
           
-          ## String
+          # String
           
           conditionalPanel(
             condition = paste0(
@@ -955,22 +1805,27 @@ server <- function(input, output, session) {
                 paste0("example_1_", i),
                 "Example value 1:"
               ),
+              
               textInput(
                 paste0("example_2_", i),
                 "Example value 2:"
               ),
+              
               textInput(
                 paste0("example_3_", i),
                 "Example value 3:"
               ),
+              
               textInput(
                 paste0("example_4_", i),
                 "Example value 4:"
               ),
+              
               textInput(
                 paste0("example_5_", i),
                 "Example value 5:"
               ),
+              
               helpText(
                 "Enter five examples of valid values."
               ),
@@ -1028,6 +1883,7 @@ server <- function(input, output, session) {
           width = 12,
           
           br(),
+          
           h4("Error Message"),
           
           textInput(
@@ -1039,8 +1895,7 @@ server <- function(input, output, session) {
     )
   }
   
-  
-  ## Manage variable tabs
+  # Manage variable tabs
   
   current_num_vars <- reactiveVal(0)
   
@@ -1082,8 +1937,7 @@ server <- function(input, output, session) {
     current_num_vars(new_num_vars)
   })
   
-  
-  ## Generate option inputs
+  # Generate option inputs
   
   observe({
     
@@ -1108,6 +1962,7 @@ server <- function(input, output, session) {
           }
           
           lapply(1:n_options, function(k) {
+            
             textInput(
               paste0("option_", k, "_", j),
               paste0("Option ", k, ":")
@@ -1118,8 +1973,7 @@ server <- function(input, output, session) {
     }
   })
   
-  
-  ## Validate example inputs
+  # Validate example inputs
   
   observe({
     
@@ -1135,7 +1989,10 @@ server <- function(input, output, session) {
           
           output[[paste0("example_validation_", j)]] <- renderUI({
             
-            validation <- input[[paste0("string_validation_", j)]]
+            validation <- input[[paste0(
+              "string_validation_",
+              j
+            )]]
             
             if (
               is.null(validation) ||
@@ -1173,8 +2030,7 @@ server <- function(input, output, session) {
     }
   })
   
-  
-  ## Download setup button
+  # Download setup button
   
   output$downloadSetupButton <- renderUI({
     
@@ -1228,6 +2084,7 @@ server <- function(input, output, session) {
     } else {
       
       tagList(
+        
         tags$button(
           type = "button",
           class = "btn btn-default disabled",
@@ -1245,8 +2102,7 @@ server <- function(input, output, session) {
     }
   })
   
-  
-  ## Download highlighted dataset
+  # Download highlighted dataset
   
   output$downloadHighlighted <- downloadHandler(
     
@@ -1275,6 +2131,8 @@ server <- function(input, output, session) {
       
       yaml_file_path <- paste0(
         "data_specifications/",
+        selected_configuration_name(),
+        "_",
         input$study,
         "_",
         input$format,
@@ -1356,8 +2214,7 @@ server <- function(input, output, session) {
     }
   )
   
-  
-  ## Validation preview
+  # Validation preview
   
   output$validation_preview <- DT::renderDT({
     
@@ -1366,6 +2223,8 @@ server <- function(input, output, session) {
     
     yaml_file_path <- paste0(
       "data_specifications/",
+      selected_configuration_name(),
+      "_",
       input$study,
       "_",
       input$format,
@@ -1397,7 +2256,7 @@ server <- function(input, output, session) {
       rownames = FALSE
     )
     
-    ## Highlight invalid cells
+    # Highlight invalid cells
     
     invalid_cells <- list()
     
@@ -1430,7 +2289,7 @@ server <- function(input, output, session) {
       }
     }
     
-    ## Create JavaScript for cell highlighting
+    # Create JavaScript for cell highlighting
     
     highlight_js <- if (length(invalid_cells) > 0) {
       
@@ -1459,7 +2318,7 @@ server <- function(input, output, session) {
       )
     }
     
-    ## Create table
+    # Create table
     
     table <- DT::datatable(
       df,
@@ -1472,6 +2331,6 @@ server <- function(input, output, session) {
     )
     
     table
-
+    
   })
 }

@@ -1,0 +1,27 @@
+# ManyBabies configuration
+
+# Application title
+app_title: ManyBabies Data Validator
+
+# Welcome message
+welcome_message: Welcome to the ManyBabies Data Validator!
+
+# Secondary message
+secondary_message: 
+
+# Instruction Set 1
+instruction_set_1_name: Validation Instructions
+instruction_set_1:
+- Choose a study and format to validate your dataset
+- Click the "Browse" button on the left to select the dataset you want to validate
+
+# Links
+links:
+- text: You can check your LabID here
+  url: https://manybabies.org/labids/
+- text: ManyBabies Website
+  url: https://manybabies.org/
+
+
+# Specification message
+specification_message: This is the human-readable version of the specification you have chosen.
