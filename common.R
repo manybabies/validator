@@ -1,6 +1,9 @@
 library(tidyverse)
 library(stringr)
 
+
+# Load available studies ---------------------------------------------------------------
+
 studies <- tibble(
   file = list.files(
     path = "data_specifications",
@@ -19,12 +22,16 @@ studies <- tibble(
     remove = TRUE
   )
 
-# Main validation function
+
+# Main validation function --------------------------------------------------------------
+
 validate_dataset <- function(fields, dataset_contents) {
   
   issues <- list()
   
-  # Check for missing columns
+  
+  # Check for missing columns -----------------------------------------------------------
+  
   for (field in fields) {
     
     if (
@@ -41,7 +48,9 @@ validate_dataset <- function(fields, dataset_contents) {
     }
   }
   
-  # Validate cells
+  
+  # Validate cells ----------------------------------------------------------------------
+  
   for (field in fields) {
     
     if (!(field$field %in% names(dataset_contents))) {
@@ -71,7 +80,9 @@ validate_dataset <- function(fields, dataset_contents) {
   )
 }
 
-# Validate a field
+
+# Validate a field ----------------------------------------------------------------------
+
 validate_dataset_field <- function(dataset_contents, field) {
   
   if (!(field$field %in% names(dataset_contents))) {
@@ -80,7 +91,9 @@ validate_dataset_field <- function(dataset_contents, field) {
   
   field_contents <- dataset_contents[[field$field]]
   
-  # Check missing values
+  
+  # Check missing values ----------------------------------------------------------------
+  
   if (!field$NA_allowed) {
     
     missing_rows <- which(is.na(field_contents))
@@ -98,7 +111,9 @@ validate_dataset_field <- function(dataset_contents, field) {
     }
   }
   
-  # Validate field type
+  
+  # Validate field type -----------------------------------------------------------------
+  
   if (field$type == "options") {
     
     return(
@@ -142,7 +157,9 @@ validate_dataset_field <- function(dataset_contents, field) {
   return(list(TRUE, NULL))
 }
 
-# Validate option fields
+
+# Validate option fields ----------------------------------------------------------------
+
 ValidateOption <- function(dataset_contents, field) {
   
   field_contents <- dataset_contents[[field$field]]
@@ -176,7 +193,9 @@ ValidateOption <- function(dataset_contents, field) {
   return(list(TRUE, NULL))
 }
 
-# Validate numeric fields
+
+# Validate numeric fields ---------------------------------------------------------------
+
 ValidateNumeric <- function(dataset_contents, field) {
   
   field_contents <- dataset_contents[[field$field]]
@@ -187,6 +206,9 @@ ValidateNumeric <- function(dataset_contents, field) {
   numeric_values <- suppressWarnings(
     as.numeric(field_contents)
   )
+  
+  
+  # Check non-numeric values ------------------------------------------------------------
   
   non_numeric_indices <- which(
     is.na(numeric_values) &
@@ -206,7 +228,9 @@ ValidateNumeric <- function(dataset_contents, field) {
     )
   }
   
-  # Check numeric range
+  
+  # Check numeric range -----------------------------------------------------------------
+  
   if (field$format == "restricted") {
     
     lowerLimit <- as.numeric(field$lowerlimit)
@@ -251,7 +275,9 @@ ValidateNumeric <- function(dataset_contents, field) {
     }
   }
   
-  # Check decimal restrictions
+  
+  # Check decimal restrictions ----------------------------------------------------------
+  
   if (field$allow_decimals == "no") {
     
     decimal_indices <- which(
@@ -273,7 +299,9 @@ ValidateNumeric <- function(dataset_contents, field) {
     }
   }
   
-  # Check decimal places
+  
+  # Check decimal places ----------------------------------------------------------------
+  
   if (field$allow_decimals == "yes") {
     
     min_decimals <- as.numeric(field$min_decimals)
@@ -338,6 +366,9 @@ ValidateNumeric <- function(dataset_contents, field) {
     }
   }
   
+  
+  # Return validation result ------------------------------------------------------------
+  
   if (length(invalid_rows) > 0) {
     
     incorrect <- list(
@@ -353,12 +384,17 @@ ValidateNumeric <- function(dataset_contents, field) {
   return(list(TRUE, NULL))
 }
 
-# Validate string fields
+
+# Validate string fields ----------------------------------------------------------------
+
 ValidateString <- function(dataset_contents, field) {
   
   field_contents <- dataset_contents[[field$field]]
   
   invalid_rows <- c()
+  
+  
+  # Check lowercase ---------------------------------------------------------------------
   
   if (field$format == "uncapitalized") {
     
@@ -373,6 +409,9 @@ ValidateString <- function(dataset_contents, field) {
     )
   }
   
+  
+  # Check uppercase ---------------------------------------------------------------------
+  
   if (field$format == "capitalized") {
     
     lowercase_rows <- which(
@@ -385,6 +424,9 @@ ValidateString <- function(dataset_contents, field) {
       lowercase_rows
     )
   }
+  
+  
+  # Check minimum length ----------------------------------------------------------------
   
   if (!is.na(field$lowerlimit)) {
     
@@ -401,6 +443,9 @@ ValidateString <- function(dataset_contents, field) {
     )
   }
   
+  
+  # Check maximum length ----------------------------------------------------------------
+  
   if (!is.na(field$upperlimit)) {
     
     upperLimit <- as.numeric(field$upperlimit)
@@ -415,6 +460,9 @@ ValidateString <- function(dataset_contents, field) {
       long_rows
     )
   }
+  
+  
+  # Return validation result ------------------------------------------------------------
   
   invalid_rows <- sort(unique(invalid_rows))
   
@@ -433,7 +481,9 @@ ValidateString <- function(dataset_contents, field) {
   return(list(TRUE, NULL))
 }
 
-# Generate regex from examples
+
+# Generate regex from examples ----------------------------------------------------------
+
 GenerateRegex <- function(examples) {
   
   examples <- examples[
@@ -444,6 +494,9 @@ GenerateRegex <- function(examples) {
   if (length(examples) < 2) {
     return(NA)
   }
+  
+  
+  # Find common prefix ------------------------------------------------------------------
   
   common_prefix <- examples[1]
   
@@ -471,11 +524,17 @@ GenerateRegex <- function(examples) {
     )
   }
   
+  
+  # Identify remaining characters -------------------------------------------------------
+  
   remaining <- substr(
     examples,
     nchar(common_prefix) + 1,
     nchar(examples)
   )
+  
+  
+  # Numeric pattern ---------------------------------------------------------------------
   
   if (all(grepl("^[0-9]+$", remaining))) {
     return(
@@ -488,6 +547,9 @@ GenerateRegex <- function(examples) {
     )
   }
   
+  
+  # Lowercase pattern -------------------------------------------------------------------
+  
   if (all(grepl("^[a-z]+$", remaining))) {
     return(
       paste0(
@@ -498,6 +560,9 @@ GenerateRegex <- function(examples) {
       )
     )
   }
+  
+  
+  # Uppercase pattern -------------------------------------------------------------------
   
   if (all(grepl("^[A-Z]+$", remaining))) {
     return(
@@ -510,6 +575,9 @@ GenerateRegex <- function(examples) {
     )
   }
   
+  
+  # Letters pattern ---------------------------------------------------------------------
+  
   if (all(grepl("^[A-Za-z]+$", remaining))) {
     return(
       paste0(
@@ -520,6 +588,9 @@ GenerateRegex <- function(examples) {
       )
     )
   }
+  
+  
+  # Alphanumeric pattern ----------------------------------------------------------------
   
   if (all(grepl("^[A-Za-z0-9]+$", remaining))) {
     return(
@@ -535,12 +606,16 @@ GenerateRegex <- function(examples) {
   NA
 }
 
-# Validate regex fields
+
+# Validate regex fields -----------------------------------------------------------------
+
 ValidateRegex <- function(dataset_contents, field) {
   
   field_contents <- dataset_contents[[field$field]]
   
-  # Check whether regex is valid
+  
+  # Check whether regex is valid --------------------------------------------------------
+  
   regex_valid <- tryCatch(
     {
       grepl(
@@ -567,7 +642,9 @@ ValidateRegex <- function(dataset_contents, field) {
     )
   }
   
-  # Find invalid cells
+  
+  # Find invalid cells ------------------------------------------------------------------
+  
   invalid_rows <- which(
     !is.na(field_contents) &
       !grepl(
@@ -592,7 +669,9 @@ ValidateRegex <- function(dataset_contents, field) {
   return(list(TRUE, NULL))
 }
 
-# Generate error explanations
+
+# Generate error explanations -----------------------------------------------------------
+
 explain_error <- function(issue, fields) {
   
   field_index <- which(
@@ -616,7 +695,9 @@ explain_error <- function(issue, fields) {
   
   field <- fields[[field_index[1]]]
   
-  # Custom error message
+  
+  # Custom error message ----------------------------------------------------------------
+  
   error_message <- field$error_message
   
   if (
@@ -628,14 +709,18 @@ explain_error <- function(issue, fields) {
     return(as.character(error_message))
   }
   
-  # Missing column
+  
+  # Missing column ----------------------------------------------------------------------
+  
   if (issue$type == "missing_column") {
     return(
       "This is a required column, but it was not found in the dataset."
     )
   }
   
-  # Options
+  
+  # Options -------------------------------------------------------------------------------
+  
   if (identical(field$type, "options")) {
     
     options <- field$options
@@ -661,7 +746,9 @@ explain_error <- function(issue, fields) {
     )
   }
   
-  # Numeric
+  
+  # Numeric -------------------------------------------------------------------------------
+  
   if (identical(field$type, "numeric")) {
     
     explanations <- character(0)
@@ -757,7 +844,9 @@ explain_error <- function(issue, fields) {
     }
   }
   
-  # String and regex
+  
+  # String and regex --------------------------------------------------------------------
+  
   if (identical(field$type, "string")) {
     
     pattern <- field$pattern
@@ -808,6 +897,9 @@ explain_error <- function(issue, fields) {
       )
     }
   }
+  
+  
+  # Default error message ---------------------------------------------------------------
   
   return(
     "The value does not meet the requirements in the specification."

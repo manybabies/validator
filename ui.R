@@ -3,20 +3,28 @@ library(shinythemes)
 library(DT)
 library(yaml)
 
-# Load shared functions
+
+# Load shared functions -----------------------------------------------------------------
+
 source("common.R")
 
-# Load default configuration
+
+# Load default configuration ------------------------------------------------------------
+
 config <- yaml::read_yaml("configuration/config_ManyBabies.yaml")
 
-# Available configurations
+
+# Available configurations --------------------------------------------------------------
+
 configuration_files <- list.files(
   "configuration",
   pattern = "^config_.+\\.(yaml|yml)$",
   full.names = FALSE
 )
 
-# Display configuration names without the "config_" prefix or file extension
+
+# Display configuration names -----------------------------------------------------------
+
 configuration_choices <- setNames(
   configuration_files,
   sub(
@@ -26,7 +34,9 @@ configuration_choices <- setNames(
   )
 )
 
-# Make the default configuration display as "Default"
+
+# Make the default configuration display as "Default" ----------------------------------
+
 if ("config_default.yaml" %in% names(configuration_choices)) {
   configuration_choices["config_default.yaml"] <- "Default"
 }
@@ -35,12 +45,16 @@ if ("config_default.yml" %in% names(configuration_choices)) {
   configuration_choices["config_default.yml"] <- "Default"
 }
 
-# UI
+
+# UI -----------------------------------------------------------------------------------
+
 ui <- fluidPage(
   
   theme = shinythemes::shinytheme("spacelab"),
   
-  # Friendly science app styling
+  
+  # Application styling -----------------------------------------------------------------
+  
   tags$head(
     tags$style(HTML("
       
@@ -448,19 +462,28 @@ ui <- fluidPage(
     "))
   ),
   
-  # Application title
+  
+  # Application title -------------------------------------------------------------------
+  
   div(
     class = "app-title",
     uiOutput("app_title")
   ),
   
+  
+  # Main layout -------------------------------------------------------------------------
+  
   sidebarLayout(
     
-    # Sidebar
+    
+    # Sidebar ---------------------------------------------------------------------------
+    
     sidebarPanel(
       width = 3,
       
-      # Configuration selection
+      
+      # Configuration selection ---------------------------------------------------------
+      
       selectInput(
         "configuration",
         h4("Configuration"),
@@ -468,10 +491,15 @@ ui <- fluidPage(
         selected = "config_default.yaml"
       ),
       
-      # Study selection
+      
+      # Study selection -----------------------------------------------------------------
+      
       uiOutput("study_selection"),
       
       uiOutput("study_format"),
+      
+      
+      # File selection ------------------------------------------------------------------
       
       fileInput(
         "file",
@@ -486,7 +514,9 @@ ui <- fluidPage(
       
       hr(),
       
-      # Navigation
+      
+      # Navigation ----------------------------------------------------------------------
+      
       div(
         class = "navigation-menu",
         
@@ -504,11 +534,15 @@ ui <- fluidPage(
       )
     ),
     
-    # Main panel
+    
+    # Main panel ------------------------------------------------------------------------
+    
     mainPanel(
       width = 9,
       
-      # Validation Results
+      
+      # Validation Results --------------------------------------------------------------
+      
       conditionalPanel(
         condition = "input.page == 'validation_results'",
         
@@ -545,7 +579,9 @@ ui <- fluidPage(
         DTOutput("validation_preview")
       ),
       
-      # Specification
+      
+      # Specification -------------------------------------------------------------------
+      
       conditionalPanel(
         condition = "input.page == 'specification'",
         
@@ -560,7 +596,9 @@ ui <- fluidPage(
         )
       ),
       
-      # Specification Creation
+      
+      # Specification Creation ----------------------------------------------------------
+      
       conditionalPanel(
         condition = "input.page == 'specification_creation'",
         
@@ -597,7 +635,9 @@ ui <- fluidPage(
         )
       ),
       
-      # Configuration Creation
+      
+      # Configuration Creation ----------------------------------------------------------
+      
       conditionalPanel(
         condition = "input.page == 'configuration_creation'",
         
@@ -610,7 +650,9 @@ ui <- fluidPage(
     )
   ),
   
-  # Update variable tab names and instruction set headings
+  
+  # Dynamic tab labels and headings -----------------------------------------------------
+  
   tags$script(HTML("
     document.addEventListener('input', function(event) {
       
