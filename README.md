@@ -98,7 +98,7 @@ Project leads are responsible for creating and maintaining the specification tha
 
 The specification is written as a **YAML file** and contains the expected fields, data types, and validation rules for the project. Once the specification has been created, data contributors can use it to validate their datasets without needing to know the project's specific validation requirements.
 
-**Important Note:** As of version 2.0, project leads no longer need to know how to make a `.yaml` from scratch. You can use the built-in Specification Creation feature available in the [live version of the validator](https://manybabies.shinyapps.io/validator/). This section contains instructions on using this feature; for details on the `.yaml` file, please see the [Developer Documentation](#3-developer-documentation).
+**Important Note:** As of version 2.0, project leads no longer need to know how to make a `.yaml` from scratch. You can use the built-in Specification Creation feature available in the [live version of the validator](https://manybabies.shinyapps.io/validator/). This section contains instructions on using this feature; for details on the `.yaml` file, please see the [Developer Documentation](#3-User-Manual--For-developers).
 
 ### Creating a new specification
 
