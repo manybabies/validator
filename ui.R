@@ -14,7 +14,7 @@ source("common.R")
 ## Load default configuration
 
 config <- yaml::read_yaml(
-  "configuration/config_ManyBabies.yaml"
+  "configuration/config_Default.yaml"
 )
 
 
@@ -38,6 +38,12 @@ configuration_choices <- setNames(
   )
 )
 
+
+## Make the default configuration display as "Default"
+
+if ("config_Default.yaml" %in% names(configuration_choices)) {
+  configuration_choices["config_Default.yaml"] <- "Default"
+}
 
 # UI styling -----------------------------------------------------------------------------
 
@@ -488,7 +494,7 @@ ui <- fluidPage(
         "configuration",
         h4("Configuration"),
         choices = configuration_choices,
-        selected = "config_ManyBabies.yaml"
+        selected = "config_default.yaml"
       ),
       
       

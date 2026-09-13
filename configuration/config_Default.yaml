@@ -1,0 +1,19 @@
+app_title: ShinyValidator Template
+welcome_message: This is where you put the welcome message!
+secondary_message: You can also put a secondary message here with more information.
+instruction_set_1_name: Instruction Set 1
+instruction_set_1:
+- This is the first instruction.
+- This is the second instruction.
+- This is the third instruction.
+links:
+- text: Example link to Google homepage
+  url: https://google.ca
+- text: Example link to ShinyValidator GitHub
+  url: https://github.com/manybabies/ShinyValidator
+instruction_set_2_name: Instruction Set 2
+instruction_set_2:
+- This is the first instruction for Instruction Set 2.
+- This is the second instruction for Instruction Set 2.
+specification_message: This is the human-readable version of the specification you
+  have chosen.
