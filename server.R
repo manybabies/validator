@@ -12,7 +12,7 @@ source("ErrorHandler.R")
 
 # Load default configuration -------------------------------------------------------------
 
-config <- yaml::read_yaml("configuration/config_ManyBabies.yaml")
+config <- yaml::read_yaml("configuration/config_Default.yaml")
 
 
 # Server --------------------------------------------------------------------------------
