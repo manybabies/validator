@@ -237,6 +237,8 @@ The developer will test your specifications and notify you when your specificati
 
 The **Back-end Developer Documentation** provides detailed information about the underlying code of the validator. Note that this section is identical to that of the base version, [ShinyValidator](https://github.com/manybabies/ShinyValidator), as they share the same underlying infrastructure.
 
+The five core R files (`app.R`, `ui.R`, `server.R`, `common.R`, and `ErrorHandler.R`) are maintained in the base **ShinyValidator** repository and can be synchronized to this ManyBabies repository using the `sync_shinyvalidator.sh` script described in Section 5. ManyBabies-specific configurations, specifications, sample datasets, and documentation are maintained separately in this repository.
+
 This section is intended for researchers and developers who wish to add new functions, modify existing functionality, or otherwise customize the validator beyond the options described in Section 2.
 
 If you only want to create a validator for your own project, you generally do not need to modify the code described in this section.
@@ -550,8 +552,8 @@ can be interpreted as:
 | Component     | Value        |
 | ------------- | ------------ |
 | Configuration | `ManyBabies` |
-| Study         | `MB1`  |
-| Format        | `subjects`    |
+| Study         | `MB1`        |
+| Format        | `subjects`   |
 
 Adding a correctly named specification automatically makes it available to the corresponding configuration.
 
@@ -648,6 +650,7 @@ ShinyValidator/
 ├── server.R
 ├── common.R
 ├── ErrorHandler.R
+├── sync_shinyvalidator.sh
 ├── ShinyValidator.Rproj
 │
 ├── configuration/
@@ -693,5 +696,39 @@ The recommended workflow is:
           ↓
 8. Deploy locally or to shinyapps.io
 ```
+
+### Keeping ManyBabies up to date
+
+The ManyBabies validator uses **ShinyValidator** as its base application. The five core R files are maintained in the ShinyValidator repository:
+
+```text
+app.R
+ui.R
+server.R
+common.R
+ErrorHandler.R
+```
+
+ManyBabies-specific files, including configurations, data specifications, sample datasets, and documentation, are maintained separately.
+
+When changes are made to the core validator in ShinyValidator, the updates can be synchronized to ManyBabies using the `sync_shinyvalidator.sh` script.
+
+From the ManyBabies repository, run:
+
+```bash
+bash sync_shinyvalidator.sh
+```
+
+The script fetches the latest version of ShinyValidator and updates only the five shared R files. It does not overwrite ManyBabies-specific configuration files, data specifications, sample datasets, or documentation.
+
+After running the script, review the changes before committing them:
+
+```bash
+git diff
+```
+
+If the changes are correct, commit and push them to the ManyBabies repository.
+
+This means that future changes to the validator's underlying functionality can be made in **ShinyValidator** and then transferred to ManyBabies without manually copying files or overwriting project-specific content.
 
 The **Configuration Creation** and **Specification Creation** functions are intended to handle most customization needs. Direct modification of `ui.R`, `server.R`, or `common.R` should generally only be necessary when adding functionality beyond the existing template.
