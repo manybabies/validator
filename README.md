@@ -328,11 +328,12 @@ The **Configuration Creation** and **Specification Creation** functions are inte
 
 Main developer
 
--[Francis Yuen](francis.yuen@psych.ubc.ca)
+- Francis Yuen (francis.yuen@psych.ubc.ca)
 
 MB contacts
 
--[Mike Frank](mcfrank@stanford.edu)
--[Heidi Baumgartner](heidib@manybabies.org)
+- Mike Frank (mcfrank@stanford.edu)
+
+- Heidi Baumgartner (heidib@manybabies.org)
 
 We thank Mika Braginky, Jonathan Kominsky, Christopher Green, and Abteen Arab for their work on developing the previous versions of this validator.
