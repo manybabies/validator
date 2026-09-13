@@ -29,8 +29,35 @@ validate_dataset <- function(fields, dataset_contents) {
   
   issues <- list()
   
+  # Check for unexpected columns
   
-  # Check for missing columns -----------------------------------------------------------
+  specified_columns <- vapply(
+    fields,
+    function(field) {
+      as.character(field$field)
+    },
+    character(1)
+  )
+  
+  unexpected_columns <- setdiff(
+    names(dataset_contents),
+    specified_columns
+  )
+  
+  if (length(unexpected_columns) > 0) {
+    
+    for (column in unexpected_columns) {
+      
+      issues[[length(issues) + 1]] <- list(
+        type = "unexpected_column",
+        column = column,
+        invalid_value = NA,
+        invalid_row = integer(0)
+      )
+    }
+  }
+  
+  # Check for missing columns
   
   for (field in fields) {
     
@@ -48,8 +75,7 @@ validate_dataset <- function(fields, dataset_contents) {
     }
   }
   
-  
-  # Validate cells ----------------------------------------------------------------------
+  # Validate cells
   
   for (field in fields) {
     
@@ -92,7 +118,7 @@ validate_dataset_field <- function(dataset_contents, field) {
   field_contents <- dataset_contents[[field$field]]
   
   
-  # Check missing values ----------------------------------------------------------------
+  # Check missing values
   
   if (!field$NA_allowed) {
     
@@ -112,7 +138,7 @@ validate_dataset_field <- function(dataset_contents, field) {
   }
   
   
-  # Validate field type -----------------------------------------------------------------
+  # Validate field type
   
   if (field$type == "options") {
     
@@ -158,7 +184,7 @@ validate_dataset_field <- function(dataset_contents, field) {
 }
 
 
-# Validate option fields ----------------------------------------------------------------
+# Validate option fields ---------------------------------------------------------------
 
 ValidateOption <- function(dataset_contents, field) {
   
@@ -194,7 +220,7 @@ ValidateOption <- function(dataset_contents, field) {
 }
 
 
-# Validate numeric fields ---------------------------------------------------------------
+# Validate numeric fields --------------------------------------------------------------
 
 ValidateNumeric <- function(dataset_contents, field) {
   
@@ -207,8 +233,7 @@ ValidateNumeric <- function(dataset_contents, field) {
     as.numeric(field_contents)
   )
   
-  
-  # Check non-numeric values ------------------------------------------------------------
+  # Check non-numeric values
   
   non_numeric_indices <- which(
     is.na(numeric_values) &
@@ -229,7 +254,7 @@ ValidateNumeric <- function(dataset_contents, field) {
   }
   
   
-  # Check numeric range -----------------------------------------------------------------
+  # Check numeric range
   
   if (field$format == "restricted") {
     
@@ -276,7 +301,7 @@ ValidateNumeric <- function(dataset_contents, field) {
   }
   
   
-  # Check decimal restrictions ----------------------------------------------------------
+  # Check decimal restrictions
   
   if (field$allow_decimals == "no") {
     
@@ -300,7 +325,7 @@ ValidateNumeric <- function(dataset_contents, field) {
   }
   
   
-  # Check decimal places ----------------------------------------------------------------
+  # Check decimal places
   
   if (field$allow_decimals == "yes") {
     
@@ -367,7 +392,7 @@ ValidateNumeric <- function(dataset_contents, field) {
   }
   
   
-  # Return validation result ------------------------------------------------------------
+  # Return validation result
   
   if (length(invalid_rows) > 0) {
     
@@ -394,7 +419,7 @@ ValidateString <- function(dataset_contents, field) {
   invalid_rows <- c()
   
   
-  # Check lowercase ---------------------------------------------------------------------
+  # Check lowercase
   
   if (field$format == "uncapitalized") {
     
@@ -410,7 +435,7 @@ ValidateString <- function(dataset_contents, field) {
   }
   
   
-  # Check uppercase ---------------------------------------------------------------------
+  # Check uppercase
   
   if (field$format == "capitalized") {
     
@@ -426,7 +451,7 @@ ValidateString <- function(dataset_contents, field) {
   }
   
   
-  # Check minimum length ----------------------------------------------------------------
+  # Check minimum length
   
   if (!is.na(field$lowerlimit)) {
     
@@ -444,7 +469,7 @@ ValidateString <- function(dataset_contents, field) {
   }
   
   
-  # Check maximum length ----------------------------------------------------------------
+  # Check maximum length
   
   if (!is.na(field$upperlimit)) {
     
@@ -462,7 +487,7 @@ ValidateString <- function(dataset_contents, field) {
   }
   
   
-  # Return validation result ------------------------------------------------------------
+  # Return validation result
   
   invalid_rows <- sort(unique(invalid_rows))
   
@@ -496,7 +521,7 @@ GenerateRegex <- function(examples) {
   }
   
   
-  # Find common prefix ------------------------------------------------------------------
+  # Find common prefix
   
   common_prefix <- examples[1]
   
@@ -525,7 +550,7 @@ GenerateRegex <- function(examples) {
   }
   
   
-  # Identify remaining characters -------------------------------------------------------
+  # Identify remaining characters
   
   remaining <- substr(
     examples,
@@ -534,7 +559,7 @@ GenerateRegex <- function(examples) {
   )
   
   
-  # Numeric pattern ---------------------------------------------------------------------
+  # Numeric pattern
   
   if (all(grepl("^[0-9]+$", remaining))) {
     return(
@@ -548,7 +573,7 @@ GenerateRegex <- function(examples) {
   }
   
   
-  # Lowercase pattern -------------------------------------------------------------------
+  # Lowercase pattern
   
   if (all(grepl("^[a-z]+$", remaining))) {
     return(
@@ -562,7 +587,7 @@ GenerateRegex <- function(examples) {
   }
   
   
-  # Uppercase pattern -------------------------------------------------------------------
+  # Uppercase pattern
   
   if (all(grepl("^[A-Z]+$", remaining))) {
     return(
@@ -576,7 +601,7 @@ GenerateRegex <- function(examples) {
   }
   
   
-  # Letters pattern ---------------------------------------------------------------------
+  # Letters pattern
   
   if (all(grepl("^[A-Za-z]+$", remaining))) {
     return(
@@ -590,7 +615,7 @@ GenerateRegex <- function(examples) {
   }
   
   
-  # Alphanumeric pattern ----------------------------------------------------------------
+  # Alphanumeric pattern
   
   if (all(grepl("^[A-Za-z0-9]+$", remaining))) {
     return(
@@ -607,14 +632,14 @@ GenerateRegex <- function(examples) {
 }
 
 
-# Validate regex fields -----------------------------------------------------------------
+# Validate regex fields ----------------------------------------------------------------
 
 ValidateRegex <- function(dataset_contents, field) {
   
   field_contents <- dataset_contents[[field$field]]
   
   
-  # Check whether regex is valid --------------------------------------------------------
+  # Check whether regex is valid
   
   regex_valid <- tryCatch(
     {
@@ -643,7 +668,7 @@ ValidateRegex <- function(dataset_contents, field) {
   }
   
   
-  # Find invalid cells ------------------------------------------------------------------
+  # Find invalid cells
   
   invalid_rows <- which(
     !is.na(field_contents) &
@@ -696,7 +721,7 @@ explain_error <- function(issue, fields) {
   field <- fields[[field_index[1]]]
   
   
-  # Custom error message ----------------------------------------------------------------
+  # Custom error message
   
   error_message <- field$error_message
   
@@ -709,8 +734,15 @@ explain_error <- function(issue, fields) {
     return(as.character(error_message))
   }
   
+  # Unexpected column
   
-  # Missing column ----------------------------------------------------------------------
+  if (issue$type == "unexpected_column") {
+    return(
+      "This column is not included in the dataset specification."
+    )
+  }
+  
+  # Missing column
   
   if (issue$type == "missing_column") {
     return(
@@ -719,7 +751,7 @@ explain_error <- function(issue, fields) {
   }
   
   
-  # Options -------------------------------------------------------------------------------
+  # Options
   
   if (identical(field$type, "options")) {
     
@@ -747,7 +779,7 @@ explain_error <- function(issue, fields) {
   }
   
   
-  # Numeric -------------------------------------------------------------------------------
+  # Numeric
   
   if (identical(field$type, "numeric")) {
     
@@ -845,7 +877,7 @@ explain_error <- function(issue, fields) {
   }
   
   
-  # String and regex --------------------------------------------------------------------
+  # String and regex
   
   if (identical(field$type, "string")) {
     
@@ -899,7 +931,7 @@ explain_error <- function(issue, fields) {
   }
   
   
-  # Default error message ---------------------------------------------------------------
+  # Default error message
   
   return(
     "The value does not meet the requirements in the specification."

@@ -4,56 +4,46 @@ library(DT)
 library(yaml)
 
 
-# Load shared functions -----------------------------------------------------------------
+# Packages and shared functions ----------------------------------------------------------
 
 source("common.R")
 
 
-# Load default configuration ------------------------------------------------------------
+# Configuration setup --------------------------------------------------------------------
 
-config <- yaml::read_yaml("configuration/config_ManyBabies.yaml")
+## Load default configuration
+
+config <- yaml::read_yaml(
+  "configuration/config_ManyBabies.yaml"
+)
 
 
-# Available configurations --------------------------------------------------------------
+## Find available configurations
 
 configuration_files <- list.files(
   "configuration",
-  pattern = "^config_.+\\.(yaml|yml)$",
+  pattern = "^config_.+\\.yaml$",
   full.names = FALSE
 )
 
 
-# Display configuration names -----------------------------------------------------------
+## Create configuration display names
 
 configuration_choices <- setNames(
   configuration_files,
   sub(
-    "^config_(.*)\\.(yaml|yml)$",
+    "^config_(.*)\\.yaml$",
     "\\1",
     configuration_files
   )
 )
 
 
-# Make the default configuration display as "Default" ----------------------------------
+# UI styling -----------------------------------------------------------------------------
 
-if ("config_default.yaml" %in% names(configuration_choices)) {
-  configuration_choices["config_default.yaml"] <- "Default"
-}
-
-if ("config_default.yml" %in% names(configuration_choices)) {
-  configuration_choices["config_default.yml"] <- "Default"
-}
-
-
-# UI -----------------------------------------------------------------------------------
+theme <- shinythemes::shinytheme("spacelab")
 
 ui <- fluidPage(
-  
-  theme = shinythemes::shinytheme("spacelab"),
-  
-  
-  # Application styling -----------------------------------------------------------------
   
   tags$head(
     tags$style(HTML("
@@ -66,6 +56,7 @@ ui <- fluidPage(
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
                      Roboto, Helvetica, Arial, sans-serif;
       }
+      
       
       /* Application header */
       
@@ -115,6 +106,7 @@ ui <- fluidPage(
         z-index: 1;
       }
       
+      
       /* Sidebar */
       
       .well {
@@ -132,6 +124,7 @@ ui <- fluidPage(
         margin-top: 4px;
         margin-bottom: 8px;
       }
+      
       
       /* No specifications message */
       
@@ -157,6 +150,7 @@ ui <- fluidPage(
         line-height: 1.5;
         margin: 0;
       }
+      
       
       /* Form controls */
       
@@ -186,6 +180,7 @@ ui <- fluidPage(
         padding: 8px 10px;
       }
       
+      
       /* Browse button */
       
       .form-group .btn-file,
@@ -204,6 +199,7 @@ ui <- fluidPage(
       .form-group .btn-file span {
         color: #ffffff !important;
       }
+      
       
       /* Download buttons */
       
@@ -241,33 +237,26 @@ ui <- fluidPage(
       #downloadConfiguration:hover,
       #downloadConfiguration:focus {
         background-color: #382c55 !important;
-        background-image: none !important;
         border-color: #382c55 !important;
         color: #ffffff !important;
         transform: translateY(-1px);
         box-shadow: 0 3px 8px rgba(75, 61, 109, 0.20) !important;
       }
       
-      /* Download Specification button text */
+      
+      /* Download button text */
       
       #downloadSpecification span,
-      #downloadSpecification i {
-        color: #ffffff !important;
-      }
-      
-      /* Download Configuration button text */
+      #downloadSpecification i,
       
       #downloadConfiguration span,
-      #downloadConfiguration i {
-        color: #ffffff !important;
-      }
-      
-      /* Download Highlighted File button text */
+      #downloadConfiguration i,
       
       #downloadHighlighted span,
       #downloadHighlighted i {
         color: #ffffff !important;
       }
+      
       
       /* Navigation */
       
@@ -319,6 +308,7 @@ ui <- fluidPage(
         box-shadow: inset 4px 0 0 #8f82b1;
       }
       
+      
       /* Main content cards */
       
       .content-card {
@@ -329,6 +319,7 @@ ui <- fluidPage(
         margin-bottom: 20px;
         box-shadow: 0 3px 11px rgba(70, 65, 95, 0.05);
       }
+      
       
       /* Main headings */
       
@@ -346,6 +337,7 @@ ui <- fluidPage(
         margin-bottom: 12px;
       }
       
+      
       /* Section titles */
       
       .content-card h3 {
@@ -360,12 +352,14 @@ ui <- fluidPage(
         font-weight: 600;
       }
       
+      
       /* Text */
       
       .main-panel p {
         color: #626878;
         line-height: 1.65;
       }
+      
       
       /* Buttons */
       
@@ -375,6 +369,7 @@ ui <- fluidPage(
         box-shadow: none;
         transition: all 0.15s ease;
       }
+      
       
       /* Default buttons */
       
@@ -391,12 +386,14 @@ ui <- fluidPage(
         color: #554d72;
       }
       
+      
       /* Checkboxes and radio buttons */
       
       .checkbox label,
       .radio label {
         color: #626878;
       }
+      
       
       /* Data table */
       
@@ -408,6 +405,7 @@ ui <- fluidPage(
         margin-top: 20px;
         box-shadow: 0 3px 10px rgba(70, 65, 95, 0.045);
       }
+      
       
       /* Tabs */
       
@@ -435,6 +433,7 @@ ui <- fluidPage(
         border-bottom-color: #ffffff;
       }
       
+      
       /* Horizontal rules */
       
       hr {
@@ -443,11 +442,13 @@ ui <- fluidPage(
         margin-bottom: 22px;
       }
       
+      
       /* Labels */
       
       .control-label {
         color: #625d73;
       }
+      
       
       /* Validation configuration content */
       
@@ -463,7 +464,7 @@ ui <- fluidPage(
   ),
   
   
-  # Application title -------------------------------------------------------------------
+  # Application header -------------------------------------------------------------------
   
   div(
     class = "app-title",
@@ -471,35 +472,34 @@ ui <- fluidPage(
   ),
   
   
-  # Main layout -------------------------------------------------------------------------
+  # Main layout ---------------------------------------------------------------------------
   
   sidebarLayout(
     
-    
-    # Sidebar ---------------------------------------------------------------------------
+    ## Sidebar
     
     sidebarPanel(
       width = 3,
       
       
-      # Configuration selection ---------------------------------------------------------
+      ## Configuration selection
       
       selectInput(
         "configuration",
         h4("Configuration"),
         choices = configuration_choices,
-        selected = "config_default.yaml"
+        selected = "config_ManyBabies.yaml"
       ),
       
       
-      # Study selection -----------------------------------------------------------------
+      ## Study and format selection
       
       uiOutput("study_selection"),
       
       uiOutput("study_format"),
       
       
-      # File selection ------------------------------------------------------------------
+      ## Dataset upload
       
       fileInput(
         "file",
@@ -515,7 +515,7 @@ ui <- fluidPage(
       hr(),
       
       
-      # Navigation ----------------------------------------------------------------------
+      ## Navigation
       
       div(
         class = "navigation-menu",
@@ -535,13 +535,13 @@ ui <- fluidPage(
     ),
     
     
-    # Main panel ------------------------------------------------------------------------
+    ## Main panel
     
     mainPanel(
       width = 9,
       
       
-      # Validation Results --------------------------------------------------------------
+      ## Validation Results
       
       conditionalPanel(
         condition = "input.page == 'validation_results'",
@@ -580,7 +580,7 @@ ui <- fluidPage(
       ),
       
       
-      # Specification -------------------------------------------------------------------
+      ## Specification Details
       
       conditionalPanel(
         condition = "input.page == 'specification'",
@@ -597,7 +597,7 @@ ui <- fluidPage(
       ),
       
       
-      # Specification Creation ----------------------------------------------------------
+      ## Specification Creation
       
       conditionalPanel(
         condition = "input.page == 'specification_creation'",
@@ -636,7 +636,7 @@ ui <- fluidPage(
       ),
       
       
-      # Configuration Creation ----------------------------------------------------------
+      ## Configuration Creation
       
       conditionalPanel(
         condition = "input.page == 'configuration_creation'",
@@ -651,9 +651,10 @@ ui <- fluidPage(
   ),
   
   
-  # Dynamic tab labels and headings -----------------------------------------------------
+  # JavaScript ----------------------------------------------------------------------------
   
   tags$script(HTML("
+    
     document.addEventListener('input', function(event) {
       
       // Variable tab names
@@ -670,9 +671,9 @@ ui <- fluidPage(
           } else {
             label.textContent = event.target.value;
           }
-          
         }
       }
+      
       
       // Instruction Set 1 heading
       
@@ -689,9 +690,9 @@ ui <- fluidPage(
           } else {
             heading.textContent = event.target.value;
           }
-          
         }
       }
+      
       
       // Instruction Set 2 heading
       
@@ -703,12 +704,14 @@ ui <- fluidPage(
         
         if (heading) {
           
-          if (event.target.value.trim() === '') {
-            heading.textContent = 'Instruction Set 2';
-          } else {
-            heading.textContent = event.target.value;
+          if (heading) {
+            
+            if (event.target.value.trim() === '') {
+              heading.textContent = 'Instruction Set 2';
+            } else {
+              heading.textContent = event.target.value;
+            }
           }
-          
         }
       }
     });
