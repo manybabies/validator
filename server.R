@@ -18,8 +18,7 @@ config <- yaml::read_yaml("configuration/config_Default.yaml")
 # Server --------------------------------------------------------------------------------
 
 server <- function(input, output, session) {
-  
-  
+
   # Configuration -------------------------------------------------------------------------
   
   # Selected configuration
@@ -36,6 +35,38 @@ server <- function(input, output, session) {
     )
   })
   
+  # Apply selected theme
+  
+  observe({
+    
+    current_config <- selected_config()
+    theme <- current_config$theme
+    
+    if (is.null(theme)) {
+      theme <- "blue"
+    }
+    
+    session$sendCustomMessage(
+      "set-theme",
+      theme
+    )
+  })
+  
+  # Preview selected theme
+  
+  observeEvent(input$config_theme, {
+    
+    theme <- input$config_theme
+    
+    if (is.null(theme)) {
+      theme <- "blue"
+    }
+    
+    session$sendCustomMessage(
+      "set-theme",
+      theme
+    )
+  })
   
   # Selected configuration name
   
@@ -201,13 +232,12 @@ server <- function(input, output, session) {
   
   # Application title
   
-  output$app_title <- renderUI({
+  output$app_title <- renderText({
     
     current_config <- selected_config()
     
-    titlePanel(current_config$app_title)
+    current_config$app_title
   })
-  
   
   # Specification message
   
@@ -370,6 +400,19 @@ server <- function(input, output, session) {
       h3("Configuration Creation"),
       
       h4("Create your configuration"),
+      
+      selectInput(
+        "config_theme",
+        "Application Theme:",
+        choices = c(
+          "Blue" = "blue",
+          "Purple" = "purple",
+          "Teal" = "teal"
+        ),
+        selected = "blue"
+      ),
+      
+      uiOutput("theme_preview"),
       
       p(
         "Customize the text and links used by your ShinyValidator. ",
@@ -572,6 +615,94 @@ server <- function(input, output, session) {
       downloadButton(
         "downloadConfiguration",
         "Download Configuration"
+      )
+    )
+  })
+  
+  output$theme_preview <- renderUI({
+    
+    theme <- input$config_theme
+    
+    if (is.null(theme)) {
+      theme <- "blue"
+    }
+    
+    theme_info <- switch(
+      theme,
+      
+      blue = list(
+        name = "Blue",
+        banner = "#DCEEF7",
+        accent = "#0072B2",
+        light = "#E6F2F8",
+        border = "#C7DDE8"
+      ),
+      
+      purple = list(
+        name = "Purple",
+        banner = "#E8DDF1",
+        accent = "#6A3D9A",
+        light = "#F0EAF6",
+        border = "#D8CBE2"
+      ),
+      
+      teal = list(
+        name = "Teal",
+        banner = "#D7EEEE",
+        accent = "#007C83",
+        light = "#E4F3F3",
+        border = "#C5DEDF"
+      )
+    )
+    
+    div(
+      class = "theme-preview",
+      
+      h5("Theme Preview"),
+      
+      div(
+        class = "theme-preview-banner",
+        style = paste0(
+          "background: linear-gradient(135deg, ",
+          theme_info$banner,
+          ", ",
+          theme_info$light,
+          "); ",
+          "border-color: ",
+          theme_info$border,
+          ";"
+        ),
+        strong("Your Validator")
+      ),
+      
+      div(
+        class = "theme-preview-content",
+        
+        div(
+          class = "theme-preview-button",
+          style = paste0(
+            "background-color: ",
+            theme_info$accent,
+            ";"
+          ),
+          "Example Button"
+        ),
+        
+        div(
+          class = "theme-preview-card",
+          style = paste0(
+            "background-color: ",
+            theme_info$light,
+            "; ",
+            "border-color: ",
+            theme_info$border,
+            ";"
+          ),
+          paste0(
+            theme_info$name,
+            " theme"
+          )
+        )
       )
     )
   })
@@ -2769,6 +2900,7 @@ server <- function(input, output, session) {
       # Create configuration
       
       configuration <- list(
+        theme = input$config_theme,
         app_title = input$config_app_title,
         welcome_message = welcome_message,
         secondary_message = secondary_message,

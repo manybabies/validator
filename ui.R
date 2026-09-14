@@ -53,36 +53,96 @@ theme <- shinythemes::shinytheme("spacelab")
 ui <- fluidPage(
   
   tags$head(
+    
+    # Theme JavaScript --------------------------------------------------------------------
+    
+    tags$script(HTML("
+      Shiny.addCustomMessageHandler('set-theme', function(theme) {
+        
+        document.body.classList.remove(
+          'theme-blue',
+          'theme-purple',
+          'theme-teal'
+        );
+        
+        document.body.classList.add('theme-' + theme);
+      });
+    ")),
+    
+    
+    # Theme colours -----------------------------------------------------------------------
+    
+    tags$style(HTML("
+      
+      /* Blue theme */
+      
+      body.theme-blue {
+        --theme-accent: #0072B2;
+        --theme-accent-light: #E6F2F8;
+        --theme-accent-dark: #004C73;
+        --theme-banner-start: #DCEEF7;
+        --theme-banner-end: #E6F2F8;
+        --theme-border: #C7DDE8;
+      }
+      
+      
+      /* Purple theme */
+      
+      body.theme-purple {
+        --theme-accent: #6A3D9A;
+        --theme-accent-light: #F0EAF6;
+        --theme-accent-dark: #47296B;
+        --theme-banner-start: #E8DDF1;
+        --theme-banner-end: #F0EAF6;
+        --theme-border: #D8CBE2;
+      }
+      
+      
+      /* Teal theme */
+      
+      body.theme-teal {
+        --theme-accent: #007C83;
+        --theme-accent-light: #E4F3F3;
+        --theme-accent-dark: #00565B;
+        --theme-banner-start: #D7EEEE;
+        --theme-banner-end: #E4F3F3;
+        --theme-border: #C5DEDF;
+      }
+      
+    ")),
+    
+    
     tags$style(HTML("
       
       /* Overall page */
       
       body {
-        background-color: #f6f7fb;
-        color: #4a5063;
+        background-color: #F7F7F7;
+        color: #222222;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
                      Roboto, Helvetica, Arial, sans-serif;
       }
       
       
-      /* Application header */
+      /* Application banner */
       
-      .app-title {
+      .validator-banner {
         background: linear-gradient(
           135deg,
-          #e8f3f5 0%,
-          #eeeaf7 100%
+          var(--theme-banner-start) 0%,
+          var(--theme-banner-end) 100%
         );
-        border: 1px solid #ddd9e9;
+        border: 1px solid var(--theme-border);
         border-radius: 16px;
-        padding: 24px 30px 25px 30px;
+        padding: 28px 30px;
         margin: 0 0 24px 0;
         box-shadow: 0 4px 12px rgba(70, 65, 95, 0.07);
         position: relative;
         overflow: hidden;
+        text-align: center;
       }
       
-      .app-title::before {
+      .validator-banner::before {
         content: '';
         position: absolute;
         width: 150px;
@@ -90,23 +150,26 @@ ui <- fluidPage(
         right: -45px;
         top: -75px;
         border-radius: 50%;
-        background-color: rgba(143, 130, 177, 0.12);
+        background-color: var(--theme-accent);
+        opacity: 0.10;
       }
       
-      .app-title::after {
+      .validator-banner::after {
         content: '';
         position: absolute;
         width: 80px;
         height: 80px;
-        right: 70px;
+        left: 70px;
         bottom: -45px;
         border-radius: 50%;
-        background-color: rgba(107, 155, 167, 0.09);
+        background-color: var(--theme-accent);
+        opacity: 0.07;
       }
       
-      .app-title h2 {
+      .validator-banner h1 {
         margin: 0;
-        color: #554d72;
+        color: var(--theme-accent);
+        font-size: 32px;
         font-weight: 600;
         letter-spacing: -0.4px;
         position: relative;
@@ -117,15 +180,15 @@ ui <- fluidPage(
       /* Sidebar */
       
       .well {
-        background-color: #ffffff;
-        border: 1px solid #e0e0e8;
+        background-color: #FFFFFF;
+        border: 1px solid #DDDDDD;
         border-radius: 14px;
         box-shadow: 0 3px 10px rgba(70, 65, 95, 0.06);
         padding: 20px;
       }
       
       .sidebarPanel h4 {
-        color: #625d73;
+        color: #444444;
         font-size: 14px;
         font-weight: 600;
         margin-top: 4px;
@@ -136,9 +199,9 @@ ui <- fluidPage(
       /* No specifications message */
       
       .no-specifications {
-        background-color: #f3f0f8;
-        border: 1px solid #ddd7e9;
-        border-left: 4px solid #8f82b1;
+        background-color: var(--theme-accent-light);
+        border: 1px solid var(--theme-border);
+        border-left: 4px solid var(--theme-accent);
         border-radius: 8px;
         padding: 12px 14px;
         margin-top: 5px;
@@ -147,12 +210,12 @@ ui <- fluidPage(
       
       .no-specifications strong {
         display: block;
-        color: #554d72;
+        color: var(--theme-accent);
         margin-bottom: 5px;
       }
       
       .no-specifications p {
-        color: #6a6877;
+        color: #555555;
         font-size: 13px;
         line-height: 1.5;
         margin: 0;
@@ -163,22 +226,22 @@ ui <- fluidPage(
       
       .form-control,
       .selectize-input {
-        border: 1px solid #d5d5df;
+        border: 1px solid #CCCCCC;
         border-radius: 8px;
         box-shadow: none;
-        color: #4d5364;
-        background-color: #ffffff;
+        color: #333333;
+        background-color: #FFFFFF;
         min-height: 38px;
       }
       
       .form-control:focus,
       .selectize-input.focus {
-        border-color: #9b8fbd;
-        box-shadow: 0 0 0 3px rgba(155, 143, 189, 0.14);
+        border-color: var(--theme-accent);
+        box-shadow: 0 0 0 3px rgba(0, 114, 178, 0.14);
       }
       
       .selectize-dropdown {
-        border: 1px solid #d5d5df;
+        border: 1px solid #CCCCCC;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(70, 65, 95, 0.10);
       }
@@ -195,16 +258,16 @@ ui <- fluidPage(
       .form-group .btn-file:focus,
       .form-group .btn-file:active,
       .form-group .btn-file:visited {
-        background-color: #4b3d6d !important;
+        background-color: var(--theme-accent) !important;
         background-image: none !important;
-        border-color: #4b3d6d !important;
-        color: #ffffff !important;
+        border-color: var(--theme-accent) !important;
+        color: #FFFFFF !important;
         text-shadow: none !important;
         box-shadow: none !important;
       }
       
       .form-group .btn-file span {
-        color: #ffffff !important;
+        color: #FFFFFF !important;
       }
       
       
@@ -227,10 +290,10 @@ ui <- fluidPage(
       #downloadConfiguration:focus,
       #downloadConfiguration:active,
       #downloadConfiguration:visited {
-        background-color: #4b3d6d !important;
+        background-color: var(--theme-accent) !important;
         background-image: none !important;
-        border-color: #4b3d6d !important;
-        color: #ffffff !important;
+        border-color: var(--theme-accent) !important;
+        color: #FFFFFF !important;
         text-shadow: none !important;
         box-shadow: none !important;
       }
@@ -243,11 +306,11 @@ ui <- fluidPage(
       
       #downloadConfiguration:hover,
       #downloadConfiguration:focus {
-        background-color: #382c55 !important;
-        border-color: #382c55 !important;
-        color: #ffffff !important;
+        background-color: var(--theme-accent-dark) !important;
+        border-color: var(--theme-accent-dark) !important;
+        color: #FFFFFF !important;
         transform: translateY(-1px);
-        box-shadow: 0 3px 8px rgba(75, 61, 109, 0.20) !important;
+        box-shadow: 0 3px 8px rgba(70, 65, 95, 0.20) !important;
       }
       
       
@@ -261,7 +324,7 @@ ui <- fluidPage(
       
       #downloadHighlighted span,
       #downloadHighlighted i {
-        color: #ffffff !important;
+        color: #FFFFFF !important;
       }
       
       
@@ -274,7 +337,7 @@ ui <- fluidPage(
       .navigation-menu .control-label {
         font-size: 14px;
         font-weight: 600;
-        color: #625d73;
+        color: #444444;
         margin-bottom: 10px;
       }
       
@@ -290,7 +353,7 @@ ui <- fluidPage(
         border-radius: 9px;
         cursor: pointer;
         font-weight: 400;
-        color: #6a6d7c;
+        color: #555555;
         transition: all 0.15s ease;
       }
       
@@ -300,8 +363,8 @@ ui <- fluidPage(
       }
       
       .navigation-menu .radio label:hover {
-        background-color: #f3f0f8;
-        color: #5b5275;
+        background-color: var(--theme-accent-light);
+        color: var(--theme-accent);
         transform: translateX(2px);
       }
       
@@ -310,17 +373,17 @@ ui <- fluidPage(
       }
       
       .navigation-menu .radio:has(input[type='radio']:checked) label {
-        background-color: #eeeaf7;
-        color: #5b5275;
-        box-shadow: inset 4px 0 0 #8f82b1;
+        background-color: var(--theme-accent-light);
+        color: var(--theme-accent);
+        box-shadow: inset 4px 0 0 var(--theme-accent);
       }
       
       
       /* Main content cards */
       
       .content-card {
-        background-color: #ffffff;
-        border: 1px solid #e0e0e8;
+        background-color: #FFFFFF;
+        border: 1px solid #DDDDDD;
         border-radius: 14px;
         padding: 25px 28px;
         margin-bottom: 20px;
@@ -331,53 +394,55 @@ ui <- fluidPage(
       /* Validation summary */
       
       .validation-summary {
-        background-color: #f3f0f8;
-        border: 1px solid #ddd7e9;
-        border-left: 4px solid #8f82b1;
+        background-color: var(--theme-accent-light);
+        border: 1px solid var(--theme-border);
+        border-left: 4px solid var(--theme-accent);
         border-radius: 8px;
         padding: 15px 18px;
         margin-bottom: 20px;
       }
       
       .validation-summary-title {
-        color: #554d72;
+        color: var(--theme-accent);
         font-size: 16px;
         font-weight: 600;
         margin-bottom: 10px;
       }
       
+      /* Success colours are independent of the theme */
+      
       .validation-summary-success {
-        background-color: #f1f7f3;
-        border-color: #d5e5da;
-        border-left-color: #6f9b7b;
+        background-color: #E8F4EF;
+        border-color: #BFDCCF;
+        border-left-color: #009E73;
       }
       
       .validation-summary-success .validation-summary-title {
-        color: #52745c;
+        color: #007A59;
       }
       
       .validation-summary-count {
-        color: #554d72;
+        color: var(--theme-accent);
         font-size: 15px;
         font-weight: 600;
         margin-bottom: 10px;
       }
       
       .validation-summary-details {
-        color: #626878;
+        color: #555555;
         font-size: 13px;
         line-height: 1.7;
       }
       
       .validation-summary-details strong {
-        color: #5b5275;
+        color: var(--theme-accent);
       }
       
       
       /* Validation error display */
       
       .validation-errors-table {
-        border: 1px solid #e0dce8;
+        border: 1px solid #DDDDDD;
         border-radius: 8px;
         overflow: hidden;
         margin-top: 10px;
@@ -387,8 +452,8 @@ ui <- fluidPage(
       .validation-errors-header {
         display: grid;
         grid-template-columns: 20% 40% 40%;
-        background-color: #f3f0f8;
-        color: #554d72;
+        background-color: var(--theme-accent-light);
+        color: var(--theme-accent);
         font-weight: 600;
       }
       
@@ -399,11 +464,11 @@ ui <- fluidPage(
       .validation-error-row {
         display: grid;
         grid-template-columns: 20% 40% 40%;
-        border-top: 1px solid #e6e3eb;
+        border-top: 1px solid #E0E0E0;
       }
       
       .validation-error-row:nth-child(even) {
-        background-color: #faf9fc;
+        background-color: #FAFAFA;
       }
       
       .validation-error-location-cell,
@@ -413,17 +478,19 @@ ui <- fluidPage(
       }
       
       .validation-error-location-cell {
-        color: #554d72;
+        color: var(--theme-accent);
         font-weight: 600;
       }
       
+      /* Error colour is independent of the theme */
+      
       .validation-error-cell {
-        color: #c0392b;
+        color: #D55E00;
       }
       
       .validation-explanation-cell {
-        color: #626878;
-        border-left: 1px solid #e6e3eb;
+        color: #555555;
+        border-left: 1px solid #E0E0E0;
       }
       
       @media (max-width: 768px) {
@@ -441,7 +508,7 @@ ui <- fluidPage(
         
         .validation-error-cell,
         .validation-explanation-cell {
-          border-top: 1px solid #e6e3eb;
+          border-top: 1px solid #E0E0E0;
         }
       }
       
@@ -449,14 +516,14 @@ ui <- fluidPage(
       /* Main headings */
       
       .main-panel h3 {
-        color: #554d72;
+        color: var(--theme-accent);
         font-weight: 600;
         margin-top: 3px;
         margin-bottom: 20px;
       }
       
       .main-panel h4 {
-        color: #665f7d;
+        color: var(--theme-accent);
         font-weight: 600;
         margin-top: 20px;
         margin-bottom: 12px;
@@ -467,12 +534,12 @@ ui <- fluidPage(
       
       .content-card h3 {
         display: block;
-        background-color: #f3f0f8;
-        color: #554d72;
+        background-color: var(--theme-accent-light);
+        color: var(--theme-accent);
         padding: 11px 15px;
         margin-top: 0;
         margin-bottom: 20px;
-        border-left: 4px solid #8f82b1;
+        border-left: 4px solid var(--theme-accent);
         border-radius: 7px;
         font-weight: 600;
       }
@@ -481,7 +548,7 @@ ui <- fluidPage(
       /* Text */
       
       .main-panel p {
-        color: #626878;
+        color: #444444;
         line-height: 1.65;
       }
       
@@ -499,16 +566,16 @@ ui <- fluidPage(
       /* Default buttons */
       
       .btn-default {
-        background-color: #ffffff;
-        border-color: #d3d1dc;
-        color: #4f5060;
+        background-color: #FFFFFF;
+        border-color: #CCCCCC;
+        color: #333333;
       }
       
       .btn-default:hover,
       .btn-default:focus {
-        background-color: #f4f1f8;
-        border-color: #bdb8ca;
-        color: #554d72;
+        background-color: var(--theme-accent-light);
+        border-color: var(--theme-accent);
+        color: var(--theme-accent);
       }
       
       
@@ -516,15 +583,15 @@ ui <- fluidPage(
       
       .checkbox label,
       .radio label {
-        color: #626878;
+        color: #444444;
       }
       
       
       /* Data table */
       
       .dataTables_wrapper {
-        background-color: #ffffff;
-        border: 1px solid #e0e0e8;
+        background-color: #FFFFFF;
+        border: 1px solid #DDDDDD;
         border-radius: 14px;
         padding: 16px;
         margin-top: 20px;
@@ -536,8 +603,8 @@ ui <- fluidPage(
       
       .dataTables_wrapper table.dataTable tbody td input {
         color: #333333 !important;
-        background-color: #ffffff !important;
-        border: 1px solid #b8afd0;
+        background-color: #FFFFFF !important;
+        border: 1px solid var(--theme-accent);
         border-radius: 4px;
         padding: 4px 6px;
       }
@@ -546,34 +613,34 @@ ui <- fluidPage(
       /* Tabs */
       
       .nav-tabs {
-        border-bottom: 1px solid #dfdce7;
+        border-bottom: 1px solid #DDDDDD;
       }
       
       .nav-tabs > li > a {
-        color: #6a6877;
+        color: #555555;
         border-radius: 8px 8px 0 0;
         transition: background-color 0.15s ease;
       }
       
       .nav-tabs > li > a:hover {
-        background-color: #f3f0f8;
-        border-color: #dfdce7;
+        background-color: var(--theme-accent-light);
+        border-color: #DDDDDD;
       }
       
       .nav-tabs > li.active > a,
       .nav-tabs > li.active > a:hover,
       .nav-tabs > li.active > a:focus {
-        color: #5b5275;
+        color: var(--theme-accent);
         font-weight: 600;
-        border-color: #dfdce7;
-        border-bottom-color: #ffffff;
+        border-color: #DDDDDD;
+        border-bottom-color: #FFFFFF;
       }
       
       
       /* Horizontal rules */
       
       hr {
-        border-top: 1px solid #e3e1e8;
+        border-top: 1px solid #DDDDDD;
         margin-top: 22px;
         margin-bottom: 22px;
       }
@@ -582,18 +649,70 @@ ui <- fluidPage(
       /* Labels */
       
       .control-label {
-        color: #625d73;
+        color: #444444;
       }
       
       
       /* Validation configuration content */
       
       .content-card strong {
-        color: #5b5275;
+        color: var(--theme-accent);
       }
       
       .content-card em {
-        color: #707180;
+        color: #555555;
+      }
+      
+      
+      /* Theme preview */
+      
+      .theme-preview {
+        margin-top: 10px;
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #FFFFFF;
+        border: 1px solid #DDDDDD;
+        border-radius: 8px;
+      }
+      
+      .theme-preview h5 {
+        margin-top: 0;
+        margin-bottom: 12px;
+        font-weight: 600;
+        color: var(--theme-accent);
+      }
+      
+      .theme-preview-banner {
+        padding: 14px 16px;
+        border: 1px solid;
+        border-radius: 6px;
+        font-size: 16px;
+      }
+      
+      .theme-preview-banner strong {
+        color: var(--theme-accent);
+      }
+      
+      .theme-preview-content {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      
+      .theme-preview-button {
+        padding: 7px 12px;
+        color: #FFFFFF;
+        border-radius: 4px;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      
+      .theme-preview-card {
+        padding: 7px 12px;
+        border: 1px solid;
+        border-radius: 4px;
+        font-size: 13px;
       }
       
       
@@ -609,15 +728,15 @@ ui <- fluidPage(
       }
       
       .text-size-label {
-        color: #625d73;
+        color: #444444;
         font-weight: 600;
         margin-right: 5px;
       }
       
       .text-size-button {
-        background-color: #ffffff;
-        border: 1px solid #d3d1dc;
-        color: #554d72;
+        background-color: #FFFFFF;
+        border: 1px solid #CCCCCC;
+        color: var(--theme-accent);
         border-radius: 6px;
         padding: 4px 10px;
         cursor: pointer;
@@ -626,14 +745,14 @@ ui <- fluidPage(
       }
       
       .text-size-button:hover {
-        background-color: #f3f0f8;
-        border-color: #bdb8ca;
-        color: #554d72;
+        background-color: var(--theme-accent-light);
+        border-color: var(--theme-accent);
+        color: var(--theme-accent);
       }
       
       .text-size-button:focus {
         outline: none;
-        box-shadow: 0 0 0 3px rgba(155, 143, 189, 0.14);
+        box-shadow: 0 0 0 3px rgba(0, 114, 178, 0.14);
       }
       
       
@@ -666,8 +785,10 @@ ui <- fluidPage(
   # Application header -------------------------------------------------------------------
   
   div(
-    class = "app-title",
-    uiOutput("app_title")
+    class = "validator-banner",
+    h1(
+      textOutput("app_title")
+    )
   ),
   
   
