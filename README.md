@@ -1,8 +1,3 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: inline
----
 # ManyBabies Data Validator
 
 * (Current version: 2.0.1, Sept 13, 2026)
@@ -10,7 +5,6 @@ editor_options:
 A Shiny application for validating individual lab datasets against study-specific data specifications.
 
 ## Table of Contents
-
 1. [User Manual: For Data Contributor](#1-user-manual---for-data-contributor)
 2. [User Manual: For Project Leads](#2-user-manual---for-project-leads)
 3. [User Manual: For Partner Networks](#3-user-manual-for-partner-networks)
@@ -503,11 +497,11 @@ The **Configuration Creation** and **Specification Creation** functions are inte
 
 Main developer
 
--[Francis Yuen](francis.yuen@psych.ubc.ca)
+- Francis Yuen (francis.yuen@psych.ubc.ca)
 
 MB contacts
 
--[Mike Frank](mcfrank@stanford.edu)
--[Heidi Baumgartner](heidib@manybabies.org)
+- Mike Frank (mcfrank@stanford.edu)
+- Heidi Baumgartner(heidib@manybabies.org)
 
 We thank Mika Braginky, Jonathan Kominsky, Christopher Green, and Abteen Arab for their work on developing the previous versions of this validator.
