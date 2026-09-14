@@ -45,6 +45,7 @@ if ("config_Default.yaml" %in% names(configuration_choices)) {
   configuration_choices["config_Default.yaml"] <- "Default"
 }
 
+
 # UI styling -----------------------------------------------------------------------------
 
 theme <- shinythemes::shinytheme("spacelab")
@@ -531,6 +532,17 @@ ui <- fluidPage(
       }
       
       
+      /* Editable validation table */
+      
+      .dataTables_wrapper table.dataTable tbody td input {
+        color: #333333 !important;
+        background-color: #ffffff !important;
+        border: 1px solid #b8afd0;
+        border-radius: 4px;
+        padding: 4px 6px;
+      }
+      
+      
       /* Tabs */
       
       .nav-tabs {
@@ -790,7 +802,7 @@ ui <- fluidPage(
           
           downloadButton(
             "downloadHighlighted",
-            "Download Highlighted File"
+            "Download Edited & Highlighted File"
           ),
           
           br(),
@@ -1021,8 +1033,8 @@ ui <- fluidPage(
         document.body.classList.remove(
           'text-size-xsmall',
           'text-size-small',
-          'text-size-large',
-          'text-size-default'
+          'text-size-default',
+          'text-size-large'
         );
         
         document.body.classList.add('text-size-xlarge');

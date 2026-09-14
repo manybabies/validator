@@ -1039,10 +1039,9 @@ server <- function(input, output, session) {
     
     fields <- yaml::yaml.load_file(yaml_file_path)
     
-    df <- readr::read_csv(
-      input$file$datapath,
-      show_col_types = FALSE
-    )
+    df <- edited_data()
+    
+    req(df)
     
     validated <- validate_dataset(fields, df)
     valid <- validated[[1]]
@@ -2643,23 +2642,26 @@ server <- function(input, output, session) {
   )
   
   
-  # Download highlighted dataset
+  # Download edited dataset
   
   output$downloadHighlighted <- downloadHandler(
     
     filename = function() {
       paste0(
-        "highlighted_issues_",
+        "edited_dataset_",
         Sys.Date(),
-        ".xlsx"
+        ".csv"
       )
     },
     
+    contentType = "text/csv",
+    
     content = function(file) {
       
-      req(input$file)
+      # Check uploaded file
       
       if (
+        is.null(input$file) ||
         is.null(input$file$datapath) ||
         input$file$datapath == ""
       ) {
@@ -2668,7 +2670,13 @@ server <- function(input, output, session) {
         )
       }
       
+      
+      # Check study and format
+      
       req(input$study, input$format)
+      
+      
+      # Find YAML specification
       
       yaml_file_path <- paste0(
         "data_specifications/",
@@ -2687,6 +2695,9 @@ server <- function(input, output, session) {
         )
       }
       
+      
+      # Load YAML specification
+      
       fields <- tryCatch(
         yaml::yaml.load_file(yaml_file_path),
         error = function(e) {
@@ -2697,64 +2708,74 @@ server <- function(input, output, session) {
         }
       )
       
-      df <- tryCatch(
-        read_csv(input$file$datapath),
-        error = function(e) {
-          stop(
-            "Failed to read the uploaded dataset. ",
-            "Please ensure the file is in a valid CSV format."
-          )
-        }
-      )
       
-      validated <- tryCatch(
-        validate_dataset(fields, df),
+      # Get edited dataset
+      
+      df <- edited_data()
+      
+      if (is.null(df)) {
+        stop(
+          "The edited dataset is not available. ",
+          "Please upload a dataset before attempting to download."
+        )
+      }
+      
+      
+      # Download edited dataset
+      
+      tryCatch(
+        {
+          readr::write_csv(
+            df,
+            file
+          )
+        },
         error = function(e) {
           stop(
-            "Error during dataset validation: ",
+            "Failed to save the edited dataset: ",
             e$message
           )
         }
       )
-      
-      valid <- validated[[1]]
-      issues <- validated[[2]]
-      
-      if (!valid) {
-        
-        wb <- tryCatch(
-          highlight_csv_to_xlsx(df, issues),
-          error = function(e) {
-            stop(
-              "Failed to generate the highlighted workbook: ",
-              e$message
-            )
-          }
-        )
-        
-        tryCatch(
-          openxlsx::saveWorkbook(
-            wb,
-            file,
-            overwrite = TRUE
-          ),
-          error = function(e) {
-            stop(
-              "Failed to save the workbook: ",
-              e$message
-            )
-          }
-        )
-        
-      } else {
-        
-        stop(
-          "No issues to highlight. The dataset is valid!"
-        )
-      }
     }
   )
   
+  # Editable dataset
+  
+  edited_data <- reactiveVal(NULL)
+  
+  observeEvent(input$file, {
+    
+    req(input$file)
+    
+    df <- readr::read_csv(
+      input$file$datapath,
+      show_col_types = FALSE
+    )
+    
+    edited_data(df)
+    
+  })
+  
+  # Store table edits
+  
+  observeEvent(input$validation_preview_cell_edit, {
+    
+    info <- input$validation_preview_cell_edit
+    
+    df <- edited_data()
+    
+    req(df)
+    
+    edited_data(
+      DT::editData(
+        df,
+        info,
+        rownames = FALSE
+      )
+    )
+    
+  })
   
   # Validation preview
   
@@ -2777,10 +2798,9 @@ server <- function(input, output, session) {
     
     fields <- yaml::yaml.load_file(yaml_file_path)
     
-    df <- readr::read_csv(
-      input$file$datapath,
-      show_col_types = FALSE
-    )
+    df <- edited_data()
+    
+    req(df)
     
     validated <- validate_dataset(
       fields,
@@ -2788,15 +2808,6 @@ server <- function(input, output, session) {
     )
     
     issues <- validated[[2]]
-    
-    table <- DT::datatable(
-      df,
-      options = list(
-        pageLength = 10,
-        scrollX = TRUE
-      ),
-      rownames = FALSE
-    )
     
     # Highlight invalid cells
     
@@ -2862,10 +2873,11 @@ server <- function(input, output, session) {
     }
     
     
-    # Create table
+    # Create editable table
     
-    table <- DT::datatable(
+    DT::datatable(
       df,
+      editable = TRUE,
       options = list(
         pageLength = 10,
         scrollX = TRUE,
@@ -2873,8 +2885,6 @@ server <- function(input, output, session) {
       ),
       rownames = FALSE
     )
-    
-    table
     
   })
 }
