@@ -576,6 +576,155 @@ server <- function(input, output, session) {
     )
   })
   
+  # Configuration creation dynamic fields -----------------------------------------------
+  
+  # Instruction Set 1 fields
+  
+  output$instruction_fields <- renderUI({
+    
+    n <- input$num_instruction_lines
+    
+    if (
+      is.null(n) ||
+      is.na(n) ||
+      n < 1
+    ) {
+      return(NULL)
+    }
+    
+    current_config <- selected_config()
+    
+    existing_instructions <- current_config$instruction_set_1
+    
+    lapply(
+      seq_len(n),
+      function(i) {
+        
+        existing_value <- ""
+        
+        if (
+          !is.null(existing_instructions) &&
+          length(existing_instructions) >= i
+        ) {
+          existing_value <- existing_instructions[[i]]
+        }
+        
+        textAreaInput(
+          paste0("config_instruction_", i),
+          paste0("Instruction ", i, ":"),
+          value = existing_value,
+          rows = 2
+        )
+      }
+    )
+  })
+  
+  
+  # Instruction Set 2 fields
+  
+  output$upload_instruction_fields <- renderUI({
+    
+    n <- input$num_upload_instruction_lines
+    
+    if (
+      is.null(n) ||
+      is.na(n) ||
+      n < 1
+    ) {
+      return(NULL)
+    }
+    
+    current_config <- selected_config()
+    
+    existing_instructions <- current_config$instruction_set_2
+    
+    lapply(
+      seq_len(n),
+      function(i) {
+        
+        existing_value <- ""
+        
+        if (
+          !is.null(existing_instructions) &&
+          length(existing_instructions) >= i
+        ) {
+          existing_value <- existing_instructions[[i]]
+        }
+        
+        textAreaInput(
+          paste0("config_upload_instruction_", i),
+          paste0("Instruction ", i, ":"),
+          value = existing_value,
+          rows = 2
+        )
+      }
+    )
+  })
+  
+  
+  # Link fields
+  
+  output$link_fields <- renderUI({
+    
+    n <- input$num_links
+    
+    if (
+      is.null(n) ||
+      is.na(n) ||
+      n < 1
+    ) {
+      return(NULL)
+    }
+    
+    current_config <- selected_config()
+    
+    existing_links <- current_config$links
+    
+    lapply(
+      seq_len(n),
+      function(i) {
+        
+        existing_text <- ""
+        existing_url <- ""
+        
+        if (
+          !is.null(existing_links) &&
+          length(existing_links) >= i
+        ) {
+          
+          existing_link <- existing_links[[i]]
+          
+          if (!is.null(existing_link$text)) {
+            existing_text <- existing_link$text
+          }
+          
+          if (!is.null(existing_link$url)) {
+            existing_url <- existing_link$url
+          }
+        }
+        
+        tagList(
+          
+          textInput(
+            paste0("config_link_text_", i),
+            paste0("Link ", i, " text:"),
+            value = existing_text
+          ),
+          
+          textInput(
+            paste0("config_link_url_", i),
+            paste0("Link ", i, " URL:"),
+            value = existing_url
+          ),
+          
+          if (i < n) {
+            hr()
+          }
+        )
+      }
+    )
+  })
+  
   
   # Validation ---------------------------------------------------------------------------
   

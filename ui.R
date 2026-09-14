@@ -734,7 +734,7 @@ ui <- fluidPage(
         "configuration",
         h4("Configuration"),
         choices = configuration_choices,
-        selected = "config_default.yaml"
+        selected = "config_Default.yaml"
       ),
       
       
