@@ -63,7 +63,7 @@ Click "Browse..." to select and upload your `.csv` dataset. The validator will c
 
 On the Validation Results tab, you will be able to see any errors identified by the validator. You can either view the errors by column (i.e. see which rows/observations are incorrect for given column X) or by row (i.e. see which columns are incorrect for given row/observation X). For each error, the validator will remind you of the specification for that particular column. Depending on how the specification was set up, it might not be able to pinpoint *exactly* what is wrong. Please consult your specific project manual or codebook, or contact your project lead if you are unsure what is causing the error. **Please do not ignore errors and submit datasets that did not pass validation**.
 
-There will be a preview table of the dataset with incorrect cells highlighted.
+There will be a preview table of the dataset with incorrect cells highlighted. Note that this table is **editable**, which may be useful for Step 5 below.
 
 ![](images_for_readme/step_4.png)
 
@@ -72,7 +72,9 @@ There will be a preview table of the dataset with incorrect cells highlighted.
 <details>
 <summary><strong>Step 5: Correct your dataset</strong></summary>
 
-Use the validation results to identify and correct the errors in your original dataset. You can press the "Download Highlighted File" button to download a `.xlsx` file with these highlights to facilitate correcting your dataset. **Note: the downloaded file is in `.xlsx` format to preserve the highlights, but you must save the file as a `.csv` before trying to validate again!**
+Use the validation results to identify and correct the errors in your original dataset. You can **directly edit your dataset using this display**, and the validator will check, in real-time, if your changes fixed the issues. You can press the "Download Edited & Highlighted File" button to download a `.xlsx` file with any remaining highlights. The downloaded file will preserve any edits you have made in the app's displayed table itself.
+
+**Note: by default, the downloaded file is in `.xlsx` format to preserve the highlights, but you must save the file as a `.csv` before trying to validate again!**
 
 </details>
 
