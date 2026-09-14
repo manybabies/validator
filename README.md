@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
 # ManyBabies Data Validator
 
 * (Current version: 2.0.1, Sept 13, 2026)
@@ -8,9 +13,10 @@ A Shiny application for validating individual lab datasets against study-specifi
 
 1. [User Manual - For Data Contributor](#1-user-manual---for-data-contributor)
 2. [User Manual - For Project Leads](#2-user-manual---for-project-leads)
-3. [File and Folder Structure](#3-file-and-folder-structure)
-4. [Summary of the Recommended Workflow](#4-summary-of-the-recommended-workflow)
-5. [Contacts and Acknowledgements](#5-contacts-and-acknowledgements)
+3. [User Manual - For Network Leads](#3-user-manual---for-network-leads)
+4. [For Developers - File and Folder Structure](#4-for-developers-file-and-folder-structure)
+5. [For Developers - Summary of the Recommended Workflow](#5-for-developers-summary-of-the-recommended-workflow)
+6. [Contacts and Acknowledgements](#6-contacts-and-acknowledgements)
 
 ---
 
@@ -227,7 +233,176 @@ The developer will test your specifications and notify you when your specificati
 
 ---
 
-## 3. File and Folder Structure
+## 3. User Manual - For Partner Networks
+
+Partner networks can easily create custom configurations under which project-specific specifications are stored.
+
+A **configuration** controls the application-level content and organization of the validator. This includes the application title, introductory messages, instruction sets, links, and other user-facing information.
+
+A Network does not need to manually create the configuration YAML file. The built-in **Configuration Creation** feature can be used to create and download a configuration. Below we detail step-by-step instructions for adding your network's configuration to the validator.
+
+### Creating a new configuration
+
+<details>
+<summary><strong>Step 1: Open Configuration Creation</strong></summary>
+
+Open the **Configuration Creation** feature in the application.
+
+This feature allows you to define the user-facing content and settings for your network's validator without manually editing a YAML file.
+
+</details>
+
+<details>
+<summary><strong>Step 2: Define your application information</strong></summary>
+
+Enter the information that should appear when users open the validator.
+
+This includes:
+
+* the **Application Title** — the name displayed at the top of the validator
+* the **Welcome Message** — the main introductory message shown to users
+* the **Secondary Message** — additional introductory information shown below the welcome message
+
+These messages should provide users with enough information to understand what the validator is for and how they should use it.
+
+</details>
+
+<details>
+<summary><strong>Step 3: Define your instruction sets</strong></summary>
+
+The validator allows you to create two instruction sets that can be displayed to users.
+
+For each instruction set, you can define:
+
+* the **Instruction Set heading**
+* the individual instruction lines
+
+The headings are fully customizable. You can therefore use names that are appropriate for your network rather than using the default "Instruction Set 1" and "Instruction Set 2".
+
+For example, a network might use:
+
+    Before you begin
+    Submitting your data
+
+The instruction sets should contain information that contributors need to know when using the validator.
+
+</details>
+
+<details>
+<summary><strong>Step 4: Add useful links</strong></summary>
+
+You can add links that should be displayed to users of your validator.
+
+For each link, provide:
+
+* the **link text** — the text users will see
+* the **URL** — the webpage users will be directed to
+
+Useful links might include:
+
+* a project website
+* a data collection manual
+* a codebook
+* a network website
+* a contact page
+* other documentation relevant to data contributors
+
+</details>
+
+<details>
+<summary><strong>Step 5: Define the specification message</strong></summary>
+
+The configuration also allows you to define the message displayed alongside the selected dataset specification.
+
+Use this area to provide additional information that users should know when viewing or selecting a specification.
+
+For example, you might explain what the specification represents, where users can find the corresponding project documentation, or who they should contact with questions.
+
+</details>
+
+<details>
+<summary><strong>Step 6: Review your configuration</strong></summary>
+
+Before downloading your configuration, review all of the information you have entered.
+
+Pay particular attention to:
+
+* the application title
+* welcome and secondary messages
+* instruction-set headings
+* instruction text
+* link text and URLs
+* specification-related messaging
+
+Make sure that all information is appropriate for your network and intended audience.
+
+</details>
+
+<details>
+<summary><strong>Step 7: Download your configuration</strong></summary>
+
+Once the configuration is complete, press **Download Configuration** to download the `.yaml` file.
+
+Your configuration should follow the naming convention:
+
+    config_NetworkName.yaml
+
+For example, the ManyBabies configuration is:
+
+    config_ManyBabies.yaml
+
+A different network might use:
+
+    config_ManyFishes.yaml
+
+The `config_` prefix is required so that the validator recognizes the file as a configuration.
+
+</details>
+
+<details>
+<summary><strong>Step 8: Submit your network's configuration file</strong></summary>
+
+Please email the developer, [Francis Yuen](francis.yuen@psych.ubc.ca), your network's configuration. Once the configuration has been added, it will be available for selection in the validator.
+
+> Note: Emailing the dev is the current workflow to minimize individual network's need to interface with Git or R.
+
+</details>
+
+### Connecting a configuration to your specifications
+
+Configurations and specifications work together.
+
+The network name used in the configuration should also be used when naming the corresponding specifications (which can be created following instructions above).
+
+For example, if your configuration is:
+
+    config_ManyFishes.yaml
+
+a specification for Study 1 and the subjects format could be named:
+
+    ManyFishes_Study1_subjects.yaml
+
+A specification for Study 2 and a trials format could be named:
+
+    ManyFishes_Study2_trials.yaml
+
+This naming convention allows the validator to identify which specifications belong to the selected network.
+
+The general structure is:
+
+    config_NetworkName.yaml
+
+for the configuration, and:
+
+    NetworkName_Study_Format.yaml
+
+for the corresponding specifications.
+
+This means that a new network can create its own configuration and collection of specifications without changing the underlying application code. Once your network's configuration is live, you may submit specifications following instructions above.
+
+---
+
+## 4. For Developers - File and Folder Structure
 
 A typical ManyBabies validator project contains the following structure:
 
@@ -270,7 +445,7 @@ This separation allows the same application code to be reused across different p
 
 ---
 
-## 4. Summary of the Recommended Workflow
+## 5. For Developers - Summary of the Recommended Workflow
 
 For most users, creating a new validator should require little or no R programming.
 
@@ -324,16 +499,15 @@ The **Configuration Creation** and **Specification Creation** functions are inte
 
 ---
 
-## 5. Contacts and Acknowledgements
+## 6. Contacts and Acknowledgements
 
 Main developer
 
-- Francis Yuen (francis.yuen@psych.ubc.ca)
+-[Francis Yuen](francis.yuen@psych.ubc.ca)
 
 MB contacts
 
-- Mike Frank (mcfrank@stanford.edu)
-
-- Heidi Baumgartner (heidib@manybabies.org)
+-[Mike Frank](mcfrank@stanford.edu)
+-[Heidi Baumgartner](heidib@manybabies.org)
 
 We thank Mika Braginky, Jonathan Kominsky, Christopher Green, and Abteen Arab for their work on developing the previous versions of this validator.
