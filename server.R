@@ -812,6 +812,211 @@ server <- function(input, output, session) {
     )
   })
   
+  # Validation summary
+  
+  output$validation_summary <- renderUI({
+    
+    req(input$file)
+    req(input$study, input$format)
+    
+    yaml_file_path <- paste0(
+      "data_specifications/",
+      selected_configuration_name(),
+      "_",
+      input$study,
+      "_",
+      input$format,
+      ".yaml"
+    )
+    
+    req(file.exists(yaml_file_path))
+    
+    fields <- yaml::yaml.load_file(yaml_file_path)
+    
+    df <- readr::read_csv(
+      input$file$datapath,
+      show_col_types = FALSE
+    )
+    
+    validated <- validate_dataset(
+      fields,
+      df
+    )
+    
+    valid <- validated[[1]]
+    issues <- validated[[2]]
+    
+    # Show success message
+    
+    if (valid || length(issues) == 0) {
+      
+      return(
+        tags$div(
+          class = "validation-summary validation-summary-success",
+          
+          tags$div(
+            class = "validation-summary-title",
+            "Validation Summary"
+          ),
+          
+          tags$div(
+            class = "validation-summary-count",
+            "✓ No issues found"
+          ),
+          
+          tags$div(
+            class = "validation-summary-details",
+            paste0(
+              "All ",
+              nrow(df),
+              " rows passed the selected specification."
+            )
+          )
+        )
+      )
+    }
+    
+    
+    # Count issue types
+    
+    missing_columns <- sum(
+      vapply(
+        issues,
+        function(issue) {
+          !is.null(issue) &&
+            issue$type == "missing_column"
+        },
+        logical(1)
+      )
+    )
+    
+    unexpected_columns <- sum(
+      vapply(
+        issues,
+        function(issue) {
+          !is.null(issue) &&
+            issue$type == "unexpected_column"
+        },
+        logical(1)
+      )
+    )
+    
+    invalid_cell_issues <- Filter(
+      function(issue) {
+        !is.null(issue) &&
+          issue$type == "invalid_cell"
+      },
+      issues
+    )
+    
+    
+    # Count invalid cells
+    
+    invalid_cells <- sum(
+      vapply(
+        invalid_cell_issues,
+        function(issue) {
+          length(issue$invalid_row)
+        },
+        integer(1)
+      )
+    )
+    
+    
+    # Count affected rows
+    
+    affected_rows <- unique(
+      unlist(
+        lapply(
+          invalid_cell_issues,
+          function(issue) {
+            issue$invalid_row
+          }
+        )
+      )
+    )
+    
+    affected_rows <- length(affected_rows)
+    
+    
+    # Count affected columns
+    
+    affected_columns <- unique(
+      vapply(
+        issues,
+        function(issue) {
+          if (is.null(issue)) {
+            NA_character_
+          } else {
+            issue$column
+          }
+        },
+        character(1)
+      )
+    )
+    
+    affected_columns <- sum(
+      !is.na(affected_columns)
+    )
+    
+    
+    # Total number of issues
+    
+    total_issues <- missing_columns +
+      unexpected_columns +
+      invalid_cells
+    
+    
+    tags$div(
+      class = "validation-summary",
+      
+      tags$div(
+        class = "validation-summary-title",
+        "Validation Summary"
+      ),
+      
+      tags$div(
+        class = "validation-summary-count",
+        paste0(
+          total_issues,
+          if (total_issues == 1) " issue found" else " issues found"
+        )
+      ),
+      
+      tags$div(
+        class = "validation-summary-details",
+        
+        tags$div(
+          tags$strong("Rows affected: "),
+          affected_rows
+        ),
+        
+        tags$div(
+          tags$strong("Columns affected: "),
+          affected_columns
+        ),
+        
+        tags$div(
+          tags$strong("Invalid cells: "),
+          invalid_cells
+        ),
+        
+        if (missing_columns > 0) {
+          tags$div(
+            tags$strong("Missing columns: "),
+            missing_columns
+          )
+        },
+        
+        if (unexpected_columns > 0) {
+          tags$div(
+            tags$strong("Unexpected columns: "),
+            unexpected_columns
+          )
+        }
+      )
+    )
+  })
   
   # Validation errors
   
@@ -840,18 +1045,184 @@ server <- function(input, output, session) {
     )
     
     validated <- validate_dataset(fields, df)
+    valid <- validated[[1]]
     issues <- validated[[2]]
     
-    if (input$error_view == "none") {
-      return(NULL)
-    }
+    # Error summary
     
-    if (length(issues) == 0) {
+    if (identical(input$error_view, "summary")) {
+      
+      if (valid || length(issues) == 0) {
+        
+        return(
+          tags$div(
+            class = "validation-summary validation-summary-success",
+            
+            tags$div(
+              class = "validation-summary-title",
+              "Error Summary"
+            ),
+            
+            tags$div(
+              class = "validation-summary-count",
+              "✓ No issues found"
+            ),
+            
+            tags$div(
+              class = "validation-summary-details",
+              paste0(
+                "All ",
+                nrow(df),
+                " rows passed the selected specification."
+              )
+            )
+          )
+        )
+      }
+      
+      
+      # Count issue types
+      
+      missing_columns <- sum(
+        vapply(
+          issues,
+          function(issue) {
+            !is.null(issue) &&
+              issue$type == "missing_column"
+          },
+          logical(1)
+        )
+      )
+      
+      unexpected_columns <- sum(
+        vapply(
+          issues,
+          function(issue) {
+            !is.null(issue) &&
+              issue$type == "unexpected_column"
+          },
+          logical(1)
+        )
+      )
+      
+      invalid_cell_issues <- Filter(
+        function(issue) {
+          !is.null(issue) &&
+            issue$type == "invalid_cell"
+        },
+        issues
+      )
+      
+      
+      # Count invalid cells
+      
+      invalid_cells <- sum(
+        vapply(
+          invalid_cell_issues,
+          function(issue) {
+            length(issue$invalid_row)
+          },
+          integer(1)
+        )
+      )
+      
+      
+      # Count affected rows
+      
+      affected_rows <- unique(
+        unlist(
+          lapply(
+            invalid_cell_issues,
+            function(issue) {
+              issue$invalid_row
+            }
+          )
+        )
+      )
+      
+      affected_rows <- length(affected_rows)
+      
+      
+      # Count affected columns
+      
+      affected_columns <- unique(
+        vapply(
+          issues,
+          function(issue) {
+            if (is.null(issue)) {
+              NA_character_
+            } else {
+              issue$column
+            }
+          },
+          character(1)
+        )
+      )
+      
+      affected_columns <- sum(
+        !is.na(affected_columns)
+      )
+      
+      
+      # Total number of issues
+      
+      total_issues <- missing_columns +
+        unexpected_columns +
+        invalid_cells
+      
+      
       return(
-        tags$p(
-          style = "color: green;",
-          tags$strong(
-            "No errors found. The dataset matches the specification."
+        tags$div(
+          class = "validation-summary",
+          
+          tags$div(
+            class = "validation-summary-title",
+            "Error Summary"
+          ),
+          
+          tags$div(
+            class = "validation-summary-count",
+            paste0(
+              total_issues,
+              if (total_issues == 1) {
+                " issue found"
+              } else {
+                " issues found"
+              }
+            )
+          ),
+          
+          tags$div(
+            class = "validation-summary-details",
+            
+            tags$div(
+              tags$strong("Rows affected: "),
+              affected_rows
+            ),
+            
+            tags$div(
+              tags$strong("Columns affected: "),
+              affected_columns
+            ),
+            
+            tags$div(
+              tags$strong("Invalid cells: "),
+              invalid_cells
+            ),
+            
+            if (missing_columns > 0) {
+              tags$div(
+                tags$strong("Missing columns: "),
+                missing_columns
+              )
+            },
+            
+            if (unexpected_columns > 0) {
+              tags$div(
+                tags$strong("Unexpected columns: "),
+                unexpected_columns
+              )
+            }
           )
         )
       )

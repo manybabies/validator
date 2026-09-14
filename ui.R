@@ -327,6 +327,52 @@ ui <- fluidPage(
       }
       
       
+      /* Validation summary */
+      
+      .validation-summary {
+        background-color: #f3f0f8;
+        border: 1px solid #ddd7e9;
+        border-left: 4px solid #8f82b1;
+        border-radius: 8px;
+        padding: 15px 18px;
+        margin-bottom: 20px;
+      }
+      
+      .validation-summary-title {
+        color: #554d72;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+      
+      .validation-summary-success {
+        background-color: #f1f7f3;
+        border-color: #d5e5da;
+        border-left-color: #6f9b7b;
+      }
+      
+      .validation-summary-success .validation-summary-title {
+        color: #52745c;
+      }
+      
+      .validation-summary-count {
+        color: #554d72;
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+      
+      .validation-summary-details {
+        color: #626878;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+      
+      .validation-summary-details strong {
+        color: #5b5275;
+      }
+      
+      
       /* Main headings */
       
       .main-panel h3 {
@@ -466,6 +512,69 @@ ui <- fluidPage(
         color: #707180;
       }
       
+      
+      /* Text size controls */
+      
+      .text-size-controls {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 5px;
+        margin-top: -12px;
+        margin-bottom: 18px;
+      }
+      
+      .text-size-label {
+        color: #625d73;
+        font-weight: 600;
+        margin-right: 5px;
+      }
+      
+      .text-size-button {
+        background-color: #ffffff;
+        border: 1px solid #d3d1dc;
+        color: #554d72;
+        border-radius: 6px;
+        padding: 4px 10px;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 1.4;
+      }
+      
+      .text-size-button:hover {
+        background-color: #f3f0f8;
+        border-color: #bdb8ca;
+        color: #554d72;
+      }
+      
+      .text-size-button:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(155, 143, 189, 0.14);
+      }
+      
+      
+      /* Text size levels */
+      
+      body.text-size-xsmall {
+        font-size: 12px;
+      }
+      
+      body.text-size-small {
+        font-size: 14px;
+      }
+      
+      body.text-size-default {
+        font-size: 15px;
+      }
+      
+      body.text-size-large {
+        font-size: 18px;
+      }
+      
+      body.text-size-xlarge {
+        font-size: 21px;
+      }
+      
     "))
   ),
   
@@ -475,6 +584,53 @@ ui <- fluidPage(
   div(
     class = "app-title",
     uiOutput("app_title")
+  ),
+  
+  
+  ## Text size controls -------------------------------------------------------------------
+  
+  div(
+    class = "text-size-controls",
+    
+    tags$span(
+      class = "text-size-label",
+      "Text size:"
+    ),
+    
+    tags$button(
+      id = "text_size_xsmall",
+      class = "text-size-button",
+      type = "button",
+      "A−−"
+    ),
+    
+    tags$button(
+      id = "text_size_small",
+      class = "text-size-button",
+      type = "button",
+      "A−"
+    ),
+    
+    tags$button(
+      id = "text_size_default",
+      class = "text-size-button",
+      type = "button",
+      "A"
+    ),
+    
+    tags$button(
+      id = "text_size_large",
+      class = "text-size-button",
+      type = "button",
+      "A+"
+    ),
+    
+    tags$button(
+      id = "text_size_xlarge",
+      class = "text-size-button",
+      type = "button",
+      "A++"
+    )
   ),
   
   
@@ -558,6 +714,7 @@ ui <- fluidPage(
           uiOutput("validation_config_content"),
           
           br(),
+          br(),
           
           downloadButton(
             "downloadHighlighted",
@@ -569,13 +726,13 @@ ui <- fluidPage(
           
           radioButtons(
             "error_view",
-            "View errors by:",
+            "Error display:",
             choices = c(
-              "No in-app error display" = "none",
-              "Column" = "column",
-              "Row" = "row"
+              "Error Summary" = "summary",
+              "Errors by row" = "row",
+              "Errors by column" = "column"
             ),
-            selected = "none",
+            selected = "summary",
             inline = TRUE
           ),
           
@@ -721,5 +878,84 @@ ui <- fluidPage(
         }
       }
     });
+  ")),
+  
+  
+  ## Text size JavaScript -----------------------------------------------------------------
+  
+  tags$script(HTML("
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.classList.add('text-size-default');
+    });
+    
+    
+    document.addEventListener('click', function(event) {
+      
+      if (event.target.id === 'text_size_xsmall') {
+        
+        document.body.classList.remove(
+          'text-size-small',
+          'text-size-default',
+          'text-size-large',
+          'text-size-xlarge'
+        );
+        
+        document.body.classList.add('text-size-xsmall');
+      }
+      
+      
+      if (event.target.id === 'text_size_small') {
+        
+        document.body.classList.remove(
+          'text-size-xsmall',
+          'text-size-default',
+          'text-size-large',
+          'text-size-xlarge'
+        );
+        
+        document.body.classList.add('text-size-small');
+      }
+      
+      
+      if (event.target.id === 'text_size_default') {
+        
+        document.body.classList.remove(
+          'text-size-xsmall',
+          'text-size-small',
+          'text-size-large',
+          'text-size-xlarge'
+        );
+        
+        document.body.classList.add('text-size-default');
+      }
+      
+      
+      if (event.target.id === 'text_size_large') {
+        
+        document.body.classList.remove(
+          'text-size-xsmall',
+          'text-size-small',
+          'text-size-default',
+          'text-size-xlarge'
+        );
+        
+        document.body.classList.add('text-size-large');
+      }
+      
+      
+      if (event.target.id === 'text_size_xlarge') {
+        
+        document.body.classList.remove(
+          'text-size-xsmall',
+          'text-size-small',
+          'text-size-default',
+          'text-size-large'
+        );
+        
+        document.body.classList.add('text-size-xlarge');
+      }
+    });
+    
   "))
 )
