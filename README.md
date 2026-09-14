@@ -1,6 +1,6 @@
 # ManyBabies Data Validator
 
-* Currently uses [ShinyValidator](https://github.com/manybabies/ShinyValidator) version: 2.0.1
+* Currently uses [ShinyValidator](https://github.com/manybabies/ShinyValidator) version: 2.0.2 (Sept 14, 2026)
 
 A Shiny application for validating individual lab datasets against study-specific data specifications.
 
@@ -256,6 +256,7 @@ Enter the information that should appear when users open the validator.
 This includes:
 
 * the **Application Title** — the name displayed at the top of the validator
+* the **Custom logo** — your network logo that displays at the top left of the validator
 * the **Welcome Message** — the main introductory message shown to users
 * the **Secondary Message** — additional introductory information shown below the welcome message
 
@@ -358,9 +359,9 @@ The `config_` prefix is required so that the validator recognizes the file as a 
 <details>
 <summary><strong>Step 8: Submit your network's configuration file</strong></summary>
 
-Please email the developer, Francis Yuen (francis.yuen@psych.ubc.ca), your network's configuration. Once the configuration has been added, it will be available for selection in the validator.
+Please email the developer, Francis Yuen (francis.yuen@psych.ubc.ca), your network's configuration and, if you chose to include a logo, the file that you uploaded to the validator. Once the configuration has been added, it will be available for selection in the validator.
 
-> Note: Emailing the dev is the current workflow to minimize individual network's need to interface with Git or R.
+> Note: Emailing the dev is the current workflow to minimize individual network's need to interface with Git or R. Planned updates will aim to streamline this.
 
 </details>
 
