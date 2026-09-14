@@ -1,3 +1,4 @@
+theme: "purple"
 app_title: ShinyValidator Template
 welcome_message: This is where you put the welcome message!
 secondary_message: You can also put a secondary message here with more information.

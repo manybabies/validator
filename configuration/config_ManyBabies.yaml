@@ -1,5 +1,5 @@
 # ManyBabies configuration
-
+theme: "blue"
 # Application title
 app_title: ManyBabies Data Validator
 

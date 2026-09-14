@@ -1,3 +1,4 @@
+theme: "purple"
 app_title: ManyFakes Data Validator
 welcome_message: This is the fake config for a hypothetical network partner ManyFakes
 secondary_message: ~
