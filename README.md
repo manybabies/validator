@@ -11,16 +11,16 @@ A Shiny application for validating individual lab datasets against study-specifi
 
 ## Table of Contents
 
-1. [User Manual - For Data Contributor](#1-user-manual---for-data-contributor)
-2. [User Manual - For Project Leads](#2-user-manual---for-project-leads)
-3. [User Manual - For Partner Networks](#3-user-manual---for-partner-networks)
-4. [For Developers - File and Folder Structure](#4-for-developers-file-and-folder-structure)
-5. [For Developers - Summary of the Recommended Workflow](#5-for-developers-summary-of-the-recommended-workflow)
+1. [User Manual: For Data Contributor](#1-user-manual---for-data-contributor)
+2. [User Manual: For Project Leads](#2-user-manual---for-project-leads)
+3. [User Manual: For Partner Networks](#3-user-manual-for-partner-networks)
+4. [For Developers: File and Folder Structure](#4-for-developers-file-and-folder-structure)
+5. [For Developers: Summary of the Recommended Workflow](#5-for-developers-summary-of-the-recommended-workflow)
 6. [Contacts and Acknowledgements](#6-contacts-and-acknowledgements)
 
 ---
 
-## 1. User Manual - For Data Contributor
+## 1. User Manual: For Data Contributor
 
 This section details instructions on how to use the validator as a lab contributing data to an MB project. The data validator allows you to check whether your dataset meets the formatting and data requirements for a particular project before submitting it.
 
@@ -100,7 +100,7 @@ Once the validator reports that your dataset is valid, it meets the requirements
 
 ---
 
-## 2. User Manual - For Project Leads
+## 2. User Manual: For Project Leads
 
 Project leads are responsible for creating and maintaining the specification that defines what a valid dataset should look like for their project.
 
@@ -233,7 +233,7 @@ The developer will test your specifications and notify you when your specificati
 
 ---
 
-## 3. User Manual - For Partner Networks
+## 3. User Manual: For Partner Networks
 
 Partner networks can easily create custom configurations under which project-specific specifications are stored.
 
@@ -402,7 +402,7 @@ This means that a new network can create its own configuration and collection of
 
 ---
 
-## 4. For Developers - File and Folder Structure
+## 4. For Developers: File and Folder Structure
 
 A typical ManyBabies validator project contains the following structure:
 
@@ -445,7 +445,7 @@ This separation allows the same application code to be reused across different p
 
 ---
 
-## 5. For Developers - Summary of the Recommended Workflow
+## 5. For Developers: Summary of the Recommended Workflow
 
 For most users, creating a new validator should require little or no R programming.
 
