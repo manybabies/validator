@@ -443,7 +443,7 @@ This separation allows the same application code to be reused across different p
 
 For most users, creating a new validator should require little or no R programming.
 
-For ManyBabies project leads, the recommended workflow is:
+For any given network's project lead, the recommended workflow is:
 
     1. Create a specification using Specification Creation
               ↓
@@ -455,13 +455,15 @@ For ManyBabies project leads, the recommended workflow is:
               ↓
     5. Send the files to the developer
               ↓
-    6. Test the specification
+    6. Developer test the specification
               ↓
-    7. Add the specification to the ManyBabies validator
+    7. Add the specification to the validator
 
-### Keeping ManyBabies up to date
+If a given network does not have a configuration yet, they should first create, download, and submit their network-specific configuration.
 
-The ManyBabies validator uses **ShinyValidator** as its base application. The five core R files are maintained in the [ShinyValidator repository](https://github.com/manybabies/ShinyValidator):
+### Keeping the Validator up to date
+
+The validator uses **ShinyValidator** as its base application. The five core R files are maintained in the [ShinyValidator repository](https://github.com/manybabies/ShinyValidator):
 
     app.R
     ui.R
@@ -469,11 +471,11 @@ The ManyBabies validator uses **ShinyValidator** as its base application. The fi
     common.R
     ErrorHandler.R
 
-ManyBabies-specific files, including configurations, data specifications, sample datasets, and documentation, are maintained separately.
+All network-specific files, including configurations, data specifications, sample datasets, and documentation, are maintained separately.
 
 When changes are made to the core validator in ShinyValidator, the updates can be synchronized to ManyBabies using the `sync_shinyvalidator.sh` script.
 
-From the ManyBabies repository, run:
+From the validator repository, run:
 
     bash sync_shinyvalidator.sh
 
@@ -483,9 +485,9 @@ After running the script, review the changes before committing them:
 
     git diff
 
-If the changes are correct, commit and push them to the ManyBabies repository.
+If the changes are correct, commit and push them to the validator's repository.
 
-This means that future changes to the validator's underlying functionality can be made in **ShinyValidator** and then transferred to ManyBabies without manually copying files or overwriting project-specific content.
+This means that future changes to the validator's underlying functionality can be made in **ShinyValidator** and then transferred to the validator without manually copying files or overwriting project-specific content.
 
 For information about the underlying application architecture, core R files, configuration system, validation functions, and development of the validator itself, please refer to the **[ShinyValidator repository](https://github.com/manybabies/ShinyValidator)**.
 
