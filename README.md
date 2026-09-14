@@ -1,6 +1,6 @@
 # ManyBabies Data Validator
 
-* Currently uses [ShinyValidator]((https://github.com/manybabies/ShinyValidator) version: 2.0.1
+* Currently uses [ShinyValidator](https://github.com/manybabies/ShinyValidator) version: 2.0.1
 
 A Shiny application for validating individual lab datasets against study-specific data specifications.
 
@@ -215,7 +215,7 @@ This naming scheme means MB8 will be listed under the "Study" dropdown, and "sub
 <details>
 <summary><strong>Step 7: Submit your specification to the developer(s)</strong></summary>
 
-Before distributing the specification to data contributors, you should verify that your specification works. Please email the developer, [Francis Yuen](francis.yuen@psych.ubc.ca), the following three files:
+Before distributing the specification to data contributors, you should verify that your specification works. Please email the developer, Francis Yuen (francis.yuen@psych.ubc.ca), the following three files:
 
 * your project `.yaml`
 * a dataset containing **only valid values**
@@ -356,7 +356,7 @@ The `config_` prefix is required so that the validator recognizes the file as a 
 <details>
 <summary><strong>Step 8: Submit your network's configuration file</strong></summary>
 
-Please email the developer, [Francis Yuen](francis.yuen@psych.ubc.ca), your network's configuration. Once the configuration has been added, it will be available for selection in the validator.
+Please email the developer, Francis Yuen (francis.yuen@psych.ubc.ca), your network's configuration. Once the configuration has been added, it will be available for selection in the validator.
 
 > Note: Emailing the dev is the current workflow to minimize individual network's need to interface with Git or R.
 
