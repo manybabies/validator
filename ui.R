@@ -913,7 +913,8 @@ ui <- fluidPage(
       class = "validator-developer-logo",
       
       tags$img(
-        src = "logos/CONNECT.png"
+        src = "logos/CONNECT.png",
+        class = "validator-developer-logo-image"
       )
     )
   ),
