@@ -1,6 +1,6 @@
 # ManyBabies Data Validator
 
-* (Current version: 2.0.1, Sept 13, 2026)
+* Currently uses [ShinyValidator]((https://github.com/manybabies/ShinyValidator) version: 2.0.1
 
 A Shiny application for validating individual lab datasets against study-specific data specifications.
 
