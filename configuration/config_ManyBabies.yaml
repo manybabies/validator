@@ -3,6 +3,12 @@ theme: "blue"
 # Application title
 app_title: ManyBabies Data Validator
 
+# Logo
+logo:
+  enabled: true
+  file: "ManyBabies.png"
+  width: "240px"
+  
 # Welcome message
 welcome_message: Welcome to the ManyBabies Data Validator!
 

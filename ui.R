@@ -117,7 +117,7 @@ ui <- fluidPage(
       /* Overall page */
       
       body {
-        background-color: #F7F7F7;
+        background-color: #FFFFFF;
         color: #222222;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
                      Roboto, Helvetica, Arial, sans-serif;
@@ -139,6 +139,47 @@ ui <- fluidPage(
         box-shadow: 0 4px 12px rgba(70, 65, 95, 0.07);
         position: relative;
         overflow: hidden;
+        text-align: center;
+      }
+      
+      
+      /* Application header */
+      
+      .validator-header {
+        display: flex;
+        align-items: stretch;
+        gap: 15px;
+        margin-bottom: 24px;
+      }
+      
+      
+      /* Custom logo */
+      
+      .validator-custom-logo {
+        width: 24.5%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+      }
+      
+      .validator-custom-logo img {
+        max-width: 100%;
+        max-height: 100px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+      }
+      
+      
+      /* Application title */
+      
+      .validator-header .validator-banner {
+        flex: 1;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         text-align: center;
       }
       
@@ -174,6 +215,63 @@ ui <- fluidPage(
         letter-spacing: -0.4px;
         position: relative;
         z-index: 1;
+      }
+      
+      
+      /* Developer logo */
+      
+      .validator-developer-logo {
+        width: 24.5%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+      }
+      
+      .validator-developer-logo img {
+        max-width: 100%;
+        max-height: 100px;
+        width: auto;
+        height: auto;
+      }
+      
+      
+      /* Configuration creation layout */
+      
+      .configuration-option-row {
+        display: flex;
+        align-items: flex-start;
+        margin-left: -15px;
+        margin-right: -15px;
+      }
+      
+      .configuration-option-column {
+        width: 50%;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      
+      
+      /* Configuration logo preview */
+      
+      .configuration-logo-preview {
+        min-height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #DDDDDD;
+        border-radius: 8px;
+        background-color: #FAFAFA;
+      }
+      
+      .configuration-logo-preview img {
+        max-width: 100%;
+        max-height: 120px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
       }
       
       
@@ -510,6 +608,14 @@ ui <- fluidPage(
         .validation-explanation-cell {
           border-top: 1px solid #E0E0E0;
         }
+        
+        .configuration-option-row {
+          display: block;
+        }
+        
+        .configuration-option-column {
+          width: 100%;
+        }
       }
       
       
@@ -721,16 +827,18 @@ ui <- fluidPage(
       .text-size-controls {
         display: flex;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: flex-start;
         gap: 5px;
-        margin-top: -12px;
-        margin-bottom: 18px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
       }
       
       .text-size-label {
         color: #444444;
         font-weight: 600;
         margin-right: 5px;
+        width: 100%;
       }
       
       .text-size-button {
@@ -785,56 +893,28 @@ ui <- fluidPage(
   # Application header -------------------------------------------------------------------
   
   div(
-    class = "validator-banner",
-    h1(
-      textOutput("app_title")
-    )
-  ),
-  
-  
-  ## Text size controls -------------------------------------------------------------------
-  
-  div(
-    class = "text-size-controls",
+    class = "validator-header",
     
-    tags$span(
-      class = "text-size-label",
-      "Text size:"
+    div(
+      class = "validator-custom-logo",
+      
+      uiOutput("application_logo")
     ),
     
-    tags$button(
-      id = "text_size_xsmall",
-      class = "text-size-button",
-      type = "button",
-      "A−−"
+    div(
+      class = "validator-banner",
+      
+      h1(
+        textOutput("app_title")
+      )
     ),
     
-    tags$button(
-      id = "text_size_small",
-      class = "text-size-button",
-      type = "button",
-      "A−"
-    ),
-    
-    tags$button(
-      id = "text_size_default",
-      class = "text-size-button",
-      type = "button",
-      "A"
-    ),
-    
-    tags$button(
-      id = "text_size_large",
-      class = "text-size-button",
-      type = "button",
-      "A+"
-    ),
-    
-    tags$button(
-      id = "text_size_xlarge",
-      class = "text-size-button",
-      type = "button",
-      "A++"
+    div(
+      class = "validator-developer-logo",
+      
+      tags$img(
+        src = "logos/CONNECT.png"
+      )
     )
   ),
   
@@ -878,6 +958,54 @@ ui <- fluidPage(
           ".csv"
         )
       ),
+      
+      
+      ## Text size controls
+      
+      div(
+        class = "text-size-controls",
+        
+        tags$span(
+          class = "text-size-label",
+          "Text size:"
+        ),
+        
+        tags$button(
+          id = "text_size_xsmall",
+          class = "text-size-button",
+          type = "button",
+          "A−−"
+        ),
+        
+        tags$button(
+          id = "text_size_small",
+          class = "text-size-button",
+          type = "button",
+          "A−"
+        ),
+        
+        tags$button(
+          id = "text_size_default",
+          class = "text-size-button",
+          type = "button",
+          "A"
+        ),
+        
+        tags$button(
+          id = "text_size_large",
+          class = "text-size-button",
+          type = "button",
+          "A+"
+        ),
+        
+        tags$button(
+          id = "text_size_xlarge",
+          class = "text-size-button",
+          type = "button",
+          "A++"
+        )
+      ),
+      
       
       hr(),
       

@@ -1,5 +1,9 @@
 theme: "purple"
 app_title: ShinyValidator Template
+logo:
+  enabled: true
+  file: "ManyBabies.png"
+  width: "240px"
 welcome_message: This is where you put the welcome message!
 secondary_message: You can also put a secondary message here with more information.
 instruction_set_1_name: Instruction Set 1
