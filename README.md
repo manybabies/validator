@@ -13,7 +13,7 @@ A Shiny application for validating individual lab datasets against study-specifi
 
 1. [User Manual - For Data Contributor](#1-user-manual---for-data-contributor)
 2. [User Manual - For Project Leads](#2-user-manual---for-project-leads)
-3. [User Manual - For Partner Networks](#3-user-manual---for-partner-network)
+3. [User Manual - For Partner Networks](#3-user-manual---for-partner-networks)
 4. [For Developers - File and Folder Structure](#4-for-developers-file-and-folder-structure)
 5. [For Developers - Summary of the Recommended Workflow](#5-for-developers-summary-of-the-recommended-workflow)
 6. [Contacts and Acknowledgements](#6-contacts-and-acknowledgements)
