@@ -373,6 +373,78 @@ ui <- fluidPage(
       }
       
       
+      /* Validation error display */
+      
+      .validation-errors-table {
+        border: 1px solid #e0dce8;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top: 10px;
+        margin-bottom: 20px;
+      }
+      
+      .validation-errors-header {
+        display: grid;
+        grid-template-columns: 20% 40% 40%;
+        background-color: #f3f0f8;
+        color: #554d72;
+        font-weight: 600;
+      }
+      
+      .validation-errors-header > div {
+        padding: 12px 14px;
+      }
+      
+      .validation-error-row {
+        display: grid;
+        grid-template-columns: 20% 40% 40%;
+        border-top: 1px solid #e6e3eb;
+      }
+      
+      .validation-error-row:nth-child(even) {
+        background-color: #faf9fc;
+      }
+      
+      .validation-error-location-cell,
+      .validation-error-cell,
+      .validation-explanation-cell {
+        padding: 12px 14px;
+      }
+      
+      .validation-error-location-cell {
+        color: #554d72;
+        font-weight: 600;
+      }
+      
+      .validation-error-cell {
+        color: #c0392b;
+      }
+      
+      .validation-explanation-cell {
+        color: #626878;
+        border-left: 1px solid #e6e3eb;
+      }
+      
+      @media (max-width: 768px) {
+        
+        .validation-errors-header,
+        .validation-error-row {
+          grid-template-columns: 1fr;
+        }
+        
+        .validation-error-location-cell,
+        .validation-error-cell,
+        .validation-explanation-cell {
+          border-left: none;
+        }
+        
+        .validation-error-cell,
+        .validation-explanation-cell {
+          border-top: 1px solid #e6e3eb;
+        }
+      }
+      
+      
       /* Main headings */
       
       .main-panel h3 {
@@ -949,8 +1021,8 @@ ui <- fluidPage(
         document.body.classList.remove(
           'text-size-xsmall',
           'text-size-small',
-          'text-size-default',
-          'text-size-large'
+          'text-size-large',
+          'text-size-default'
         );
         
         document.body.classList.add('text-size-xlarge');

@@ -1019,7 +1019,7 @@ server <- function(input, output, session) {
   })
   
   # Validation errors
-  
+
   output$errors_by_column <- renderUI({
     
     req(input$file)
@@ -1047,6 +1047,7 @@ server <- function(input, output, session) {
     validated <- validate_dataset(fields, df)
     valid <- validated[[1]]
     issues <- validated[[2]]
+    
     
     # Error summary
     
@@ -1229,14 +1230,57 @@ server <- function(input, output, session) {
     }
     
     
+    # Create three-column error table
+    
+    error_table <- function(rows) {
+      
+      tags$div(
+        class = "validation-errors-table",
+        
+        tags$div(
+          class = "validation-errors-header",
+          
+          tags$div("Where"),
+          tags$div("Error"),
+          tags$div("Explanation")
+        ),
+        
+        rows
+      )
+    }
+    
+    
+    error_row <- function(location, error, explanation) {
+      
+      tags$div(
+        class = "validation-error-row",
+        
+        tags$div(
+          class = "validation-error-location-cell",
+          location
+        ),
+        
+        tags$div(
+          class = "validation-error-cell",
+          error
+        ),
+        
+        tags$div(
+          class = "validation-explanation-cell",
+          explanation
+        )
+      )
+    }
+    
+    
     # Errors by row
     
     if (identical(input$error_view, "row")) {
       
-      row_errors <- list()
+      error_rows <- list()
       
       
-      # Column errors
+      # Missing and unexpected columns
       
       for (issue in issues) {
         
@@ -1244,49 +1288,38 @@ server <- function(input, output, session) {
           next
         }
         
-        # Missing required columns
-        
         if (issue$type == "missing_column") {
           
-          row_errors[[length(row_errors) + 1]] <- tags$p(
-            style = "color: red;",
+          error_rows[[length(error_rows) + 1]] <- error_row(
             
-            paste0(
+            location = "Dataset",
+            
+            error = paste0(
               "Missing required column: '",
               issue$column,
               "'."
             ),
             
-            tags$br(),
-            
-            tags$span(
-              paste0(
-                "(",
-                explain_error(issue, fields),
-                ")"
-              )
+            explanation = explain_error(
+              issue,
+              fields
             )
           )
         }
         
-        # Unexpected columns
-        
         if (issue$type == "unexpected_column") {
           
-          row_errors[[length(row_errors) + 1]] <- tags$p(
-            style = "color: red;",
+          error_rows[[length(error_rows) + 1]] <- error_row(
             
-            paste0(
+            location = "Dataset",
+            
+            error = paste0(
               "Unexpected column: '",
               issue$column,
               "'."
             ),
             
-            tags$br(),
-            
-            tags$span(
-              "(This column does not exist in the selected specification.)"
-            )
+            explanation = "This column does not exist in the selected specification."
           )
         }
       }
@@ -1331,7 +1364,7 @@ server <- function(input, output, session) {
       }
       
       
-      # Group errors by row
+      # Sort cell errors by row
       
       if (length(cell_errors) > 0) {
         
@@ -1352,49 +1385,32 @@ server <- function(input, output, session) {
             cell_errors
           )
           
-          row_contents <- list()
-          
           for (error in this_row) {
             
-            row_contents[[length(row_contents) + 1]] <- tags$div(
+            error_rows[[length(error_rows) + 1]] <- error_row(
               
-              paste0(
+              location = paste0(
+                "Row ",
+                row
+              ),
+              
+              error = paste0(
                 error$column,
                 " = '",
                 as.character(error$value),
                 "'"
               ),
               
-              tags$br(),
-              
-              tags$span(
-                paste0(
-                  "(",
-                  error$explanation,
-                  ")"
-                )
-              )
+              explanation = error$explanation
             )
           }
-          
-          row_errors[[length(row_errors) + 1]] <- tags$p(
-            style = "color: red;",
-            
-            tags$strong(
-              paste0("Row ", row, ":")
-            ),
-            
-            tags$br(),
-            
-            row_contents
-          )
         }
       }
       
       return(
         tagList(
           h4("Errors by row"),
-          row_errors
+          error_table(error_rows)
         )
       )
     }
@@ -1402,10 +1418,9 @@ server <- function(input, output, session) {
     
     # Errors by column
     
-    tagList(
-      h4("Errors by column"),
-      
-      lapply(issues, function(issue) {
+    error_rows <- lapply(
+      issues,
+      function(issue) {
         
         if (is.null(issue)) {
           return(NULL)
@@ -1414,79 +1429,84 @@ server <- function(input, output, session) {
         if (issue$type == "missing_column") {
           
           return(
-            tags$p(
-              style = "color: red;",
+            error_row(
               
-              paste0(
+              location = "Dataset",
+              
+              error = paste0(
                 "Missing required column: '",
                 issue$column,
                 "'."
               ),
               
-              tags$br(),
-              
-              tags$span(
-                paste0(
-                  "(",
-                  explain_error(issue, fields),
-                  ")"
-                )
+              explanation = explain_error(
+                issue,
+                fields
               )
             )
           )
         }
+        
         
         # Unexpected columns
         
         if (issue$type == "unexpected_column") {
           
           return(
-            tags$p(
-              style = "color: red;",
+            error_row(
               
-              paste0(
+              location = "Dataset",
+              
+              error = paste0(
                 "Unexpected column: '",
                 issue$column,
                 "'."
               ),
               
-              tags$br(),
-              
-              tags$span(
-                "(This column does not exist in the selected specification.)"
-              )
+              explanation = "This column does not exist in the selected specification."
             )
           )
         }
         
-        rows <- sort(unique(issue$invalid_row))
-        row_text <- paste(rows, collapse = ", ")
         
-        tags$p(
-          style = "color: red;",
+        # Invalid cells
+        
+        rows <- sort(
+          unique(issue$invalid_row)
+        )
+        
+        row_text <- paste(
+          rows,
+          collapse = ", "
+        )
+        
+        error_row(
           
-          paste0(
-            "Column '",
-            issue$column,
-            "' contains invalid cells in rows: ",
+          location = paste0(
+            "Column ",
+            issue$column
+          ),
+          
+          error = paste0(
+            "Contains invalid cells in rows: ",
             row_text,
             "."
           ),
           
-          tags$br(),
-          
-          tags$span(
-            paste0(
-              "(",
-              explain_error(issue, fields),
-              ")"
-            )
+          explanation = explain_error(
+            issue,
+            fields
           )
         )
-      })
+      }
+    )
+    
+    
+    tagList(
+      h4("Errors by column"),
+      error_table(error_rows)
     )
   })
-  
   
   # Specification creation ---------------------------------------------------------------
   
