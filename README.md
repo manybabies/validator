@@ -1,6 +1,6 @@
 # ManyBabies Data Validator
 
-* Currently uses [ShinyValidator](https://github.com/manybabies/ShinyValidator) version: 2.0.2 (Sept 14, 2026)
+* Currently uses [ShinyValidator](https://github.com/manybabies/ShinyValidator) version: 2.0.3 (Sept 15, 2026)
 
 A Shiny application for validating individual lab datasets against study-specific data specifications.
 
@@ -72,7 +72,7 @@ There will be a preview table of the dataset with incorrect cells highlighted. N
 <details>
 <summary><strong>Step 5: Correct your dataset</strong></summary>
 
-Use the validation results to identify and correct the errors in your original dataset. You can **directly edit your dataset using this display**, and the validator will check, in real-time, if your changes fixed the issues. You can press the "Download Edited & Highlighted File" button to download a `.xlsx` file with any remaining highlights. The downloaded file will preserve any edits you have made in the app's displayed table itself.
+Use the validation results to identify and correct the errors in your original dataset. You can **directly edit your dataset using this display**, and the validator will check, in real-time, if your changes fixed the issues. You can press the "Download Edited & Highlighted Excel File" button to download a `.xlsx` file with any remaining highlights. The downloaded file will preserve any edits you have made in the app's displayed table itself.
 
 **Note: by default, the downloaded file is in `.xlsx` format to preserve the highlights, but you must save the file as a `.csv` before trying to validate again!**
 
@@ -85,12 +85,13 @@ After making corrections, upload the revised dataset and run the validator again
 
 Repeat this process until your dataset passes validation.
 
+
 </details>
 
 <details>
-<summary><strong>When your dataset passes</strong></summary>
+<summary><strong>Step 7: When your dataset passes</strong></summary>
 
-Once the validator reports that your dataset is valid, it meets the requirements defined by the selected project specification and is ready for submission.
+Once the validator reports that your dataset is valid, it meets the requirements defined by the selected project specification and is ready for submission. The hidden **Download Validated CSV File** button will now appear; click the button to download a copy of the validated data, converted to a standardized format (i.e. comma-delimited).
 
 </details>
 
