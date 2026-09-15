@@ -1278,8 +1278,23 @@ server <- function(input, output, session) {
     
     fields <- yaml::yaml.load_file(yaml_file_path)
     
-    df <- readr::read_csv(
+    delimiter <- detect_delimiter(
+      input$file$datapath
+    )
+    
+    req(!is.null(delimiter))
+    
+    decimal_mark <- detect_decimal_mark(
       input$file$datapath,
+      delimiter
+    )
+    
+    df <- readr::read_delim(
+      input$file$datapath,
+      delim = delimiter,
+      locale = readr::locale(
+        decimal_mark = decimal_mark
+      ),
       show_col_types = FALSE
     )
     
@@ -3122,8 +3137,7 @@ server <- function(input, output, session) {
     }
   )
   
-  
-  # Download edited dataset
+  # Download edited dataset as Excel
   
   output$downloadHighlighted <- downloadHandler(
     
@@ -3131,33 +3145,21 @@ server <- function(input, output, session) {
       paste0(
         "edited_dataset_",
         Sys.Date(),
-        ".csv"
+        ".xlsx"
       )
     },
     
-    contentType = "text/csv",
-    
     content = function(file) {
       
-      # Check uploaded file
+      df <- edited_data()
       
-      if (
-        is.null(input$file) ||
-        is.null(input$file$datapath) ||
-        input$file$datapath == ""
-      ) {
+      if (is.null(df)) {
         stop(
-          "No file provided. Please upload a dataset before attempting to download."
+          "The edited dataset is not available."
         )
       }
       
-      
-      # Check study and format
-      
       req(input$study, input$format)
-      
-      
-      # Find YAML specification
       
       yaml_file_path <- paste0(
         "data_specifications/",
@@ -3171,24 +3173,57 @@ server <- function(input, output, session) {
       
       if (!file.exists(yaml_file_path)) {
         stop(
-          "The corresponding YAML specification file does not exist. ",
-          "Please check your study and format selection."
+          "The corresponding YAML specification file does not exist."
         )
       }
       
+      fields <- yaml::yaml.load_file(
+        yaml_file_path
+      )
       
-      # Load YAML specification
+      validated <- validate_dataset(
+        fields,
+        df
+      )
       
-      fields <- tryCatch(
-        yaml::yaml.load_file(yaml_file_path),
+      issues <- validated[[2]]
+      
+      tryCatch(
+        {
+          highlight_csv_to_xlsx_v2(
+            df,
+            issues,
+            file
+          )
+        },
         error = function(e) {
+          print(e)
           stop(
-            "Failed to load YAML file. ",
-            "Please ensure the file is valid and accessible."
+            paste0(
+              "Excel creation failed: ",
+              e$message
+            )
           )
         }
       )
-      
+    }
+  )
+  
+  # Download standardized validated CSV
+  
+  output$downloadCSV <- downloadHandler(
+    
+    filename = function() {
+      paste0(
+        "validated_dataset_",
+        Sys.Date(),
+        ".csv"
+      )
+    },
+    
+    contentType = "text/csv",
+    
+    content = function(file) {
       
       # Get edited dataset
       
@@ -3201,26 +3236,17 @@ server <- function(input, output, session) {
         )
       }
       
+      # Write standardized CSV
       
-      # Download edited dataset
-      
-      tryCatch(
-        {
-          readr::write_csv(
-            df,
-            file
-          )
-        },
-        error = function(e) {
-          stop(
-            "Failed to save the edited dataset: ",
-            e$message
-          )
-        }
+      readr::write_csv(
+        df,
+        file,
+        na = ""
       )
     }
   )
   
+
   # Editable dataset
   
   edited_data <- reactiveVal(NULL)
@@ -3229,14 +3255,72 @@ server <- function(input, output, session) {
     
     req(input$file)
     
-    df <- readr::read_csv(
+    delimiter <- detect_delimiter(
+      input$file$datapath
+    )
+    
+    req(!is.null(delimiter))
+    
+    decimal_mark <- detect_decimal_mark(
       input$file$datapath,
+      delimiter
+    )
+    
+    df <- readr::read_delim(
+      input$file$datapath,
+      delim = delimiter,
+      locale = readr::locale(
+        decimal_mark = decimal_mark
+      ),
       show_col_types = FALSE
     )
     
     edited_data(df)
     
   })
+
+  # Check whether edited dataset is valid
+  
+  dataset_is_valid <- reactive({
+    
+    req(edited_data())
+    req(input$study, input$format)
+    
+    yaml_file_path <- paste0(
+      "data_specifications/",
+      selected_configuration_name(),
+      "_",
+      input$study,
+      "_",
+      input$format,
+      ".yaml"
+    )
+    
+    req(file.exists(yaml_file_path))
+    
+    fields <- yaml::yaml.load_file(
+      yaml_file_path
+    )
+    
+    validated <- validate_dataset(
+      fields,
+      edited_data()
+    )
+    
+    validated[[1]]
+  })
+  
+  # Show CSV download only when dataset is valid
+  
+  output$csv_validated <- reactive({
+    dataset_is_valid()
+  })
+  
+  outputOptions(
+    output,
+    "csv_validated",
+    suspendWhenHidden = FALSE
+  )
   
   # Store table edits
   

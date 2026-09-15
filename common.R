@@ -1,5 +1,6 @@
 library(tidyverse)
 library(stringr)
+library(openxlsx)
 
 
 # Load available studies ---------------------------------------------------------------
@@ -22,6 +23,87 @@ studies <- tibble(
     remove = TRUE
   )
 
+
+# Delimiter detection -----------------------------------------------------
+
+detect_delimiter <- function(file) {
+  
+  delimiters <- c(",", ";", "\t")
+  
+  results <- lapply(
+    delimiters,
+    function(delim) {
+      
+      data <- tryCatch(
+        readr::read_delim(
+          file,
+          delim = delim,
+          n_max = 10,
+          show_col_types = FALSE,
+          progress = FALSE
+        ),
+        error = function(e) NULL
+      )
+      
+      if (is.null(data)) {
+        return(0)
+      }
+      
+      ncol(data)
+    }
+  )
+  
+  column_counts <- unlist(results)
+  
+  if (max(column_counts) <= 1) {
+    return(NULL)
+  }
+  
+  delimiters[which.max(column_counts)]
+}
+
+
+# Detect CSV decimal mark (this is to account for European decimal system)
+
+detect_decimal_mark <- function(file, delimiter) {
+  
+  data <- readr::read_delim(
+    file,
+    delim = delimiter,
+    col_types = readr::cols(.default = readr::col_character()),
+    n_max = 100,
+    show_col_types = FALSE,
+    progress = FALSE
+  )
+  
+  values <- unlist(data, use.names = FALSE)
+  
+  comma_decimals <- sum(
+    stringr::str_detect(
+      values,
+      "^[-+]?[0-9]+,[0-9]+$"
+    ),
+    na.rm = TRUE
+  )
+  
+  period_decimals <- sum(
+    stringr::str_detect(
+      values,
+      "^[-+]?[0-9]+\\.[0-9]+$"
+    ),
+    na.rm = TRUE
+  )
+  
+  if (comma_decimals > period_decimals) {
+    return(",")
+  }
+  
+  if (period_decimals > comma_decimals) {
+    return(".")
+  }
+  
+  return(".")
+}
 
 # Main validation function --------------------------------------------------------------
 
@@ -106,6 +188,72 @@ validate_dataset <- function(fields, dataset_contents) {
   )
 }
 
+# Create highlighted Excel file
+
+highlight_csv_to_xlsx_v2 <- function(df, issues, file) {
+  
+  workbook <- openxlsx::createWorkbook()
+  
+  openxlsx::addWorksheet(
+    workbook,
+    "Validated Dataset"
+  )
+  
+  openxlsx::writeData(
+    workbook,
+    "Validated Dataset",
+    df
+  )
+  
+  # Create highlight style
+  
+  invalid_style <- openxlsx::createStyle(
+    fgFill = "#FFFF00"
+  )
+  
+  # Highlight invalid cells
+  
+  for (issue in issues) {
+    
+    if (
+      is.null(issue) ||
+      issue$type != "invalid_cell"
+    ) {
+      next
+    }
+    
+    column_name <- issue$column
+    rows <- as.integer(issue$invalid_row)
+    
+    if (
+      column_name %in% names(df) &&
+      length(rows) > 0
+    ) {
+      
+      column_index <- which(
+        names(df) == column_name
+      )
+      
+      openxlsx::addStyle(
+        workbook,
+        "Validated Dataset",
+        style = invalid_style,
+        rows = rows + 1,
+        cols = column_index,
+        gridExpand = TRUE,
+        stack = TRUE
+      )
+    }
+  }
+  
+  # Save Excel file
+  
+  openxlsx::saveWorkbook(
+    workbook,
+    file,
+    overwrite = TRUE
+  )
+}
 
 # Validate a field ----------------------------------------------------------------------
 
