@@ -199,17 +199,26 @@ highlight_csv_to_xlsx_v2 <- function(df, issues, file) {
     "Validated Dataset"
   )
   
+  # Write dataset to Excel
+  
   openxlsx::writeData(
     workbook,
     "Validated Dataset",
-    df
+    as.data.frame(df),
+    keepNA = TRUE,
+    na.string = "NA"
   )
+  
+  print("ISSUES SENT TO EXCEL EXPORT:")
+  print(issues)
   
   # Create highlight style
   
   invalid_style <- openxlsx::createStyle(
     fgFill = "#FFFF00"
   )
+  
+  
   
   # Highlight invalid cells
   
@@ -239,6 +248,37 @@ highlight_csv_to_xlsx_v2 <- function(df, issues, file) {
         "Validated Dataset",
         style = invalid_style,
         rows = rows + 1,
+        cols = column_index,
+        gridExpand = TRUE,
+        stack = TRUE
+      )
+    }
+  }
+  
+  # Highlight unexpected columns
+  
+  for (issue in issues) {
+    
+    if (
+      is.null(issue) ||
+      issue$type != "unexpected_column"
+    ) {
+      next
+    }
+    
+    column_name <- issue$column
+    
+    if (column_name %in% names(df)) {
+      
+      column_index <- which(
+        names(df) == column_name
+      )
+      
+      openxlsx::addStyle(
+        workbook,
+        "Validated Dataset",
+        style = invalid_style,
+        rows = seq_len(nrow(df)) + 1,
         cols = column_index,
         gridExpand = TRUE,
         stack = TRUE

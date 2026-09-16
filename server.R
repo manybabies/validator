@@ -3374,38 +3374,64 @@ server <- function(input, output, session) {
     
     issues <- validated[[2]]
     
-    # Highlight invalid cells
+    # Highlight invalid cells and unexpected columns
     
     invalid_cells <- list()
+    unexpected_column_indices <- integer(0)
     
     for (issue in issues) {
       
-      if (
-        is.null(issue) ||
-        issue$type != "invalid_cell"
-      ) {
+      if (is.null(issue)) {
         next
       }
       
-      column_name <- issue$column
-      rows <- as.integer(issue$invalid_row)
       
-      if (
-        column_name %in% names(df) &&
-        length(rows) > 0
-      ) {
+      # Invalid cells
+      
+      if (issue$type == "invalid_cell") {
         
-        column_index <- which(names(df) == column_name) - 1
+        column_name <- issue$column
+        rows <- as.integer(issue$invalid_row)
         
-        for (row in rows) {
+        if (
+          column_name %in% names(df) &&
+          length(rows) > 0
+        ) {
           
-          invalid_cells[[length(invalid_cells) + 1]] <- list(
-            row = row - 1,
-            column = column_index
+          column_index <- which(names(df) == column_name) - 1
+          
+          for (row in rows) {
+            
+            invalid_cells[[length(invalid_cells) + 1]] <- list(
+              row = row - 1,
+              column = column_index
+            )
+          }
+        }
+      }
+      
+      
+      # Unexpected columns
+      
+      if (issue$type == "unexpected_column") {
+        
+        column_name <- issue$column
+        
+        if (column_name %in% names(df)) {
+          
+          unexpected_column_indices <- c(
+            unexpected_column_indices,
+            which(names(df) == column_name) - 1
           )
         }
       }
     }
+    
+    unexpected_column_indices <- unique(
+      unexpected_column_indices
+    )
+    
+    print(unexpected_column_indices)
     
     
     # Create JavaScript for cell highlighting
@@ -3417,10 +3443,16 @@ server <- function(input, output, session) {
         auto_unbox = TRUE
       )
       
+      columns_json <- jsonlite::toJSON(
+        unexpected_column_indices,
+        auto_unbox = TRUE
+      )
+      
       DT::JS(
         paste0(
           "function(row, data, displayNum, displayIndex, dataIndex) {",
           "  var invalidCells = ", cells_json, ";",
+          "  var unexpectedColumns = ", columns_json, ";",
           "  invalidCells.forEach(function(cell) {",
           "    if (cell.row === dataIndex) {",
           "      $('td', row).eq(cell.column).css('background-color', 'yellow');",
@@ -3440,13 +3472,31 @@ server <- function(input, output, session) {
     
     # Create editable table
     
+    display_df <- df |>
+      mutate(
+        across(
+          everything(),
+          ~ ifelse(is.na(.x), "NA", as.character(.x))
+        )
+      )
+    
     DT::datatable(
-      df,
+      display_df,
       editable = TRUE,
       options = list(
         pageLength = 10,
         scrollX = TRUE,
-        rowCallback = highlight_js
+        rowCallback = highlight_js,
+        columnDefs = list(
+          list(
+            targets = unexpected_column_indices,
+            createdCell = DT::JS(
+              "function(td) {
+            $(td).css('background-color', 'yellow');
+          }"
+            )
+          )
+        )
       ),
       rownames = FALSE
     )
