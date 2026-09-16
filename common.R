@@ -641,7 +641,7 @@ ValidateString <- function(dataset_contents, field) {
   
   # Check minimum length
   
-  if (!is.na(field$lowerlimit)) {
+  if (!is.null(field$lowerlimit) && !is.na(field$lowerlimit)) {
     
     lowerLimit <- as.numeric(field$lowerlimit)
     
@@ -659,7 +659,7 @@ ValidateString <- function(dataset_contents, field) {
   
   # Check maximum length
   
-  if (!is.na(field$upperlimit)) {
+  if (!is.null(field$upperlimit) && !is.na(field$upperlimit)) {
     
     upperLimit <- as.numeric(field$upperlimit)
     
