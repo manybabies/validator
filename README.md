@@ -1,6 +1,6 @@
 # ManyBabies Data Validator
 
-* Currently uses [ShinyValidator](https://github.com/manybabies/ShinyValidator) version: 2.0.3 (Sept 15, 2026)
+* Currently uses [ShinyValidator](https://github.com/manybabies/ShinyValidator) version: 2.0.4 (Sept 17, 2026)
 
 A Shiny application for validating individual lab datasets against study-specific data specifications.
 
@@ -110,7 +110,7 @@ The specification is written as a **YAML file** and contains the expected fields
 <details>
 <summary><strong>Step 1: Open Specification Creation</strong></summary>
 
-Open the **Specification Creation** feature in the application, and select how many variables you want to create. Note that you can change this later, but **decreasing the number of variables will erase part of your progress**.
+Open the **Specification Creation** feature in the application, and select how many variables you want to create. Alternatively, you can **upload a data template csv file** and the validator will start the process for you by extracting the **column names** in your uploaded dataset. You still need to define the specifications (see next step).
 
 ![](images_for_readme/SC_step1.png)
 

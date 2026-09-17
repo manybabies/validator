@@ -1,0 +1,19 @@
+- field: test
+  description: ''
+  type: options
+  options:
+  - 'yes'
+  - 'no'
+  - 'TRUE'
+  - 'FALSE'
+  - HAHA
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: yes
+  error_message: ''

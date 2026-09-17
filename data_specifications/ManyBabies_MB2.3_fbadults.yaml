@@ -535,8 +535,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3' ]
 
 - field: raads_02
@@ -549,8 +549,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: raads_03
@@ -563,8 +563,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: raads_04
@@ -577,8 +577,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: raads_05
@@ -591,8 +591,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: raads_06
@@ -605,8 +605,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: raads_07
@@ -619,8 +619,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: raads_08
@@ -633,8 +633,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: raads_09
@@ -647,8 +647,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: raads_10
@@ -661,8 +661,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: raads_11
@@ -675,8 +675,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: raads_12
@@ -689,8 +689,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: raads_13
@@ -703,8 +703,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: raads_14
@@ -717,8 +717,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_01
@@ -731,8 +731,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_02
@@ -745,8 +745,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_03
@@ -759,8 +759,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_04
@@ -773,8 +773,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_05
@@ -787,8 +787,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_06
@@ -801,8 +801,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_07
@@ -815,8 +815,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_08
@@ -829,8 +829,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_09
@@ -843,8 +843,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_10
@@ -857,8 +857,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_11
@@ -871,8 +871,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_12
@@ -885,8 +885,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_13
@@ -899,8 +899,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_14
@@ -913,8 +913,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_15
@@ -927,8 +927,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_16
@@ -941,8 +941,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_17
@@ -955,8 +955,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_18
@@ -969,8 +969,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: preq_19
@@ -983,8 +983,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['0','1','2','3']
 
 - field: ippi_01
@@ -997,8 +997,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_02
@@ -1011,8 +1011,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_03
@@ -1025,8 +1025,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_04
@@ -1039,8 +1039,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_05
@@ -1053,8 +1053,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_06
@@ -1067,8 +1067,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_07
@@ -1081,8 +1081,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_08
@@ -1095,8 +1095,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_09
@@ -1109,8 +1109,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_10
@@ -1123,8 +1123,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_11
@@ -1137,8 +1137,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_12
@@ -1151,8 +1151,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_13
@@ -1165,8 +1165,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_14
@@ -1179,8 +1179,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_15
@@ -1193,8 +1193,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_16
@@ -1207,8 +1207,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_17
@@ -1221,8 +1221,8 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_18
@@ -1235,6 +1235,6 @@
   allow_decimals: .na
   min_decimals: .na
   max_decimals: .na
-  required: 'yes'
-  NA_allowed: 'yes'
+  required: yes
+  NA_allowed: yes
   options: ['1','2','3','4','5','6','7']
