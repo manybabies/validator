@@ -527,3 +527,717 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+
+- field: raads_01
+  description: RAADS-14 item 1 It is difficult for me to understand how other people are feeling when we are talking. (0 = 'Never true', 1 = 'True only when I was younger than 16', 2 = 'True only now', and 3 = 'True now and when I was young')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3' ]
+
+- field: raads_02
+  description: RAADS-14 item 2 Some ordinary textures that do not bother others feel very offensive when they touch my skin. (0 = 'Never true', 1 = 'True only when I was younger than 16', 2 = 'True only now', and 3 = 'True now and when I was young')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: raads_03
+  description: RAADS-14 item 3 It is very difficult for me to work and function in groups. (0 = 'Never true', 1 = 'True only when I was younger than 16', 2 = 'True only now', and 3 = 'True now and when I was young')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: raads_04
+  description: RAADS-14 item 4 It is difficult to figure out what other people expect of me. (0 = 'Never true', 1 = 'True only when I was younger than 16', 2 = 'True only now', and 3 = 'True now and when I was young')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: raads_05
+  description: RAADS-14 item 5 I often don't know how to act in social situations. (0 = 'Never true', 1 = 'True only when I was younger than 16', 2 = 'True only now', and 3 = 'True now and when I was young')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: raads_06
+  description: RAADS-14 item 6 I can chat and make small talk with people. (0 = 'Never true', 1 = 'True only when I was younger than 16', 2 = 'True only now', and 3 = 'True now and when I was young'); IMPORTANT Please enter the original value of the participant. Reversely scored items will be handled centrally.
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: raads_07
+  description: RAADS-14 item 7 When I feel overwhelmed by my senses, I have to isolate myself to shut them down. (0 = 'Never true', 1 = 'True only when I was younger than 16', 2 = 'True only now', and 3 = 'True now and when I was young')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: raads_08
+  description: RAADS-14 item 8 How to make friends and socialize is a mystery to me. (0 = 'Never true', 1 = 'True only when I was younger than 16', 2 = 'True only now', and 3 = 'True now and when I was young')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: raads_09
+  description: RAADS-14 item 9 When talking to someone, I have a hard time telling when it is my turn to talk or to listen. (0 = 'Never true', 1 = 'True only when I was younger than 16', 2 = 'True only now', and 3 = 'True now and when I was young')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: raads_10
+  description: RAADS-14 item 10 Sometimes I have to cover my ears to block out painful noises. (like vacuum cleaners or people talking too much or too loudly) (0 = 'Never true', 1 = 'True only when I was younger than 16', 2 = 'True only now', and 3 = 'True now and when I was young')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: raads_11
+  description: RAADS-14 item 11 It can be very hard to read someone's face, hand, and body movements when we are talking. (0 = 'Never true', 1 = 'True only when I was younger than 16', 2 = 'True only now', and 3 = 'True now and when I was young')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: raads_12
+  description: RAADS-14 item 12 I focus on details rather than the overall idea. (0 = 'Never true', 1 = 'True only when I was younger than 16', 2 = 'True only now', and 3 = 'True now and when I was young')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: raads_13
+  description: RAADS-14 item 13 I take things too literally, so I often miss what people are trying to say. (0 = 'Never true', 1 = 'True only when I was younger than 16', 2 = 'True only now', and 3 = 'True now and when I was young')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: raads_14
+  description: RAADS-14 item 14 I get extremely upset when the way I like to do things is suddenly changed. (0 = 'Never true', 1 = 'True only when I was younger than 16', 2 = 'True only now', and 3 = 'True now and when I was young')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_01
+  description: PRE-Q item 1 I improve quickly after a few sessions of playing a new sport with a moving ball (e.g., tennis, baseball, volleyball). (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_02
+  description: PRE-Q item 2 I am surprised by the speed of an escalator when I first step on it. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_03
+  description: PRE-Q item 3 I can step onto an escalator without tripping. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_04
+  description: PRE-Q item 4 I can usually catch a ball. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_05
+  description: PRE-Q item 5 I expect someone to start talking with me after we've made eye contact in a social setting. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_06
+  description: PRE-Q item 6 If I pop a balloon, I am startled by the noise. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_07
+  description: PRE-Q item 7 If I'm walking with friends and notice they are falling behind, I slow down. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_08
+  description: PRE-Q item 8 When I drop something, I am surprised by the noise that it makes when it hits the ground. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_09
+  description: PRE-Q item 9 When I try to high-five someone, I miss their hand. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_10
+  description: PRE-Q item 10 I can easily guess a new food's texture based on how it looks. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_11
+  description: PRE-Q item 11 Within a few hours of meeting someone new, I can accurately guess what they will do next. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_12
+  description: PRE-Q item 12 If someone singing my favorite song changed a word in the lyrics, I would definitely notice. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_13
+  description: PRE-Q item 13 I can always tell if I will like a new food based on its smell. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_14
+  description: PRE-Q item 14 When watching television or a movie, I can easily guess what a character will say next. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_15
+  description: PRE-Q item 15 I am never surprised by a friend's reaction when I share personal news with them. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_16
+  description: PRE-Q item 16 It takes me a while to pull away if I get burned while cooking. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_17
+  description: PRE-Q item 17 If my pen rolls off the table I can catch it before it hits the ground. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_18
+  description: PRE-Q item 18 I can always tell if someone is waving to me or someone else. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: preq_19
+  description: PRE-Q item 19 I am able to push someone on a swing without getting hit. (0 = 'Not at all like me', 1 = 'Not like me', 2 = 'Like me', and 3 = 'Just like me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['0','1','2','3']
+
+- field: ippi_01
+  description: IPPI item 1 I often have the feeling that others don't understand me. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
+
+- field: ippi_02
+  description: IPPI item 2 People's facial expressions are very reliable sources of information. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
+
+- field: ippi_03
+  description: IPPI item 3 I like to wear the same outfit over and over again to make me feel at ease. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
+
+- field: ippi_04
+  description: IPPI item 4 Other people misinterpret my facial expressions or gestures. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
+
+- field: ippi_05
+  description: IPPI item 5 I have a hard time guessing how another person might understand the things I say. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
+
+- field: ippi_06
+  description: IPPI item 6 It is calming to repeat movements over and over again. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
+
+- field: ippi_07
+  description: IPPI item 7 It ruins my whole day, if things don't happen as expected. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
+
+- field: ippi_08
+  description: IPPI item 8 I don't like talking on the phone because I can't tell when the other person is going to say something. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
+
+- field: ippi_09
+  description: IPPI item 9 When people ask me questions, I often don't know what they are actually getting at and how exactly I should answer. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
+
+- field: ippi_10
+  description: IPPI item 10 It would stress me out if I had to spontaneously take a different route to school/work. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
+
+- field: ippi_11
+  description: IPPI item 11 It takes a lot of strength for me to appear "normal" to others. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
+
+- field: ippi_12
+  description: IPPI item 12 I often find it difficult to determine which information is relevant to me at the moment. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
+
+- field: ippi_13
+  description: IPPI item 13 I am completely upset if just one little thing doesn't go according to plan. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
+
+- field: ippi_14
+  description: IPPI item 14 If several people are talking at the same time, I can't really listen to any of them. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
+
+- field: ippi_15
+  description: IPPI item 15 During a stressful situation, I often don't realise how stressed I actually am and why exactly. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
+
+- field: ippi_16
+  description: IPPI item 16 Often I feel overwhelmed by sounds, smells or colours. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
+
+- field: ippi_17
+  description: IPPI item 17 It takes a long time for me to recover from everyday challenges. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
+
+- field: ippi_18
+  description: IPPI item 18 For me, communication is often associated with frustration and/or stress. (1 = 'do not agree at all / very atypical for me', 7 = 'agree very strongly / very typical for me')
+  type: options
+  format: .na
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: 'yes'
+  NA_allowed: 'yes'
+  options: ['1','2','3','4','5','6','7']
