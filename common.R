@@ -310,7 +310,10 @@ validate_dataset_field <- function(dataset_contents, field) {
   
   if (!field$NA_allowed) {
     
-    missing_rows <- which(is.na(field_contents))
+    missing_rows <- which(
+      is.na(field_contents) |
+        field_contents == ""
+    )
     
     if (length(missing_rows) > 0) {
       
@@ -425,7 +428,8 @@ ValidateNumeric <- function(dataset_contents, field) {
   
   non_numeric_indices <- which(
     is.na(numeric_values) &
-      !is.na(field_contents)
+      !is.na(field_contents) &
+      field_contents != ""
   )
   
   if (length(non_numeric_indices) > 0) {
