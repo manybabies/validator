@@ -1123,9 +1123,25 @@ ui <- fluidPage(
           
           numericInput(
             "numVars",
-            "Number of Variables:",
+            "Option 1: Start by entering Number of Variables:",
             value = 0,
             min = 0
+          ),
+          
+          fileInput(
+            "template_file",
+            "Option 2: Upload a template dataset:",
+            multiple = FALSE,
+            accept = c(
+              "text/csv",
+              "text/comma-separated-values,text/plain",
+              ".csv"
+            )
+          ),
+          
+          helpText(
+            "Only the column names will be used from the template dataset. ",
+            "You can edit the variable names after they are populated."
           ),
           
           tabsetPanel(

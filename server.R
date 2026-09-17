@@ -1022,6 +1022,7 @@ server <- function(input, output, session) {
   })
   
   
+  
   # Validation ---------------------------------------------------------------------------
   
   # Specification
@@ -1295,6 +1296,7 @@ server <- function(input, output, session) {
       locale = readr::locale(
         decimal_mark = decimal_mark
       ),
+      na = "NA",
       show_col_types = FALSE
     )
     
@@ -1970,17 +1972,43 @@ server <- function(input, output, session) {
   
   # Specification creation ---------------------------------------------------------------
   
+  # Creating from template
+  
+  template_columns <- reactiveVal(NULL)
+  
+  observeEvent(input$template_file, {
+    req(input$template_file)
+    
+    template <- readr::read_csv(
+      input$template_file$datapath,
+      n_max = 0,
+      show_col_types = FALSE
+    )
+    
+    columns <- names(template)
+    
+    template_columns(columns)
+    
+    updateNumericInput(
+      session,
+      "numVars",
+      value = length(columns)
+    )
+  })
+  
+  
+  
   # User-created specification
   
   userData <- reactive({
     
-    nVars <- input$numVars
+    ids <- variable_ids()
     data_list <- list()
     
     # Validate variable names ------------------------------------------------------------
     
     variable_names <- vapply(
-      seq_len(nVars),
+      ids,
       function(i) {
         
         value <- input[[paste0("field_name_", i)]]
@@ -2006,9 +2034,9 @@ server <- function(input, output, session) {
       )
     }
     
-    if (nVars > 0) {
+    if (length(ids) > 0) {
       
-      for (i in 1:nVars) {
+      for (i in ids) {
         
         field_type <- input[[paste0("field_type_", i)]]
         
@@ -2150,7 +2178,7 @@ server <- function(input, output, session) {
           FALSE
         }
         
-        data_list[[i]] <- list(
+        data_list[[length(data_list) + 1]] <- list(
           field = input[[paste0("field_name_", i)]],
           description = input[[paste0("field_description_", i)]],
           type = field_type,
@@ -2193,15 +2221,39 @@ server <- function(input, output, session) {
   })
   
   
-  # Create variable tabs
+  # Create variable tabs ---------------------------------------------------------------
   
-  createVariableTab <- function(i) {
+  # Store the internal IDs of currently active variables
+  
+  variable_ids <- reactiveVal(integer(0))
+  
+  # Keep track of the next available internal ID
+  
+  next_variable_id <- reactiveVal(1)
+  
+  
+  createVariableTab <- function(i, display_number = i) {
     
     tabPanel(
       
+      actionButton(
+        paste0("delete_variable_", i),
+        "Delete Variable",
+        class = "btn-danger"
+      ),
+      
+      br(),
+      
       title = tags$span(
         id = paste0("tab_label_", i),
-        paste("Variable", i)
+        if (
+          !is.null(template_columns()) &&
+          length(template_columns()) >= display_number
+        ) {
+          template_columns()[display_number]
+        } else {
+          paste("Variable", display_number)
+        }
       ),
       
       value = paste0("variable_", i),
@@ -2217,7 +2269,15 @@ server <- function(input, output, session) {
           
           textInput(
             paste0("field_name_", i),
-            "Variable/column name:"
+            "Variable/column name:",
+            value = if (
+              !is.null(template_columns()) &&
+              length(template_columns()) >= display_number
+            ) {
+              template_columns()[display_number]
+            } else {
+              ""
+            }
           ),
           
           textInput(
@@ -2508,25 +2568,52 @@ server <- function(input, output, session) {
   
   # Manage variable tabs
   
-  current_num_vars <- reactiveVal(0)
-  
   observeEvent(input$numVars, {
     
     new_num_vars <- input$numVars
     
-    if (is.null(new_num_vars) || is.na(new_num_vars)) {
+    if (
+      is.null(new_num_vars) ||
+      is.na(new_num_vars)
+    ) {
       return()
     }
     
-    old_num_vars <- current_num_vars()
+    current_ids <- variable_ids()
+    current_count <- length(current_ids)
     
-    if (new_num_vars > old_num_vars) {
+    # Add variables
+    
+    if (new_num_vars > current_count) {
       
-      for (i in seq(old_num_vars + 1, new_num_vars)) {
+      number_to_add <- new_num_vars - current_count
+      
+      new_ids <- integer(number_to_add)
+      
+      for (j in seq_len(number_to_add)) {
+        
+        new_ids[j] <- next_variable_id()
+        
+        next_variable_id(
+          next_variable_id() + 1
+        )
+      }
+      
+      updated_ids <- c(
+        current_ids,
+        new_ids
+      )
+      
+      variable_ids(updated_ids)
+      
+      for (j in seq_along(new_ids)) {
         
         insertTab(
           inputId = "variable_tabs",
-          tab = createVariableTab(i),
+          tab = createVariableTab(
+            new_ids[j],
+            display_number = current_count + j
+          ),
           target = NULL,
           position = "after",
           select = TRUE
@@ -2534,32 +2621,120 @@ server <- function(input, output, session) {
       }
     }
     
-    if (new_num_vars < old_num_vars) {
+    
+    # Remove variables from the end only when the
+    # numeric input itself is manually decreased
+    
+    if (new_num_vars < current_count) {
       
-      for (i in seq(new_num_vars + 1, old_num_vars)) {
+      ids_to_remove <- current_ids[
+        seq(
+          new_num_vars + 1,
+          current_count
+        )
+      ]
+      
+      for (id in ids_to_remove) {
         
         removeTab(
           inputId = "variable_tabs",
-          target = paste0("variable_", i)
+          target = paste0(
+            "variable_",
+            id
+          )
         )
       }
+      
+      variable_ids(
+        current_ids[
+          seq_len(new_num_vars)
+        ]
+      )
     }
-    
-    current_num_vars(new_num_vars)
   })
   
+  
+  # Delete variable button observer
+  
+  observe({
+    
+    ids <- variable_ids()
+    
+    if (length(ids) == 0) {
+      return()
+    }
+    
+    for (position in seq_along(ids)) {
+      
+      local({
+        
+        j <- position
+        variable_id <- ids[j]
+        
+        observeEvent(
+          input[[paste0(
+            "delete_variable_",
+            variable_id
+          )]],
+          {
+            
+            current_ids <- variable_ids()
+            
+            delete_position <- match(
+              variable_id,
+              current_ids
+            )
+            
+            if (is.na(delete_position)) {
+              return()
+            }
+            
+            # Remove the selected tab
+            
+            removeTab(
+              inputId = "variable_tabs",
+              target = paste0(
+                "variable_",
+                variable_id
+              )
+            )
+            
+            # Remove the selected ID
+            
+            updated_ids <- current_ids[
+              -delete_position
+            ]
+            
+            variable_ids(
+              updated_ids
+            )
+            
+            # Update the number displayed in the UI
+            
+            updateNumericInput(
+              session,
+              "numVars",
+              value = length(updated_ids)
+            )
+            
+          },
+          ignoreInit = TRUE
+        )
+      })
+    }
+  })
   
   # Generate option inputs
   
   observe({
     
-    nVars <- input$numVars
+    ids <- variable_ids()
     
-    if (is.null(nVars) || is.na(nVars) || nVars == 0) {
+    if (length(ids) == 0) {
       return()
     }
     
-    for (i in 1:nVars) {
+    for (i in ids) {
       
       local({
         
@@ -2573,11 +2748,12 @@ server <- function(input, output, session) {
             return(NULL)
           }
           
-          lapply(1:n_options, function(k) {
+          lapply(seq_len(n_options), function(k) {
             
             textInput(
               paste0("option_", k, "_", j),
-              paste0("Option ", k, ":")
+              paste0("Option ", k, ":"),
+              value = input[[paste0("option_", k, "_", j)]]
             )
           })
         })
@@ -2585,16 +2761,15 @@ server <- function(input, output, session) {
     }
   })
   
-  
   # Validate example inputs
   
   observe({
     
-    nVars <- input$numVars
+    ids <- variable_ids()
     
-    if (!is.null(nVars) && !is.na(nVars) && nVars > 0) {
+    if (length(ids) > 0) {
       
-      for (i in 1:nVars) {
+      for (i in ids) {
         
         local({
           
@@ -2648,16 +2823,16 @@ server <- function(input, output, session) {
   
   output$downloadSetupButton <- renderUI({
     
-    nVars <- input$numVars
+    ids <- variable_ids()
     
-    if (is.null(nVars) || nVars == 0) {
+    if (length(ids) == 0) {
       return(NULL)
     }
     
     # Check variable names ---------------------------------------------------------------
     
     variable_names <- vapply(
-      seq_len(nVars),
+      ids,
       function(i) {
         
         value <- input[[paste0("field_name_", i)]]
@@ -2683,7 +2858,7 @@ server <- function(input, output, session) {
     
     invalid_numeric_ranges <- FALSE
     
-    for (i in seq_len(nVars)) {
+    for (i in ids) {
       
       field_type <- input[[paste0("field_type_", i)]]
       
@@ -2719,7 +2894,7 @@ server <- function(input, output, session) {
     
     invalid_string_ranges <- FALSE
     
-    for (i in seq_len(nVars)) {
+    for (i in ids) {
       
       field_type <- input[[paste0("field_type_", i)]]
       
@@ -2753,7 +2928,7 @@ server <- function(input, output, session) {
     
     all_examples_complete <- TRUE
     
-    for (i in 1:nVars) {
+    for (i in ids) {
       
       field_type <- input[[paste0("field_type_", i)]]
       validation <- input[[paste0("string_validation_", i)]]
@@ -2884,10 +3059,42 @@ server <- function(input, output, session) {
         
         data <- userData()
         
+        # Write YAML to a temporary file first
+        temp_file <- tempfile(fileext = ".yaml")
+        
         yaml::write_yaml(
           data,
-          file
+          temp_file
         )
+        
+        # Read the YAML as text
+        yaml_text <- readLines(
+          temp_file,
+          warn = FALSE
+        )
+        
+        # Quote option values that YAML could interpret as logical values
+        yaml_text <- gsub(
+          "^([[:space:]]*- )[Yy][Ee][Ss]$",
+          '\\1"yes"',
+          yaml_text
+        )
+        
+        yaml_text <- gsub(
+          "^([[:space:]]*- )[Nn][Oo]$",
+          '\\1"no"',
+          yaml_text
+        )
+        
+        # Write the modified YAML to the requested download file
+        writeLines(
+          yaml_text,
+          file,
+          useBytes = TRUE
+        )
+        
+        # Clean up temporary file
+        unlink(temp_file)
         
       }, error = function(e) {
         
@@ -3246,7 +3453,7 @@ server <- function(input, output, session) {
     }
   )
   
-
+  
   # Editable dataset
   
   edited_data <- reactiveVal(NULL)
@@ -3272,13 +3479,14 @@ server <- function(input, output, session) {
       locale = readr::locale(
         decimal_mark = decimal_mark
       ),
+      na = "NA",
       show_col_types = FALSE
     )
     
     edited_data(df)
     
   })
-
+  
   # Check whether edited dataset is valid
   
   dataset_is_valid <- reactive({
