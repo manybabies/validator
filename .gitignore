@@ -37,3 +37,6 @@ rsconnect/
 .Rproj.user
 .DS_Store
 .DS_Store
+
+# Troubleshooting files
+/troubleshooting/
