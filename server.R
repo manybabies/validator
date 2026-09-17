@@ -3479,9 +3479,15 @@ server <- function(input, output, session) {
       locale = readr::locale(
         decimal_mark = decimal_mark
       ),
+      col_types = readr::cols(.default = readr::col_character()),
       na = "NA",
       show_col_types = FALSE
     )
+    
+    print("VALUES AFTER CSV IMPORT:")
+    print(df)
+    print("IS NA:")
+    print(is.na(df))
     
     edited_data(df)
     
