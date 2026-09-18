@@ -2,6 +2,9 @@
 .Rhistory
 .Rapp.history
 
+# Environ where key is contained
+.Renviron
+
 # Session Data files
 .RData
 
@@ -40,3 +43,6 @@ rsconnect/
 
 # Troubleshooting files
 /troubleshooting/
+
+# Key generation
+key_generation.R
