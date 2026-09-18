@@ -104,6 +104,7 @@ ui <- fluidPage(
         --theme-accent: #007C83;
         --theme-accent-light: #E4F3F3;
         --theme-accent-dark: #00565B;
+        --theme-theme-accent-dark: #00565B;
         --theme-banner-start: #D7EEEE;
         --theme-banner-end: #E4F3F3;
         --theme-border: #C5DEDF;
@@ -387,7 +388,13 @@ ui <- fluidPage(
       #downloadConfiguration:hover,
       #downloadConfiguration:focus,
       #downloadConfiguration:active,
-      #downloadConfiguration:visited {
+      #downloadConfiguration:visited,
+      
+      #downloadSampleDataset,
+      #downloadSampleDataset:hover,
+      #downloadSampleDataset:focus,
+      #downloadSampleDataset:active,
+      #downloadSampleDataset:visited {
         background-color: var(--theme-accent) !important;
         background-image: none !important;
         border-color: var(--theme-accent) !important;
@@ -403,7 +410,10 @@ ui <- fluidPage(
       #downloadSpecification:focus,
       
       #downloadConfiguration:hover,
-      #downloadConfiguration:focus {
+      #downloadConfiguration:focus,
+      
+      #downloadSampleDataset:hover,
+      #downloadSampleDataset:focus {
         background-color: var(--theme-accent-dark) !important;
         border-color: var(--theme-accent-dark) !important;
         color: #FFFFFF !important;
@@ -421,7 +431,10 @@ ui <- fluidPage(
       #downloadConfiguration i,
       
       #downloadHighlighted span,
-      #downloadHighlighted i {
+      #downloadHighlighted i,
+      
+      #downloadSampleDataset span,
+      #downloadSampleDataset i {
         color: #FFFFFF !important;
       }
       
@@ -1057,10 +1070,16 @@ ui <- fluidPage(
           
           conditionalPanel(
             condition = "output.csv_validated",
-            downloadButton(
+            
+            actionButton(
               "downloadCSV",
               "Download Validated CSV File"
             )
+          ),
+          
+          downloadButton(
+            "downloadSampleDataset",
+            "Generate Sample Dataset"
           ),
           
           br(),
@@ -1225,17 +1244,16 @@ ui <- fluidPage(
         
         if (heading) {
           
-          if (heading) {
-            
-            if (event.target.value.trim() === '') {
-              heading.textContent = 'Instruction Set 2';
-            } else {
-              heading.textContent = event.target.value;
-            }
+          if (event.target.value.trim() === '') {
+            heading.textContent = 'Instruction Set 2';
+          } else {
+            heading.textContent = event.target.value;
           }
         }
       }
     });
+    
+    
   ")),
   
   

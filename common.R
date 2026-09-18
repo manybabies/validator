@@ -1129,3 +1129,462 @@ explain_error <- function(issue, fields) {
     "The value does not meet the requirements in the specification."
   )
 }
+# Generate sample dataset -----------------------------------------------------------------
+generate_sample_dataset <- function(fields, n = 10) {
+  
+  sample_data <- list()
+  
+  
+  for (field in fields) {
+    
+    field_name <- field$field
+    field_type <- field$type
+    
+    
+    # Options
+    
+    if (field_type == "options") {
+      
+      values <- unlist(field$options)
+      
+      sample_data[[field_name]] <- sample(
+        values,
+        size = n,
+        replace = TRUE
+      )
+    }
+    
+    
+    # Numeric
+    
+    else if (field_type == "numeric") {
+      
+      lower <- field$lowerlimit
+      upper <- field$upperlimit
+      
+      if (is.null(lower) || is.na(lower)) lower <- 0
+      if (is.null(upper) || is.na(upper)) upper <- 100
+      
+      if (field$allow_decimals == "no") {
+        
+        lower <- ceiling(lower)
+        upper <- floor(upper)
+        
+        sample_data[[field_name]] <- sample(
+          lower:upper,
+          size = n,
+          replace = TRUE
+        )
+        
+      } else {
+        
+        min_decimals <- field$min_decimals
+        max_decimals <- field$max_decimals
+        
+        if (is.null(min_decimals) || is.na(min_decimals)) {
+          min_decimals <- 0
+        }
+        
+        if (is.null(max_decimals) || is.na(max_decimals)) {
+          max_decimals <- min_decimals
+        }
+        
+        decimal_places <- sample(
+          min_decimals:max_decimals,
+          size = n,
+          replace = TRUE
+        )
+        
+        values <- runif(
+          n,
+          min = lower,
+          max = upper
+        )
+        
+        sample_data[[field_name]] <- mapply(
+          function(value, decimals) {
+            round(value, decimals)
+          },
+          values,
+          decimal_places
+        )
+      }
+    }
+    
+    
+    # String
+    
+    else if (field_type == "string") {
+      
+      format <- field$format
+      
+      
+      # Open strings
+      
+      if (format == "open") {
+        
+        sample_data[[field_name]] <- replicate(
+          n,
+          paste0(
+            sample(
+              letters,
+              size = 8,
+              replace = TRUE
+            ),
+            collapse = ""
+          )
+        )
+      }
+      
+      
+      # Uncapitalized strings
+      
+      else if (format == "uncapitalized") {
+        
+        sample_data[[field_name]] <- replicate(
+          n,
+          paste0(
+            sample(
+              letters,
+              size = 8,
+              replace = TRUE
+            ),
+            collapse = ""
+          )
+        )
+      }
+      
+      
+      # Capitalized strings
+      
+      else if (format == "capitalized") {
+        
+        sample_data[[field_name]] <- replicate(
+          n,
+          paste0(
+            sample(
+              LETTERS,
+              size = 1
+            ),
+            paste0(
+              sample(
+                letters,
+                size = 7,
+                replace = TRUE
+              ),
+              collapse = ""
+            )
+          )
+        )
+      }
+      
+      
+      # Regex strings
+      
+      else if (format == "regex") {
+        
+        pattern <- field$pattern
+        
+        
+        # Remove regex anchors
+        
+        pattern_body <- pattern
+        
+        if (
+          nchar(pattern_body) >= 1 &&
+          substr(pattern_body, 1, 1) == "^"
+        ) {
+          pattern_body <- substr(
+            pattern_body,
+            2,
+            nchar(pattern_body)
+          )
+        }
+        
+        if (
+          nchar(pattern_body) >= 1 &&
+          substr(
+            pattern_body,
+            nchar(pattern_body),
+            nchar(pattern_body)
+          ) == "$"
+        ) {
+          pattern_body <- substr(
+            pattern_body,
+            1,
+            nchar(pattern_body) - 1
+          )
+        }
+        
+        
+        # Generate one value from the regex structure
+        
+        generate_regex_value <- function(pattern_body) {
+          
+          result <- character(0)
+          position <- 1
+          pattern_length <- nchar(pattern_body)
+          
+          
+          while (position <= pattern_length) {
+            
+            current_character <- substr(
+              pattern_body,
+              position,
+              position
+            )
+            
+            
+            # Character class
+            
+            if (current_character == "[") {
+              
+              closing_position <- position + 1
+              
+              while (
+                closing_position <= pattern_length &&
+                substr(
+                  pattern_body,
+                  closing_position,
+                  closing_position
+                ) != "]"
+              ) {
+                closing_position <- closing_position + 1
+              }
+              
+              
+              if (closing_position > pattern_length) {
+                stop(
+                  paste0(
+                    "Invalid regex pattern for variable '",
+                    field_name,
+                    "'."
+                  )
+                )
+              }
+              
+              
+              character_class <- substr(
+                pattern_body,
+                position + 1,
+                closing_position - 1
+              )
+              
+              
+              # Determine allowed characters
+              
+              if (character_class == "0-9") {
+                
+                possible_characters <- as.character(0:9)
+                
+              } else if (character_class == "a-z") {
+                
+                possible_characters <- letters
+                
+              } else if (character_class == "A-Z") {
+                
+                possible_characters <- LETTERS
+                
+              } else if (character_class == "A-Za-z") {
+                
+                possible_characters <- c(
+                  LETTERS,
+                  letters
+                )
+                
+              } else if (character_class == "A-Za-z0-9") {
+                
+                possible_characters <- c(
+                  LETTERS,
+                  letters,
+                  as.character(0:9)
+                )
+                
+              } else {
+                
+                stop(
+                  paste0(
+                    "Regex character class '",
+                    character_class,
+                    "' is not supported for variable '",
+                    field_name,
+                    "'."
+                  )
+                )
+              }
+              
+              
+              # Determine character count
+              
+              next_position <- closing_position + 1
+              character_count <- 1
+              
+              
+              # Exact or bounded quantifier
+              
+              if (
+                next_position <= pattern_length &&
+                substr(
+                  pattern_body,
+                  next_position,
+                  next_position
+                ) == "{"
+              ) {
+                
+                closing_brace <- next_position + 1
+                
+                while (
+                  closing_brace <= pattern_length &&
+                  substr(
+                    pattern_body,
+                    closing_brace,
+                    closing_brace
+                  ) != "}"
+                ) {
+                  closing_brace <- closing_brace + 1
+                }
+                
+                
+                if (closing_brace > pattern_length) {
+                  stop(
+                    paste0(
+                      "Invalid quantifier in regex for variable '",
+                      field_name,
+                      "'."
+                    )
+                  )
+                }
+                
+                
+                quantifier <- substr(
+                  pattern_body,
+                  next_position + 1,
+                  closing_brace - 1
+                )
+                
+                
+                # Exact count: {3}
+                
+                if (!grepl(
+                  ",",
+                  quantifier,
+                  fixed = TRUE
+                )) {
+                  
+                  character_count <- as.integer(
+                    quantifier
+                  )
+                  
+                } else {
+                  
+                  # Bounded count: {1,4}
+                  
+                  limits <- strsplit(
+                    quantifier,
+                    ",",
+                    fixed = TRUE
+                  )[[1]]
+                  
+                  minimum <- as.integer(
+                    limits[1]
+                  )
+                  
+                  maximum <- as.integer(
+                    limits[2]
+                  )
+                  
+                  character_count <- sample(
+                    minimum:maximum,
+                    size = 1
+                  )
+                }
+                
+                next_position <- closing_brace + 1
+              }
+              
+              
+              # Generate characters
+              
+              result <- c(
+                result,
+                sample(
+                  possible_characters,
+                  size = character_count,
+                  replace = TRUE
+                )
+              )
+              
+              position <- next_position
+              
+            } else {
+              
+              # Literal character
+              
+              result <- c(
+                result,
+                current_character
+              )
+              
+              position <- position + 1
+            }
+          }
+          
+          
+          paste0(
+            result,
+            collapse = ""
+          )
+        }
+        
+        
+        # Generate sample values
+        
+        sample_data[[field_name]] <- replicate(
+          n,
+          generate_regex_value(pattern_body)
+        )
+        
+        
+        # Verify generated values against the original regex
+        
+        valid <- grepl(
+          pattern,
+          sample_data[[field_name]],
+          perl = TRUE
+        )
+        
+        if (!all(valid)) {
+          
+          stop(
+            paste0(
+              "Could not generate valid sample values for regex variable '",
+              field_name,
+              "'."
+            )
+          )
+        }
+      }
+    }
+    
+    
+    # Unknown field type
+    
+    else {
+      
+      stop(
+        paste0(
+          "Unknown field type for variable '",
+          field_type,
+          "'."
+        )
+      )
+    }
+  }
+  
+  
+  as.data.frame(
+    sample_data,
+    stringsAsFactors = FALSE
+  )
+}
+

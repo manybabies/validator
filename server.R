@@ -2,6 +2,7 @@ library(shiny)
 library(tidyverse)
 library(yaml)
 library(DT)
+library(digest)
 
 
 # Load shared functions ------------------------------------------------------------------
@@ -10,9 +11,24 @@ source("common.R")
 source("ErrorHandler.R")
 
 
-# Load default configuration -------------------------------------------------------------
+# Load default configuration and key ------------------------------------------------------
 
 config <- yaml::read_yaml("configuration/config_Default.yaml")
+
+secret_key <- Sys.getenv("VALIDATOR_SECRET_KEY")
+
+if (!nzchar(secret_key)) {
+  stop(
+    "VALIDATOR_SECRET_KEY is not set. ",
+    "The Validator cannot generate authenticated downloads."
+  )
+}
+
+if (nchar(secret_key) != 64) {
+  stop(
+    "VALIDATOR_SECRET_KEY must be a 64-character hexadecimal key."
+  )
+}
 
 
 # Logo resource path ---------------------------------------------------------------------
@@ -3039,6 +3055,57 @@ server <- function(input, output, session) {
   
   # Downloads ---------------------------------------------------------------------------
   
+  # Download sample dataset
+  
+  output$downloadSampleDataset <- downloadHandler(
+    
+    filename = function() {
+      paste0(
+        "sample_dataset_",
+        Sys.Date(),
+        ".csv"
+      )
+    },
+    
+    contentType = "text/csv",
+    
+    content = function(file) {
+      
+      req(input$study, input$format)
+      
+      yaml_file_path <- paste0(
+        "data_specifications/",
+        selected_configuration_name(),
+        "_",
+        input$study,
+        "_",
+        input$format,
+        ".yaml"
+      )
+      
+      if (!file.exists(yaml_file_path)) {
+        stop(
+          "The corresponding YAML specification file does not exist."
+        )
+      }
+      
+      fields <- yaml::yaml.load_file(
+        yaml_file_path
+      )
+      
+      sample_dataset <- generate_sample_dataset(
+        fields,
+        n = 10
+      )
+      
+      readr::write_csv(
+        sample_dataset,
+        file,
+        na = ""
+      )
+    }
+  )
+  
   # Download specification
   
   output$downloadSetup <- downloadHandler(
@@ -3417,41 +3484,216 @@ server <- function(input, output, session) {
   )
   
   # Download standardized validated CSV
+  download_ready <- reactiveVal(FALSE)
   
-  output$downloadCSV <- downloadHandler(
+  generate_download_code <- function(
+    lab_id,
+    study,
+    study_format,
+    csv_contents,
+    secret_key
+  ) {
     
-    filename = function() {
-      paste0(
-        "validated_dataset_",
-        Sys.Date(),
-        ".csv"
+    message <- paste(
+      lab_id,
+      study,
+      study_format,
+      rawToChar(csv_contents),
+      sep = "|"
+    )
+    
+    substr(
+      digest::hmac(
+        key = secret_key,
+        object = message,
+        algo = "sha256",
+        serialize = FALSE
+      ),
+      1,
+      16
+    )
+  }
+  
+  observeEvent(input$downloadCSV, {
+    
+    download_ready(FALSE)
+    
+    showModal(
+      modalDialog(
+        title = "Enter Lab ID",
+        
+        textInput(
+          "download_lab_id",
+          "Lab ID:",
+          placeholder = "e.g., infantlab"
+        ),
+        
+        uiOutput("download_confirmation"),
+        
+        footer = modalButton("Cancel"),
+        
+        easyClose = TRUE
       )
-    },
+    )
+  })
+  
+  
+  output$download_confirmation <- renderUI({
     
-    contentType = "text/csv",
-    
-    content = function(file) {
+    if (download_ready()) {
       
-      # Get edited dataset
+      downloadButton(
+        "downloadCSV_confirmed",
+        "Download Validated CSV File"
+      )
       
-      df <- edited_data()
+    } else {
       
-      if (is.null(df)) {
-        stop(
-          "The edited dataset is not available. ",
-          "Please upload a dataset before attempting to download."
-        )
-      }
-      
-      # Write standardized CSV
-      
-      readr::write_csv(
-        df,
-        file,
-        na = ""
+      actionButton(
+        "confirm_download",
+        "Continue"
       )
     }
-  )
+  })
+  
+  
+  observeEvent(input$confirm_download, {
+    
+    lab_id <- trimws(input$download_lab_id)
+    
+    if (!nzchar(lab_id)) {
+      showNotification(
+        "Lab ID is required.",
+        type = "error"
+      )
+      return()
+    }
+    
+    if (!grepl("^[A-Za-z0-9-]+$", lab_id)) {
+      showNotification(
+        "Lab ID may only contain letters, numbers, and hyphens.",
+        type = "error"
+      )
+      return()
+    }
+    
+    download_ready(TRUE)
+  })
+  
+output$downloadCSV_confirmed <- downloadHandler(
+  
+  filename = function() {
+    
+    lab_id <- trimws(input$download_lab_id)
+    
+    if (!nzchar(lab_id)) {
+      stop("Lab ID is required.")
+    }
+    
+    if (!grepl("^[A-Za-z0-9-]+$", lab_id)) {
+      stop(
+        "Lab ID may only contain letters, numbers, and hyphens."
+      )
+    }
+    
+    study <- input$study
+    study_format <- input$format
+    
+    # Remove characters that could cause problems in a filename
+    
+    lab_id_clean <- gsub(
+      "[^A-Za-z0-9_-]",
+      "_",
+      lab_id
+    )
+    
+    study_clean <- gsub(
+      "[^A-Za-z0-9_.-]",
+      "_",
+      study
+    )
+    
+    study_format_clean <- gsub(
+      "[^A-Za-z0-9_.-]",
+      "_",
+      study_format
+    )
+    
+    # Get the dataset that will be downloaded
+    
+    df <- edited_data()
+    
+    if (is.null(df)) {
+      stop(
+        "The edited dataset is not available. ",
+        "Please upload a dataset before attempting to download."
+      )
+    }
+    
+    # Create the exact CSV contents that will be downloaded
+    
+    temp_file <- tempfile(fileext = ".csv")
+    
+    readr::write_csv(
+      df,
+      temp_file,
+      na = ""
+    )
+    
+    csv_contents <- readBin(
+      temp_file,
+      what = "raw",
+      n = file.info(temp_file)$size
+    )
+    
+    unlink(temp_file)
+    
+    # Generate cryptographic code
+    
+    download_code <- generate_download_code(
+      lab_id = lab_id,
+      study = study,
+      study_format = study_format,
+      csv_contents = csv_contents,
+      secret_key = secret_key
+    )
+    
+    paste0(
+      lab_id_clean,
+      "_",
+      study_clean,
+      "_",
+      study_format_clean,
+      "_",
+      download_code,
+      ".csv"
+    )
+  },
+  
+  contentType = "text/csv",
+  
+  content = function(file) {
+    
+    # Get edited dataset
+    
+    df <- edited_data()
+    
+    if (is.null(df)) {
+      stop(
+        "The edited dataset is not available. ",
+        "Please upload a dataset before attempting to download."
+      )
+    }
+    
+    # Write standardized CSV
+    
+    readr::write_csv(
+      df,
+      file,
+      na = ""
+    )
+  }
+)
   
   
   # Editable dataset
