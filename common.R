@@ -308,20 +308,64 @@ validate_dataset_field <- function(dataset_contents, field) {
   
   # Check missing values
   
+  # Check NA values
+  
   if (!field$NA_allowed) {
     
-    missing_rows <- which(
-      is.na(field_contents) |
-        field_contents == ""
+    missing_NA_rows <- which(
+      is.na(field_contents)
     )
     
-    if (length(missing_rows) > 0) {
+    if (length(missing_NA_rows) > 0) {
       
       incorrect <- list(
         type = "invalid_cell",
         column = field$field,
-        invalid_value = field_contents[missing_rows],
-        invalid_row = missing_rows
+        invalid_value = field_contents[missing_NA_rows],
+        invalid_row = missing_NA_rows
+      )
+      
+      return(list(FALSE, incorrect))
+    }
+  }
+  
+  
+  # Check empty cells
+  
+  if (!field$empty_allowed) {
+    
+    empty_rows <- which(
+      !is.na(field_contents) &
+        field_contents == ""
+    )
+    
+    if (length(empty_rows) > 0) {
+      
+      incorrect <- list(
+        type = "invalid_cell",
+        column = field$field,
+        invalid_value = field_contents[empty_rows],
+        invalid_row = empty_rows
+      )
+      
+      return(list(FALSE, incorrect))
+    }
+  }
+  
+  if (!field$empty_allowed) {
+    
+    empty_rows <- which(
+      !is.na(field_contents) &
+        field_contents == ""
+    )
+    
+    if (length(empty_rows) > 0) {
+      
+      incorrect <- list(
+        type = "invalid_cell",
+        column = field$field,
+        invalid_value = field_contents[empty_rows],
+        invalid_row = empty_rows
       )
       
       return(list(FALSE, incorrect))
