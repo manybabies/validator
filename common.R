@@ -105,6 +105,28 @@ detect_decimal_mark <- function(file, delimiter) {
   return(".")
 }
 
+# Standardize decimal mark -------------------------------------------------
+
+standardize_decimal_mark <- function(data, decimal_mark) {
+  
+  if (decimal_mark == ",") {
+    
+    data <- data |>
+      mutate(
+        across(
+          everything(),
+          ~ str_replace_all(
+            .x,
+            "(?<=\\d),(?=\\d)",
+            "."
+          )
+        )
+      )
+  }
+  
+  data
+}
+
 # Main validation function --------------------------------------------------------------
 
 validate_dataset <- function(fields, dataset_contents) {
@@ -579,15 +601,20 @@ ValidateNumeric <- function(dataset_contents, field) {
         x <- as.character(x)
         
         if (!grepl("\\.", x)) {
-          return(0)
+          return(min_decimals)
         }
         
-        nchar(
+        actual_decimal_places <- nchar(
           sub(
             "^[^.]*\\.",
             "",
             x
           )
+        )
+        
+        max(
+          actual_decimal_places,
+          min_decimals
         )
       }
     )
@@ -626,7 +653,6 @@ ValidateNumeric <- function(dataset_contents, field) {
       )
     }
   }
-  
   
   # Return validation result
   

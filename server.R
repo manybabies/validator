@@ -1091,8 +1091,6 @@ server <- function(input, output, session) {
   
   # Specification
   
-  # Specification
-  
   output$specification <- renderUI({
     
     req(input$study, input$format)
@@ -1371,14 +1369,14 @@ server <- function(input, output, session) {
     df <- readr::read_delim(
       input$file$datapath,
       delim = delimiter,
-      locale = readr::locale(
-        decimal_mark = decimal_mark
-      ),
-      col_types = readr::cols(
-        .default = readr::col_character()
-      ),
+      col_types = readr::cols(.default = readr::col_character()),
       na = "NA",
       show_col_types = FALSE
+    )
+    
+    df <- standardize_decimal_mark(
+      df,
+      decimal_mark
     )
     
     validated <- validate_dataset(
@@ -3781,44 +3779,46 @@ output$downloadCSV_confirmed <- downloadHandler(
 )
   
   
-  # Editable dataset
+# Editable dataset
+
+edited_data <- reactiveVal(NULL)
+
+observeEvent(input$file, {
   
-  edited_data <- reactiveVal(NULL)
+  req(input$file)
   
-  observeEvent(input$file, {
-    
-    req(input$file)
-    
-    delimiter <- detect_delimiter(
-      input$file$datapath
-    )
-    
-    req(!is.null(delimiter))
-    
-    decimal_mark <- detect_decimal_mark(
-      input$file$datapath,
-      delimiter
-    )
-    
-    df <- readr::read_delim(
-      input$file$datapath,
-      delim = delimiter,
-      locale = readr::locale(
-        decimal_mark = decimal_mark
-      ),
-      col_types = readr::cols(.default = readr::col_character()),
-      na = "NA",
-      show_col_types = FALSE
-    )
-    
-    print("VALUES AFTER CSV IMPORT:")
-    print(df)
-    print("IS NA:")
-    print(is.na(df))
-    
-    edited_data(df)
-    
-  })
+  delimiter <- detect_delimiter(
+    input$file$datapath
+  )
+  
+  req(!is.null(delimiter))
+  
+  decimal_mark <- detect_decimal_mark(
+    input$file$datapath,
+    delimiter
+  )
+  
+  df <- readr::read_delim(
+    input$file$datapath,
+    delim = delimiter,
+    col_types = readr::cols(.default = readr::col_character()),
+    na = "NA",
+    show_col_types = FALSE
+  )
+  
+  df <- standardize_decimal_mark(
+    df,
+    decimal_mark
+  )
+  
+  print("VALUES AFTER CSV IMPORT AND DECIMAL STANDARDIZATION:")
+  print(df)
+  print("IS NA:")
+  print(is.na(df))
+  
+  edited_data(df)
+  
+})
   
   # Check whether edited dataset is valid
   
