@@ -16,6 +16,8 @@ links:
   url: https://google.ca
 - text: Example link to ShinyValidator GitHub
   url: https://github.com/manybabies/ShinyValidator
+- text: Have feedback for the Validator? Fill out a survey here!
+  url: https://docs.google.com/forms/d/e/1FAIpQLSd5g7vvtk_uMPCekUfbZY630k9WuB-PUo7yAhmIW3r2dw9ukA/viewform
 instruction_set_2_name: Instruction Set 2
 instruction_set_2:
 - This is the first instruction for Instruction Set 2.

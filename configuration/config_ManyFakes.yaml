@@ -9,6 +9,8 @@ instruction_set_1:
 links:
 - text: This is just a demo link
   url: https://www.youtube.com/watch?v=Aq5WXmQQooo
+- text: Have feedback for the Validator? Fill out a survey here!
+  url: https://docs.google.com/forms/d/e/1FAIpQLSd5g7vvtk_uMPCekUfbZY630k9WuB-PUo7yAhmIW3r2dw9ukA/viewform
 instruction_set_2_name: Additional instructions
 instruction_set_2: This is a demo for a second instruction line
 specification_message: This is the human-readable version of the specification you

@@ -16,6 +16,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: participant_id
   description: unique ID for the participant - [acronym of your institution, not longer than 4 characters]_[3-digit participant number]
@@ -29,6 +30,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: testing_date
   description: Date of testing, year/month/day, e.g. September 21, 2026 = 20260921 or NA
@@ -42,6 +44,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: pilot
   description: yes = pilot data, no = final sample; You do NOT need to report pilot data, but if you do, it should be clearly marked here.
@@ -56,6 +59,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: zero_coordinate
   description: eye tracker’s point zero coordinate
@@ -70,6 +74,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: centered_screen
   description: Was the video centered on screen?
@@ -84,6 +89,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: test_order
   description: Which order was the participant in (see https://docs.google.com/document/d/1S40AD7FwW7_ECX1oBrkJXO0R26gMvXWIufI-q-Xh6lg/edit?usp=sharing)
@@ -97,6 +103,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: session_error
   description: Sessions with ‘error’ value will be excluded from the central MB2.3 analysis.
@@ -111,6 +118,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: session_error_info
   description: Explanation of what caused the session error using exclusion criteria 1-4 defined in the lab manual (i.e., 1. Early termination, 2. Interference, 3. Experimenter error, 4. Technical problems). Use this field to report a reason that ALL data from this participant should be excluded from analysis. Write NA if no session level error
@@ -125,6 +133,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: session_error_notes
   description: Use this column to report anything that doesn’t fit somewhere else, rather than adding that information in another column.
@@ -138,6 +147,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: second_session
   type: options
@@ -151,6 +161,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: ra_id
   description: Unique RA identifier (name or anonymous code).
@@ -164,6 +175,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: participant_gender
   description: For this and all other gender columns, use ‘other’ if this (or a similar response) is indicated. Put ‘NC’ if it was left blank by the participant or if this data was not collected.
@@ -178,6 +190,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: age_years
   description: Chronological age in years. Here is an online converter https://www.timeanddate.com/date/duration.html
@@ -191,6 +204,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: residence_city
   description: Place of residence (city) of the participant.
@@ -204,6 +218,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: residence_country
   description: Place of residence (country) of the participant.
@@ -217,6 +232,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: nationality
   description: Nationality of the participant.
@@ -230,6 +246,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: native_lang1
   description: Native language (if more than one, add others to variables below).
@@ -243,6 +260,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: native_lang2
   description: Further Native language
@@ -256,6 +274,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: hearing
   description: Put ‘yes’ if there is potential exclusion based on hearing problems.
@@ -270,6 +289,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: hearing_info
   description: Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’
@@ -283,6 +303,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: vision
   description: Put ‘yes’ if there is potential exclusion based on vision problems.
@@ -297,6 +318,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: vision_info
   description: Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’
@@ -310,6 +332,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: medical_issues
   description: Put ‘yes’ if potential exclusion based on medical issues/diagnosed conditions.
@@ -324,6 +347,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: medical_issues_info
   description: Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’.
@@ -337,6 +361,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: education
   description: Participant´s years of education after Kindergarten (e.g. in the US 12 = finish high school, 14 = finish associates degree, etc.). You can find a guideline for converting level of education into years here https://docs.google.com/document/d/1Wn4TNTNIfcrt99Y2tgT_8KkgXln0Gx4qllFxvL0O520/edit?usp=sharing
@@ -350,6 +375,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: psychology
   description: Put ‘yes’ if participant has any training or background in psychology.
@@ -364,6 +390,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: psychology_info
   description: Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’.
@@ -377,6 +404,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: anything_else
   description: Did the participant report anything else in the questionnaire?
@@ -390,6 +418,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: purpose_experiment
   description: What did the participant report was the purpose of the experiment?
@@ -403,6 +432,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: story_videos
   description: What did the participant report about the story in the videos?
@@ -416,6 +446,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: describe_videos
   description: How did the participant describe the videos?
@@ -429,6 +460,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: anything_special
   description: Did the participant notice anything different or special in one of the videos? If yes, what was different?
@@ -442,6 +474,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: bear_belief
   description: Where did the participant report that the bear thought the mouse was?
@@ -456,6 +489,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: bear_belief_info
   description: (If ‘first’ or ‘second’) Why did the bear think that the mouse was in that box?
@@ -469,6 +503,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: see_first
   description: Did the participant report that the bear saw in which box the mouse hid first?
@@ -483,6 +518,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: see_second
   description: Did the participant report that the bear saw the mouse moving to the second box?
@@ -497,6 +533,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: when_realized
   description: When did the participant report to first think about the bear's perspective on where the mouse was?
@@ -511,6 +548,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: when_realized_info
   description: (If ‘video’ or ‘questionnaire’) specifically when / at question… (please describe as detailed as possible)
@@ -524,6 +562,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: raads_01
   description: RAADS-14 item 1 It is difficult for me to understand how other people are feeling when we are talking. (0 = 'Never true', 1 = 'True only when I was younger than 16', 2 = 'True only now', and 3 = 'True now and when I was young')
@@ -537,6 +576,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3' ]
 
 - field: raads_02
@@ -551,6 +591,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: raads_03
@@ -565,6 +606,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: raads_04
@@ -579,6 +621,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: raads_05
@@ -593,6 +636,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: raads_06
@@ -607,6 +651,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: raads_07
@@ -621,6 +666,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: raads_08
@@ -635,6 +681,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: raads_09
@@ -649,6 +696,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: raads_10
@@ -663,6 +711,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: raads_11
@@ -677,6 +726,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: raads_12
@@ -691,6 +741,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: raads_13
@@ -705,6 +756,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: raads_14
@@ -719,6 +771,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_01
@@ -733,6 +786,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_02
@@ -747,6 +801,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_03
@@ -761,6 +816,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_04
@@ -775,6 +831,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_05
@@ -789,6 +846,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_06
@@ -803,6 +861,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_07
@@ -817,6 +876,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_08
@@ -831,6 +891,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_09
@@ -845,6 +906,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_10
@@ -859,6 +921,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_11
@@ -873,6 +936,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_12
@@ -887,6 +951,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_13
@@ -901,6 +966,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_14
@@ -915,6 +981,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_15
@@ -929,6 +996,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_16
@@ -943,6 +1011,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_17
@@ -957,6 +1026,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_18
@@ -971,6 +1041,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: preq_19
@@ -985,6 +1056,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['0','1','2','3']
 
 - field: ippi_01
@@ -999,6 +1071,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_02
@@ -1013,6 +1086,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_03
@@ -1027,6 +1101,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_04
@@ -1041,6 +1116,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_05
@@ -1055,6 +1131,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_06
@@ -1069,6 +1146,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_07
@@ -1083,6 +1161,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_08
@@ -1097,6 +1176,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_09
@@ -1111,6 +1191,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_10
@@ -1125,6 +1206,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_11
@@ -1139,6 +1221,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_12
@@ -1153,6 +1236,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_13
@@ -1167,6 +1251,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_14
@@ -1181,6 +1266,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_15
@@ -1195,6 +1281,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_16
@@ -1209,6 +1296,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_17
@@ -1223,6 +1311,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
 
 - field: ippi_18
@@ -1237,4 +1326,5 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   options: ['1','2','3','4','5','6','7']
