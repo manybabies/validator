@@ -177,6 +177,34 @@
   NA_allowed: no
   empty_allowed: no
 
+- field: questionnaire_lang
+  description: Language of the questionniares used (demographics questionnaire, debriefing questionnaire, RAADS-14, PRE-Q, IPPI).
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+  empty_allowed: no
+
+- field: questionnaire_mode
+  description: Adminstration mode of the questionnaires, i.e., paper-and-pencil survey or computerized survey tool. 
+  type: string
+  format: open
+  pattern: .na
+  lowerlimit: .na
+  upperlimit: .na
+  allow_decimals: .na
+  min_decimals: .na
+  max_decimals: .na
+  required: yes
+  NA_allowed: no
+  empty_allowed: no
+
 - field: participant_gender
   description: For this and all other gender columns, use ‘other’ if this (or a similar response) is indicated. Put ‘NC’ if it was left blank by the participant or if this data was not collected.
   type: options
