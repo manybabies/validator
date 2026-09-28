@@ -206,7 +206,7 @@
   empty_allowed: no
 
 - field: participant_gender
-  description: For this and all other gender columns, use ‘other’ if this (or a similar response) is indicated. Put ‘NC’ if it was left blank by the participant or if this data was not collected.
+  description: Demographic Questionnaire. For this and all other gender columns, use ‘other’ if this (or a similar response) is indicated. Put ‘NC’ if it was left blank by the participant or if this data was not collected.
   type: options
   options: ['man', 'woman', 'other', 'NC']
   format: .na
@@ -221,7 +221,7 @@
   empty_allowed: no
 
 - field: age_years
-  description: Chronological age in years. Here is an online converter https://www.timeanddate.com/date/duration.html
+  description: Demographic Questionnaire. Chronological age in years. Here is an online converter https://www.timeanddate.com/date/duration.html
   type: numeric
   format: open
   pattern: .na
@@ -235,7 +235,7 @@
   empty_allowed: no
 
 - field: residence_city
-  description: Place of residence (city) of the participant.
+  description: Demographic Questionnaire. Place of residence (city) of the participant.
   type: string
   format: open
   pattern: .na
@@ -249,7 +249,7 @@
   empty_allowed: no
 
 - field: residence_country
-  description: Place of residence (country) of the participant.
+  description: Demographic Questionnaire. Place of residence (country) of the participant.
   type: string
   format: open
   pattern: .na
@@ -263,7 +263,7 @@
   empty_allowed: no
 
 - field: nationality
-  description: Nationality of the participant.
+  description: Demographic Questionnaire. Nationality of the participant.
   type: string
   format: open
   pattern: .na
@@ -277,7 +277,7 @@
   empty_allowed: no
 
 - field: native_lang1
-  description: Native language (if more than one, add others to variables below).
+  description: Demographic Questionnaire. Native language (if more than one, add others to variables below).
   type: string
   format: open
   pattern: .na
@@ -291,7 +291,7 @@
   empty_allowed: no
 
 - field: native_lang2
-  description: Further Native language
+  description: Demographic Questionnaire. Further Native language
   type: string
   format: open
   pattern: .na
@@ -305,7 +305,7 @@
   empty_allowed: no
 
 - field: hearing
-  description: Put ‘yes’ if there is potential exclusion based on hearing problems.
+  description: Demographic Questionnaire. Put ‘yes’ if there is potential exclusion based on hearing problems.
   type: options
   options: ['yes', 'no']
   format: .na
@@ -320,7 +320,7 @@
   empty_allowed: no
 
 - field: hearing_info
-  description: Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’
+  description: Demographic Questionnaire. Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’
   type: string
   format: open
   pattern: .na
@@ -334,7 +334,7 @@
   empty_allowed: no
 
 - field: vision
-  description: Put ‘yes’ if there is potential exclusion based on vision problems.
+  description: Demographic Questionnaire. Put ‘yes’ if there is potential exclusion based on vision problems.
   type: options
   options: ['yes', 'no']
   format: .na
@@ -349,7 +349,7 @@
   empty_allowed: no
 
 - field: vision_info
-  description: Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’
+  description: Demographic Questionnaire. Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’
   type: string
   format: open
   pattern: .na
@@ -363,7 +363,7 @@
   empty_allowed: no
 
 - field: medical_issues
-  description: Put ‘yes’ if potential exclusion based on medical issues/diagnosed conditions.
+  description: Demographic Questionnaire. Put ‘yes’ if potential exclusion based on medical issues/diagnosed conditions.
   type: options
   options: ['yes', 'no']
   format: .na
@@ -378,7 +378,7 @@
   empty_allowed: no
 
 - field: medical_issues_info
-  description: Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’.
+  description: Demographic Questionnaire. Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’.
   type: string
   format: open
   pattern: .na
@@ -392,7 +392,7 @@
   empty_allowed: no
 
 - field: education
-  description: Participant´s years of education after Kindergarten (e.g. in the US 12 = finish high school, 14 = finish associates degree, etc.). You can find a guideline for converting level of education into years here https://docs.google.com/document/d/1Wn4TNTNIfcrt99Y2tgT_8KkgXln0Gx4qllFxvL0O520/edit?usp=sharing
+  description: Demographic Questionnaire. Participant´s years of education after Kindergarten (e.g. in the US 12 = finish high school, 14 = finish associates degree, etc.). You can find a guideline for converting level of education into years here https://docs.google.com/document/d/1Wn4TNTNIfcrt99Y2tgT_8KkgXln0Gx4qllFxvL0O520/edit?usp=sharing
   type: numeric
   format: open
   pattern: .na
@@ -406,7 +406,7 @@
   empty_allowed: no
 
 - field: psychology
-  description: Put ‘yes’ if participant has any training or background in psychology.
+  description: Demographic Questionnaire. Put ‘yes’ if participant has any training or background in psychology.
   type: options
   options: ['yes', 'no']
   format: .na
@@ -421,7 +421,7 @@
   empty_allowed: no
 
 - field: psychology_info
-  description: Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’.
+  description: Demographic Questionnaire. Briefly explain if the previous column is ‘yes’. Write NA if the previous column is ‘no’.
   type: string
   format: open
   pattern: .na
@@ -435,7 +435,7 @@
   empty_allowed: no
 
 - field: anything_else
-  description: Did the participant report anything else in the questionnaire?
+  description: Demographic Questionnaire. Did the participant report anything else in the questionnaire?
   type: string
   format: open
   pattern: .na
@@ -449,7 +449,7 @@
   empty_allowed: no
 
 - field: purpose_experiment
-  description: What did the participant report was the purpose of the experiment?
+  description: Debriefing Questionnaire. What did the participant report was the purpose of the experiment?
   type: string
   format: open
   pattern: .na
@@ -463,7 +463,7 @@
   empty_allowed: no
 
 - field: story_videos
-  description: What did the participant report about the story in the videos?
+  description: Debriefing Questionnaire. What did the participant report about the story in the videos?
   type: string
   format: open
   pattern: .na
@@ -477,7 +477,7 @@
   empty_allowed: no
 
 - field: describe_videos
-  description: How did the participant describe the videos?
+  description: Debriefing Questionnaire. How did the participant describe the videos?
   type: string
   format: open
   pattern: .na
@@ -491,7 +491,7 @@
   empty_allowed: no
 
 - field: anything_special
-  description: Did the participant notice anything different or special in one of the videos? If yes, what was different?
+  description: Debriefing Questionnaire. Did the participant notice anything different or special in one of the videos? If yes, what was different?
   type: string
   format: open
   pattern: .na
@@ -505,7 +505,7 @@
   empty_allowed: no
 
 - field: bear_belief
-  description: Where did the participant report that the bear thought the mouse was?
+  description: Debriefing Questionnaire. Where did the participant report that the bear thought the mouse was?
   type: options
   options: ['first', 'second', 'not-remembered']
   format: .na
@@ -520,7 +520,7 @@
   empty_allowed: no
 
 - field: bear_belief_info
-  description: (If ‘first’ or ‘second’) Why did the bear think that the mouse was in that box?
+  description: Debriefing Questionnaire. (If ‘first’ or ‘second’) Why did the bear think that the mouse was in that box?
   type: string
   format: open
   pattern: .na
@@ -534,7 +534,7 @@
   empty_allowed: no
 
 - field: see_first
-  description: Did the participant report that the bear saw in which box the mouse hid first?
+  description: Debriefing Questionnaire. Did the participant report that the bear saw in which box the mouse hid first?
   type: options
   options: ['yes', 'no', 'not-remembered']
   format: .na
@@ -549,7 +549,7 @@
   empty_allowed: no
 
 - field: see_second
-  description: Did the participant report that the bear saw the mouse moving to the second box?
+  description: Debriefing Questionnaire. Did the participant report that the bear saw the mouse moving to the second box?
   type: options
   options: ['yes', 'no', 'not-remembered']
   format: .na
@@ -564,7 +564,7 @@
   empty_allowed: no
 
 - field: when_realized
-  description: When did the participant report to first think about the bear's perspective on where the mouse was?
+  description: Debriefing Questionnaire. When did the participant report to first think about the bear's perspective on where the mouse was?
   type: options
   options: ['video', 'questionnaire', 'not-realized']
   format: .na
@@ -579,7 +579,7 @@
   empty_allowed: no
 
 - field: when_realized_info
-  description: (If ‘video’ or ‘questionnaire’) specifically when / at question… (please describe as detailed as possible)
+  description: Debriefing Questionnaire. (If ‘video’ or ‘questionnaire’) specifically when / at question… (please describe as detailed as possible)
   type: string
   format: open
   pattern: .na
