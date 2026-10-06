@@ -1,9 +1,3 @@
----
-
-#----------------
-# Required fields
-#----------------
-
 - field: lab
   description: your unique lab ID in the following format - [acronym of your institution, not longer than 4 characters]_[city of your institution] (e.g. LMU_Munich)
   type: string
@@ -17,6 +11,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: subid
   description: unique ID for the participant - [acronym of your institution, not longer than 4 characters]_[participant number, starting with 001]
@@ -31,6 +26,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: RA
   description: unique RA identifier (name or anonymous code)
@@ -45,6 +41,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: trial_sequence
   description: which of the two trial orders was used for this participant?
@@ -61,6 +58,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: session_error
   description: (data should be excluded) - note, do not use this field for individual trial level errors if the participant is still going to be included.
@@ -77,6 +75,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: Invalid entry for session_error. Value must be 'noerror' or 'error'.
 
 - field: session_error_type
@@ -92,6 +91,7 @@
   max_decimals: .na
   required: no
   NA_allowed: yes
+  empty_allowed: no
 
 - field: note
   description: NA if you have nothing to note, you could add information such as 'child was very tired'
@@ -106,6 +106,7 @@
   max_decimals: .na
   required: no
   NA_allowed: yes
+  empty_allowed: no
 
 - field: participant_gender
   description: Gender of the participant (NC for unknown)
@@ -124,6 +125,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: age_days
   description: chronological age in days. Here is an online converter - https://www.timeanddate.com/date/duration.html
@@ -138,6 +140,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: gestation_week
   description: In which week of pregnancy was the child born?
@@ -152,6 +155,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: residence_country
   description: Place of residence (country) of the participant.
@@ -166,6 +170,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: daycare
   description: Is the child currently in daycare?
@@ -182,6 +187,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: hours_week_daycare
   description: sum of hours the child usually spends in daycare per week (or NA if child is not in daycare)
@@ -196,6 +202,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: lang1
   description: Native or most-heard language
@@ -210,6 +217,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: lang1_exposure
   description: Percentage exposure to lang1. Note that exposures to all languages for a child should sum to 100!
@@ -224,6 +232,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: lang2
   description: Second most-heard language (or NA if no second language)
@@ -238,6 +247,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: lang2_exposure
   description: Percentage exposure to lang2 (or NA if no second language)
@@ -252,6 +262,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: lang3
   description: Second most-heard language (or NA if no second language)
@@ -266,6 +277,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: lang3_exposure
   description: Percentage exposure to lang3 (or NA if no second language)
@@ -280,6 +292,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: hearing
   description: yes if potential exclusion based on hearing
@@ -296,6 +309,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: hearing_info
   description: briefly explain if prev is yes
@@ -310,6 +324,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: vision
   description: yes if potential exclusion based on vision
@@ -326,6 +341,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: vision_info
   description: briefly explain if prev is yes
@@ -340,6 +356,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: cognitive_developmental
   description: yes if potential exclusion based on cog/dev
@@ -356,6 +373,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: cognitive_developmental_info
   description: briefly explain if prev is yes
@@ -370,6 +388,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: sib1_age
   description: age in months of oldest sibling, or NA if no sibling
@@ -384,6 +403,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: sib1_gender
   description: sib1 gender, or NA if no sibling, NC if unknown
@@ -402,6 +422,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: sib2_age
   description: age in months of oldest sibling, or NA if no sibling
@@ -416,6 +437,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: sib2_gender
   description: sib2 gender, or NA if no sibling, NC if unknown
@@ -434,6 +456,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: sib3_age
   description: age in months of oldest sibling, or NA if no sibling
@@ -448,6 +471,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: sib3_gender
   description: sib3 gender, or NA if no sibling, NC if unknown
@@ -466,6 +490,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: sib4_age
   description: age in months of oldest sibling, or NA if no sibling
@@ -480,6 +505,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: sib4_gender
   description: sib4 gender, or NA if no sibling, NC if unknown
@@ -498,6 +524,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: sib5_age
   description: age in months of oldest sibling, or NA if no sibling
@@ -512,6 +539,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: sib5_gender
   description: sib5 gender, or NA if no sibling, NC if unknown
@@ -530,6 +558,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: parentA_gender
   description: parent A's gender (NC if unknown or parent preferred not to answer)
@@ -548,6 +577,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: parentA_native_lang1
   description: Native language (if more than one, add others to variables below)
@@ -562,6 +592,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: parentA_native_lang2
   description: Further Native language
@@ -576,6 +607,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: parentA_native_lang3
   description: Further Native language
@@ -590,6 +622,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: parentA_education
   description: parent A's years of education after Kindergarden (e.g. in the US 12 = finish high school, 14 = finish associates degree, etc.)
@@ -604,6 +637,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: parentB_gender
   description: parent B's gender (NC if unknown or parent preferred not to answer)
@@ -622,6 +656,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: parentB_native_lang1
   description: Native language (if more than one, add others to variables below)
@@ -636,6 +671,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: parentB_native_lang2
   description: Further Native language
@@ -650,6 +686,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: parentB_native_lang3
   description: Further Native language
@@ -664,6 +701,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: parentB_education
   description: parent B's years of education after Kindergarden (e.g. in the US 12 = finish high school, 14 = finish associates degree, etc.)
@@ -678,6 +716,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
 
 - field: recruitment
   description: Labid of the lab that recruited the participant
@@ -692,6 +731,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
 
 - field: anything_else
   description: Did caregivers report anthing else in the questionnaire?
@@ -706,3 +746,4 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no

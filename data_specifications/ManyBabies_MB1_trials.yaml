@@ -1,9 +1,3 @@
----
-
-#----------------
-# Required fields
-#----------------
-
 - field: study_ID
   description: uniquely identifies a study
   type: string
@@ -17,6 +11,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: long_cite
@@ -32,6 +27,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: short_cite
@@ -47,4 +43,5 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''

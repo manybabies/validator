@@ -1,9 +1,3 @@
----
-
-#----------------
-# Required fields
-#----------------
-
 - field: lab_id
   description: laboratory identifier, unique
   type: string
@@ -17,6 +11,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: subj_id
@@ -32,6 +27,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: date_tested
@@ -47,6 +43,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: age_group
@@ -68,6 +65,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: age_days
@@ -83,6 +81,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: premature_days
@@ -98,6 +97,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: method
@@ -116,6 +116,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: screen_size_inches
@@ -131,6 +132,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: infant_distance_cm
@@ -146,6 +148,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: RA_number
@@ -163,6 +166,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: RA_1
@@ -178,6 +182,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: RA_1_naive
@@ -195,6 +200,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: RA_2
@@ -210,6 +216,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: RA_2_naive
@@ -227,6 +234,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: cb_order
@@ -258,6 +266,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: condition
@@ -275,6 +284,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: push_up_identity
@@ -292,6 +302,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: push_up_order
@@ -309,6 +320,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: push_up_side
@@ -326,6 +338,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: meet_eligibility
@@ -343,6 +356,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: exclude_session
@@ -360,6 +374,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: exclusion_type_1
@@ -384,6 +399,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: exclusion_type_2
@@ -408,6 +424,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: exclusion_type_3
@@ -432,6 +449,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: exclusion_type_4
@@ -456,6 +474,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: notes
@@ -471,6 +490,7 @@
   max_decimals: .na
   required: no
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: second_session
@@ -488,6 +508,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: caregiver_seat
@@ -508,6 +529,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: participant_gender
@@ -527,6 +549,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: primarycaregiver_gender
@@ -546,6 +569,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: hearing_vision
@@ -563,6 +587,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: hearing_vision_info
@@ -578,6 +603,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: cognitive_developmental
@@ -595,6 +621,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: cognitive_developmental_info
@@ -610,6 +637,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: infant_handedness
@@ -629,6 +657,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: parentA_handedness
@@ -647,6 +676,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: parentB_handedness
@@ -665,6 +695,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: primary_language
@@ -680,6 +711,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: percent_primarylanguage
@@ -695,6 +727,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: colorblindness_primaryfamily
@@ -712,6 +745,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: choice_experimenter_mask
@@ -729,6 +763,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: character_choice
@@ -748,6 +783,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: helper_hinderer_choice
@@ -767,6 +803,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: left_right_choice
@@ -786,6 +823,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: touch_both
@@ -803,6 +841,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: touch_both_usable
@@ -820,6 +859,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial1_sawcriticalevent
@@ -837,6 +877,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial1_lookingtime_videoevent
@@ -852,6 +893,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial1_lookingtime_freezeframe
@@ -867,6 +909,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial1_numrepeats
@@ -886,6 +929,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial2_sawcriticalevent
@@ -903,6 +947,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial2_lookingtime_videoevent
@@ -918,6 +963,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial2_lookingtime_freezeframe
@@ -933,6 +979,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial2_numrepeats
@@ -952,6 +999,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial3_sawcriticalevent
@@ -969,6 +1017,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial3_lookingtime_videoevent
@@ -984,6 +1033,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial3_lookingtime_freezeframe
@@ -999,6 +1049,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial3_numrepeats
@@ -1018,6 +1069,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial4_sawcriticalevent
@@ -1035,6 +1087,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial4_lookingtime_videoevent
@@ -1050,6 +1103,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial4_lookingtime_freezeframe
@@ -1065,6 +1119,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial4_numrepeats
@@ -1080,6 +1135,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial5_sawcriticalevent
@@ -1097,6 +1153,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial5_lookingtime_videoevent
@@ -1112,6 +1169,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial5_lookingtime_freezeframe
@@ -1127,6 +1185,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial5_numrepeats
@@ -1142,6 +1201,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial6_sawcriticalevent
@@ -1159,6 +1219,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial6_lookingtime_videoevent
@@ -1174,6 +1235,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial6_lookingtime_freezeframe
@@ -1189,6 +1251,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial6_numrepeats
@@ -1204,6 +1267,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial7_sawcriticalevent
@@ -1221,6 +1285,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial7_lookingtime_videoevent
@@ -1236,6 +1301,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial7_lookingtime_freezeframe
@@ -1251,6 +1317,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial7_numrepeats
@@ -1266,6 +1333,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial8_sawcriticalevent
@@ -1283,6 +1351,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial8_lookingtime_videoevent
@@ -1298,6 +1367,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial8_lookingtime_freezeframe
@@ -1313,6 +1383,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial8_numrepeats
@@ -1328,6 +1399,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial9_sawcriticalevent
@@ -1345,6 +1417,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial9_lookingtime_videoevent
@@ -1360,6 +1433,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial9_lookingtime_freezeframe
@@ -1375,6 +1449,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial9_numrepeats
@@ -1390,6 +1465,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial10_sawcriticalevent
@@ -1407,6 +1483,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial10_lookingtime_videoevent
@@ -1422,6 +1499,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial10_lookingtime_freezeframe
@@ -1437,6 +1515,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial10_numrepeats
@@ -1452,6 +1531,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial11_sawcriticalevent
@@ -1469,6 +1549,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial11_lookingtime_videoevent
@@ -1484,6 +1565,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial11_lookingtime_freezeframe
@@ -1499,6 +1581,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial11_numrepeats
@@ -1514,6 +1597,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial12_sawcriticalevent
@@ -1531,6 +1615,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial12_lookingtime_videoevent
@@ -1546,6 +1631,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial12_lookingtime_freezeframe
@@ -1561,6 +1647,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial12_numrepeats
@@ -1576,6 +1663,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial13_sawcriticalevent
@@ -1593,6 +1681,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial13_lookingtime_videoevent
@@ -1608,6 +1697,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial13_lookingtime_freezeframe
@@ -1623,6 +1713,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial13_numrepeats
@@ -1638,6 +1729,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial14_sawcriticalevent
@@ -1655,6 +1747,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial14_lookingtime_videoevent
@@ -1670,6 +1763,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial14_lookingtime_freezeframe
@@ -1685,6 +1779,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial14_numrepeats
@@ -1700,5 +1795,6 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 

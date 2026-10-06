@@ -1,8 +1,3 @@
----
-
-#----------------
-# Required fields
-#----------------
 - field: labid
   description: Unique lab identifier (must match what you chose in the laboratory questionnaire).
   type: string
@@ -16,6 +11,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: participant_id
@@ -31,6 +27,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: testing_date
@@ -46,6 +43,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: pilot
@@ -63,6 +61,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: method
@@ -80,6 +79,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: zero_coordinate
@@ -99,6 +99,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: centered_screen
@@ -116,6 +117,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: test_order
@@ -131,6 +133,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: session_error
@@ -148,6 +151,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: session_error_info
@@ -167,6 +171,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: session_error_notes
@@ -182,6 +187,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: second_session
@@ -199,6 +205,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: fam1_error
@@ -216,6 +223,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: fam1_error_info
@@ -231,6 +239,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: fam2_error
@@ -248,6 +257,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: fam2_error_info
@@ -263,6 +273,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: fam3_error
@@ -280,6 +291,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: fam3_error_info
@@ -295,6 +307,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: fam4_error
@@ -312,6 +325,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: fam4_error_info
@@ -327,6 +341,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: test1_error
@@ -344,6 +359,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: test1_error_info
@@ -359,6 +375,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: test2_error
@@ -376,6 +393,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: test2_error_info
@@ -391,6 +409,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial_error_notes
@@ -406,6 +425,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: ra_id
@@ -421,6 +441,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: caregiver_seat
@@ -438,6 +459,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: behavior_caregiver
@@ -455,6 +477,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: participant_gender
@@ -474,6 +497,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: age_days
@@ -489,6 +513,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: residence_city
@@ -504,6 +529,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: residence_country
@@ -519,6 +545,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: nationality
@@ -534,6 +561,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: preterm
@@ -551,6 +579,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: gestation_week
@@ -566,6 +595,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: daycare
@@ -583,6 +613,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: hours_daycare
@@ -598,6 +629,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: hours_parentA
@@ -613,6 +645,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: hours_parentB
@@ -628,6 +661,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: hours_siblings
@@ -643,6 +677,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: hours_adults
@@ -658,6 +693,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: hours_children
@@ -673,6 +709,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: lang1
@@ -688,6 +725,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: lang1_exposure
@@ -703,6 +741,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: lang2
@@ -718,6 +757,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: lang2_exposure
@@ -733,6 +773,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: lang3
@@ -748,6 +789,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: lang3_exposure
@@ -763,6 +805,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: lang4
@@ -778,6 +821,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: lang4_exposure
@@ -793,6 +837,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: hearing
@@ -810,6 +855,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: hearing_info
@@ -825,6 +871,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: vision
@@ -842,6 +889,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: vision_info
@@ -857,6 +905,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: medical_issues
@@ -874,6 +923,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: medical_issues_info
@@ -889,6 +939,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: development
@@ -906,6 +957,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: development_info
@@ -921,6 +973,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: sibling1_age
@@ -936,6 +989,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: sibling1_gender
@@ -955,6 +1009,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: sibling2_age
@@ -970,6 +1025,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: sibling2_gender
@@ -989,6 +1045,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: sibling3_age
@@ -1004,6 +1061,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: sibling3_gender
@@ -1023,6 +1081,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: sibling4_age
@@ -1038,6 +1097,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: sibling4_gender
@@ -1057,6 +1117,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: sibling5_age
@@ -1072,6 +1133,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: sibling5_gender
@@ -1091,6 +1153,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: parentA_gender
@@ -1110,6 +1173,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: parentA_nationality
@@ -1125,6 +1189,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: parentA_native_lang1
@@ -1140,6 +1205,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: parentA_native_lang2
@@ -1155,6 +1221,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: parentA_education
@@ -1170,6 +1237,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: parentB_gender
@@ -1189,6 +1257,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: parentB_nationality
@@ -1204,6 +1273,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: parentB_native_lang1
@@ -1219,6 +1289,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: parentB_native_lang2
@@ -1234,6 +1305,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: parentB_education
@@ -1249,6 +1321,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: anything_else
@@ -1264,4 +1337,5 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''

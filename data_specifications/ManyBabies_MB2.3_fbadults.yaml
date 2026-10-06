@@ -1,9 +1,3 @@
----
-
-#----------------
-# Required fields
-#----------------
-
 - field: labid
   description: Unique lab identifier (must match what you chose in the laboratory questionnaire).
   type: string

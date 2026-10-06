@@ -1,9 +1,3 @@
----
-
-#----------------
-# Required fields
-#----------------
-
 - field: lab_id
   description: laboratory identifier, unique
   type: string
@@ -17,6 +11,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: subj_id
@@ -32,6 +27,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: trial1_lookingtime_freezeframe
@@ -47,6 +43,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial2_lookingtime_freezeframe
@@ -62,6 +59,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial3_lookingtime_freezeframe
@@ -77,6 +75,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial4_lookingtime_freezeframe
@@ -92,6 +91,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial5_lookingtime_freezeframe
@@ -107,6 +107,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial6_lookingtime_freezeframe
@@ -122,6 +123,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial7_lookingtime_freezeframe
@@ -137,6 +139,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial8_lookingtime_freezeframe
@@ -152,6 +155,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial9_lookingtime_freezeframe
@@ -167,6 +171,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial10_lookingtime_freezeframe
@@ -182,6 +187,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial11_lookingtime_freezeframe
@@ -197,6 +203,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial12_lookingtime_freezeframe
@@ -212,6 +219,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial13_lookingtime_freezeframe
@@ -227,6 +235,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial14_lookingtime_freezeframe
@@ -242,6 +251,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: coder
@@ -257,6 +267,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: coder_status
@@ -273,6 +284,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: character_choice
@@ -292,4 +304,5 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''

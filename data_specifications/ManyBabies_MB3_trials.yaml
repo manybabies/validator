@@ -1,9 +1,3 @@
----
-
-#----------------
-# Required fields - MB3 basic/central variables. All labs MUST report these variables, although some may have NA values for individual trials. 
-#----------------
-
 - field: lab_id
   description: Unique lab identifier (this must match what you chose in the laboratory questionnaire).
   type: string
@@ -17,6 +11,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: participant_id
@@ -32,6 +27,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: trial_type
@@ -50,6 +46,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: stimulus_filename
@@ -85,6 +82,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: trial_num
@@ -100,6 +98,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: looking_time_seconds
@@ -115,6 +114,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial_time_seconds
@@ -130,6 +130,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: trial_error
@@ -147,6 +148,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: no
+  empty_allowed: no
   error_message: ''
 
 - field: trial_error_info
@@ -162,6 +164,7 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
 
 - field: notes
@@ -177,4 +180,5 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''

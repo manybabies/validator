@@ -16,4 +16,5 @@
   max_decimals: .na
   required: yes
   NA_allowed: yes
+  empty_allowed: no
   error_message: ''
