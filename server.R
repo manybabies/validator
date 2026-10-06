@@ -3,6 +3,7 @@ library(tidyverse)
 library(yaml)
 library(DT)
 library(digest)
+library(openxlsx)
 
 # Generate secret key if needed
 
@@ -93,17 +94,104 @@ server <- function(input, output, session) {
   
   # Configuration -------------------------------------------------------------------------
   
-  # Selected configuration
+  # Selected configuration ---------------------------------------------------------------
   
   selected_config <- reactive({
     
-    req(input$configuration)
-    
-    yaml::read_yaml(
-      file.path(
-        "configuration",
-        input$configuration
+    if (identical(input$configuration_source, "local")) {
+      
+      req(input$local_configuration)
+      
+      yaml_file_path <- input$local_configuration$datapath
+      
+      req(file.exists(yaml_file_path))
+      
+      tryCatch(
+        {
+          config <- yaml::yaml.load_file(
+            yaml_file_path
+          )
+          
+          if (
+            !is.list(config) ||
+            length(config) == 0
+          ) {
+            stop(
+              "The YAML file does not contain a valid ShinyValidator configuration."
+            )
+          }
+          
+          config
+          
+        },
+        error = function(e) {
+          validate(
+            need(
+              FALSE,
+              paste0(
+                "Could not load the YAML configuration: ",
+                e$message
+              )
+            )
+          )
+        }
       )
+      
+    } else {
+      
+      req(input$configuration)
+      
+      yaml::yaml.load_file(
+        file.path(
+          "configuration",
+          input$configuration
+        )
+      )
+    }
+  })
+  
+  # Local configuration status
+  
+  output$local_configuration_status <- renderUI({
+    
+    req(input$local_configuration)
+    
+    yaml_file_path <- input$local_configuration$datapath
+    
+    tryCatch(
+      {
+        config <- yaml::yaml.load_file(
+          yaml_file_path
+        )
+        
+        if (
+          !is.list(config) ||
+          length(config) == 0
+        ) {
+          stop(
+            "The file does not contain a valid configuration."
+          )
+        }
+        
+        tags$p(
+          style = "color: green;",
+          paste0(
+            "✓ Configuration loaded: ",
+            input$local_configuration$name
+          )
+        )
+        
+      },
+      error = function(e) {
+        
+        tags$p(
+          style = "color: red;",
+          paste0(
+            "Unable to load configuration: ",
+            e$message
+          )
+        )
+      }
     )
   })
   
@@ -144,45 +232,173 @@ server <- function(input, output, session) {
   
   selected_configuration_name <- reactive({
     
-    req(input$configuration)
-    
-    tools::file_path_sans_ext(
+    if (identical(input$configuration_source, "local")) {
+      
+      req(input$local_configuration)
+      
+      tools::file_path_sans_ext(
+        input$local_configuration$name
+      )
+      
+    } else {
+      
+      req(input$configuration)
+      
+      configuration_name <- tools::file_path_sans_ext(
+        input$configuration
+      )
+      
       sub(
         "^config_",
         "",
-        input$configuration
+        configuration_name
       )
+    }
+  })
+  
+  # Selected specification ---------------------------------------------------------------
+  
+  selected_specification_path <- reactive({
+    
+    if (identical(input$specification_source, "local")) {
+      
+      req(input$local_specification)
+      
+      input$local_specification$datapath
+      
+    } else {
+      
+      req(input$study, input$format)
+      
+      file.path(
+        "data_specifications",
+        paste0(
+          selected_configuration_name(),
+          "_",
+          input$study,
+          "_",
+          input$format,
+          ".yaml"
+        )
+      )
+    }
+  })
+  
+  
+  selected_specification <- reactive({
+    
+    yaml_file_path <- selected_specification_path()
+    
+    req(file.exists(yaml_file_path))
+    
+    tryCatch(
+      {
+        fields <- yaml::yaml.load_file(
+          yaml_file_path
+        )
+        
+        if (
+          !is.list(fields) ||
+          length(fields) == 0
+        ) {
+          stop(
+            "The YAML file does not contain a valid ShinyValidator specification."
+          )
+        }
+        
+        invalid_fields <- vapply(
+          fields,
+          function(field) {
+            !is.list(field) ||
+              is.null(field$field) ||
+              is.null(field$type)
+          },
+          logical(1)
+        )
+        
+        if (any(invalid_fields)) {
+          stop(
+            "The YAML file does not contain a valid ShinyValidator specification."
+          )
+        }
+        
+        fields
+        
+      },
+      error = function(e) {
+        validate(
+          need(
+            FALSE,
+            paste0(
+              "Could not load the YAML specification: ",
+              e$message
+            )
+          )
+        )
+      }
     )
   })
   
-  # Selected logo
   
-  output$application_logo <- renderUI({
+  # Local specification status
+  
+  output$local_specification_status <- renderUI({
     
-    current_config <- selected_config()
+    req(input$local_specification)
     
-    if (
-      isTRUE(current_config$logo$enabled) &&
-      !is.null(current_config$logo$file)
-    ) {
-      
-      logo_path <- file.path(
-        "logos",
-        current_config$logo$file
-      )
-      
-      if (!file.exists(logo_path)) {
-        return(NULL)
+    yaml_file_path <- input$local_specification$datapath
+    
+    tryCatch(
+      {
+        fields <- yaml::yaml.load_file(
+          yaml_file_path
+        )
+        
+        if (
+          !is.list(fields) ||
+          length(fields) == 0
+        ) {
+          stop(
+            "The file does not contain any specification fields."
+          )
+        }
+        
+        invalid_fields <- vapply(
+          fields,
+          function(field) {
+            !is.list(field) ||
+              is.null(field$field) ||
+              is.null(field$type)
+          },
+          logical(1)
+        )
+        
+        if (any(invalid_fields)) {
+          stop(
+            "The file does not appear to be a valid ShinyValidator specification."
+          )
+        }
+        
+        tags$p(
+          style = "color: green;",
+          paste0(
+            "✓ Specification loaded: ",
+            input$local_specification$name
+          )
+        )
+        
+      },
+      error = function(e) {
+        
+        tags$p(
+          style = "color: red;",
+          paste0(
+            "Unable to load specification: ",
+            e$message
+          )
+        )
       }
-      
-      tags$img(
-        src = file.path(
-          "logos",
-          current_config$logo$file
-        ),
-        class = "validator-logo"
-      )
-    }
+    )
   })
   
   # Available specifications
@@ -539,50 +755,6 @@ server <- function(input, output, session) {
         
         column(
           width = 6,
-          
-          # Custom logo
-          
-          h4("Custom Logo"),
-          
-          checkboxInput(
-            "enable_logo",
-            "Enable custom logo",
-            value = !is.null(current_config$logo) &&
-              isTRUE(current_config$logo$enabled)
-          ),
-          
-          conditionalPanel(
-            condition = "input.enable_logo",
-            
-            fluidRow(
-              
-              column(
-                width = 7,
-                
-                fileInput(
-                  "config_logo",
-                  "Upload logo:",
-                  multiple = FALSE,
-                  accept = c(
-                    "image/png",
-                    "image/jpeg",
-                    "image/jpg"
-                  )
-                ),
-                
-                helpText(
-                  "The uploaded logo will be saved to the validator's 'logos' folder ",
-                  "using its original filename."
-                )
-              ),
-              
-              column(
-                width = 5,
-                
-                uiOutput("logo_preview")
-              )
-            )
-          )
         )
       ),
       
@@ -776,74 +948,6 @@ server <- function(input, output, session) {
     )
   })
   
-  
-  # Logo preview
-  
-  output$logo_preview <- renderUI({
-    
-    req(input$enable_logo)
-    
-    if (
-      !is.null(input$config_logo) &&
-      !is.null(input$config_logo$datapath)
-    ) {
-      
-      logo_url <- session$fileUrl(
-        "uploaded_logo",
-        input$config_logo$datapath,
-        contentType = input$config_logo$type
-      )
-      
-      return(
-        tags$div(
-          class = "configuration-logo-preview",
-          
-          tags$img(
-            src = logo_url
-          )
-        )
-      )
-    }
-    
-    
-    # Show existing logo if one is already configured
-    
-    current_config <- selected_config()
-    
-    if (
-      !is.null(current_config$logo) &&
-      isTRUE(current_config$logo$enabled) &&
-      !is.null(current_config$logo$file)
-    ) {
-      
-      logo_path <- file.path(
-        "logos",
-        current_config$logo$file
-      )
-      
-      if (file.exists(logo_path)) {
-        
-        logo_url <- session$fileUrl(
-          "existing_logo",
-          logo_path,
-          contentType = "image/png"
-        )
-        
-        return(
-          tags$div(
-            class = "configuration-logo-preview",
-            
-            tags$img(
-              src = logo_url
-            )
-          )
-        )
-      }
-    }
-    
-    
-    NULL
-  })
   
   # Theme preview
   
@@ -1093,21 +1197,7 @@ server <- function(input, output, session) {
   
   output$specification <- renderUI({
     
-    req(input$study, input$format)
-    
-    yaml_file_path <- paste0(
-      "data_specifications/",
-      selected_configuration_name(),
-      "_",
-      input$study,
-      "_",
-      input$format,
-      ".yaml"
-    )
-    
-    req(file.exists(yaml_file_path))
-    
-    fields <- yaml::yaml.load_file(yaml_file_path)
+    fields <- selected_specification()
     
     type_labels <- c(
       options = "Options",
@@ -1334,720 +1424,309 @@ server <- function(input, output, session) {
     )
   })
   
-  # Validation summary
+  # Download codebook --------------------------------------------------------------------
   
-  output$validation_summary <- renderUI({
+  output$downloadCodebook <- downloadHandler(
     
-    req(input$file)
-    req(input$study, input$format)
-    
-    yaml_file_path <- paste0(
-      "data_specifications/",
-      selected_configuration_name(),
-      "_",
-      input$study,
-      "_",
-      input$format,
-      ".yaml"
-    )
-    
-    req(file.exists(yaml_file_path))
-    
-    fields <- yaml::yaml.load_file(yaml_file_path)
-    
-    delimiter <- detect_delimiter(
-      input$file$datapath
-    )
-    
-    req(!is.null(delimiter))
-    
-    decimal_mark <- detect_decimal_mark(
-      input$file$datapath,
-      delimiter
-    )
-    
-    df <- readr::read_delim(
-      input$file$datapath,
-      delim = delimiter,
-      col_types = readr::cols(.default = readr::col_character()),
-      na = "NA",
-      show_col_types = FALSE
-    )
-    
-    df <- standardize_decimal_mark(
-      df,
-      decimal_mark
-    )
-    
-    validated <- validate_dataset(
-      fields,
-      df
-    )
-    
-    valid <- validated[[1]]
-    issues <- validated[[2]]
-    
-    # Show success message
-    
-    if (valid || length(issues) == 0) {
+    filename = function() {
       
-      return(
-        tags$div(
-          class = "validation-summary validation-summary-success",
-          
-          tags$div(
-            class = "validation-summary-title",
-            "Validation Summary"
-          ),
-          
-          tags$div(
-            class = "validation-summary-count",
-            "✓ No issues found"
-          ),
-          
-          tags$div(
-            class = "validation-summary-details",
-            paste0(
-              "All ",
-              nrow(df),
-              " rows passed the selected specification."
-            )
-          )
+      if (identical(input$specification_source, "local")) {
+        
+        specification_name <- tools::file_path_sans_ext(
+          input$local_specification$name
         )
+        
+      } else {
+        
+        specification_name <- paste(
+          input$study,
+          input$format,
+          sep = "_"
+        )
+      }
+      
+      paste0(
+        specification_name,
+        "_codebook.xlsx"
       )
-    }
+    },
     
-    
-    # Count issue types
-    
-    missing_columns <- sum(
-      vapply(
-        issues,
-        function(issue) {
-          !is.null(issue) &&
-            issue$type == "missing_column"
-        },
-        logical(1)
-      )
-    )
-    
-    unexpected_columns <- sum(
-      vapply(
-        issues,
-        function(issue) {
-          !is.null(issue) &&
-            issue$type == "unexpected_column"
-        },
-        logical(1)
-      )
-    )
-    
-    invalid_cell_issues <- Filter(
-      function(issue) {
-        !is.null(issue) &&
-          issue$type == "invalid_cell"
-      },
-      issues
-    )
-    
-    
-    # Count invalid cells
-    
-    invalid_cells <- sum(
-      vapply(
-        invalid_cell_issues,
-        function(issue) {
-          length(issue$invalid_row)
-        },
-        integer(1)
-      )
-    )
-    
-    
-    # Count affected rows
-    
-    affected_rows <- unique(
-      unlist(
-        lapply(
-          invalid_cell_issues,
-          function(issue) {
-            issue$invalid_row
+    content = function(file) {
+      
+      fields <- selected_specification()
+      
+      
+      ## Translate validation rules into human-readable text
+      
+      translate_requirements <- function(field) {
+        
+        requirements <- character(0)
+        
+        
+        ## Data type
+        
+        if (!is.null(field$type)) {
+          
+          if (identical(field$type, "options")) {
+            
+            if (!is.null(field$options)) {
+              
+              options <- paste(
+                as.character(field$options),
+                collapse = ", "
+              )
+              
+              requirements <- c(
+                requirements,
+                paste0(
+                  "Must be one of: ",
+                  options,
+                  "."
+                )
+              )
+            }
+            
+          } else if (identical(field$type, "numeric")) {
+            
+            ## Numeric range
+            
+            if (
+              !is.null(field$lower) &&
+              !is.null(field$upper)
+            ) {
+              
+              requirements <- c(
+                requirements,
+                paste0(
+                  "Must be between ",
+                  field$lower,
+                  " and ",
+                  field$upper,
+                  "."
+                )
+              )
+              
+            } else if (!is.null(field$lower)) {
+              
+              requirements <- c(
+                requirements,
+                paste0(
+                  "Must be at least ",
+                  field$lower,
+                  "."
+                )
+              )
+              
+            } else if (!is.null(field$upper)) {
+              
+              requirements <- c(
+                requirements,
+                paste0(
+                  "Must be no greater than ",
+                  field$upper,
+                  "."
+                )
+              )
+            }
+            
+            
+            ## Decimal requirements
+            
+            if (
+              !is.null(field$allow_decimals) &&
+              identical(
+                tolower(as.character(field$allow_decimals)),
+                "no"
+              )
+            ) {
+              
+              requirements <- c(
+                requirements,
+                "Whole numbers only."
+              )
+              
+            } else if (
+              !is.null(field$min_decimals) &&
+              !is.null(field$max_decimals) &&
+              identical(
+                as.character(field$min_decimals),
+                as.character(field$max_decimals)
+              )
+            ) {
+              
+              requirements <- c(
+                requirements,
+                paste0(
+                  "Must have exactly ",
+                  field$min_decimals,
+                  " decimal places."
+                )
+              )
+              
+            } else if (!is.null(field$max_decimals)) {
+              
+              requirements <- c(
+                requirements,
+                paste0(
+                  "May have up to ",
+                  field$max_decimals,
+                  " decimal places."
+                )
+              )
+              
+            } else if (!is.null(field$min_decimals)) {
+              
+              requirements <- c(
+                requirements,
+                paste0(
+                  "Must have at least ",
+                  field$min_decimals,
+                  " decimal places."
+                )
+              )
+            }
           }
-        )
-      )
-    )
-    
-    affected_rows <- length(affected_rows)
-    
-    
-    # Count affected columns
-    
-    affected_columns <- unique(
-      vapply(
-        issues,
-        function(issue) {
-          if (is.null(issue)) {
-            NA_character_
+          
+          
+          ## String requirements
+          
+          if (identical(field$type, "string")) {
+            
+            requirements <- c(
+              requirements,
+              "Text."
+            )
+          }
+        }
+        
+        
+        ## Regular expression
+        
+        if (!is.null(field$pattern)) {
+          
+          pattern <- as.character(field$pattern)
+          
+          if (identical(pattern, "^[A-Za-z0-9]+$")) {
+            
+            requirements <- c(
+              requirements,
+              "Letters and numbers only."
+            )
+            
+          } else if (
+            identical(pattern, "^[A-Za-z]+$")
+          ) {
+            
+            requirements <- c(
+              requirements,
+              "Letters only."
+            )
+            
+          } else if (
+            identical(pattern, "^[0-9]+$")
+          ) {
+            
+            requirements <- c(
+              requirements,
+              "Numbers only."
+            )
+            
           } else {
-            issue$column
-          }
-        },
-        character(1)
-      )
-    )
-    
-    affected_columns <- sum(
-      !is.na(affected_columns)
-    )
-    
-    
-    # Total number of issues
-    
-    total_issues <- missing_columns +
-      unexpected_columns +
-      invalid_cells
-    
-    
-    tags$div(
-      class = "validation-summary",
-      
-      tags$div(
-        class = "validation-summary-title",
-        "Validation Summary"
-      ),
-      
-      tags$div(
-        class = "validation-summary-count",
-        paste0(
-          total_issues,
-          if (total_issues == 1) " issue found" else " issues found"
-        )
-      ),
-      
-      tags$div(
-        class = "validation-summary-details",
-        
-        tags$div(
-          tags$strong("Rows affected: "),
-          affected_rows
-        ),
-        
-        tags$div(
-          tags$strong("Columns affected: "),
-          affected_columns
-        ),
-        
-        tags$div(
-          tags$strong("Invalid cells: "),
-          invalid_cells
-        ),
-        
-        if (missing_columns > 0) {
-          tags$div(
-            tags$strong("Missing columns: "),
-            missing_columns
-          )
-        },
-        
-        if (unexpected_columns > 0) {
-          tags$div(
-            tags$strong("Unexpected columns: "),
-            unexpected_columns
-          )
-        }
-      )
-    )
-  })
-  
-  # Validation errors
-  
-  output$errors_by_column <- renderUI({
-    
-    req(input$file)
-    req(input$study, input$format)
-    
-    yaml_file_path <- paste0(
-      "data_specifications/",
-      selected_configuration_name(),
-      "_",
-      input$study,
-      "_",
-      input$format,
-      ".yaml"
-    )
-    
-    req(file.exists(yaml_file_path))
-    
-    fields <- yaml::yaml.load_file(yaml_file_path)
-    
-    df <- edited_data()
-    
-    req(df)
-    
-    validated <- validate_dataset(fields, df)
-    valid <- validated[[1]]
-    issues <- validated[[2]]
-    
-    
-    # Error summary
-    
-    if (identical(input$error_view, "summary")) {
-      
-      if (valid || length(issues) == 0) {
-        
-        return(
-          tags$div(
-            class = "validation-summary validation-summary-success",
             
-            tags$div(
-              class = "validation-summary-title",
-              "Error Summary"
-            ),
-            
-            tags$div(
-              class = "validation-summary-count",
-              "✓ No issues found"
-            ),
-            
-            tags$div(
-              class = "validation-summary-details",
+            requirements <- c(
+              requirements,
               paste0(
-                "All ",
-                nrow(df),
-                " rows passed the selected specification."
+                "Must match the required format: ",
+                pattern,
+                "."
               )
-            )
-          )
-        )
-      }
-      
-      
-      # Count issue types
-      
-      missing_columns <- sum(
-        vapply(
-          issues,
-          function(issue) {
-            !is.null(issue) &&
-              issue$type == "missing_column"
-          },
-          logical(1)
-        )
-      )
-      
-      unexpected_columns <- sum(
-        vapply(
-          issues,
-          function(issue) {
-            !is.null(issue) &&
-              issue$type == "unexpected_column"
-          },
-          logical(1)
-        )
-      )
-      
-      invalid_cell_issues <- Filter(
-        function(issue) {
-          !is.null(issue) &&
-            issue$type == "invalid_cell"
-        },
-        issues
-      )
-      
-      
-      # Count invalid cells
-      
-      invalid_cells <- sum(
-        vapply(
-          invalid_cell_issues,
-          function(issue) {
-            length(issue$invalid_row)
-          },
-          integer(1)
-        )
-      )
-      
-      
-      # Count affected rows
-      
-      affected_rows <- unique(
-        unlist(
-          lapply(
-            invalid_cell_issues,
-            function(issue) {
-              issue$invalid_row
-            }
-          )
-        )
-      )
-      
-      affected_rows <- length(affected_rows)
-      
-      
-      # Count affected columns
-      
-      affected_columns <- unique(
-        vapply(
-          issues,
-          function(issue) {
-            if (is.null(issue)) {
-              NA_character_
-            } else {
-              issue$column
-            }
-          },
-          character(1)
-        )
-      )
-      
-      affected_columns <- sum(
-        !is.na(affected_columns)
-      )
-      
-      
-      # Total number of issues
-      
-      total_issues <- missing_columns +
-        unexpected_columns +
-        invalid_cells
-      
-      
-      return(
-        tags$div(
-          class = "validation-summary",
-          
-          tags$div(
-            class = "validation-summary-title",
-            "Error Summary"
-          ),
-          
-          tags$div(
-            class = "validation-summary-count",
-            paste0(
-              total_issues,
-              if (total_issues == 1) {
-                " issue found"
-              } else {
-                " issues found"
-              }
-            )
-          ),
-          
-          tags$div(
-            class = "validation-summary-details",
-            
-            tags$div(
-              tags$strong("Rows affected: "),
-              affected_rows
-            ),
-            
-            tags$div(
-              tags$strong("Columns affected: "),
-              affected_columns
-            ),
-            
-            tags$div(
-              tags$strong("Invalid cells: "),
-              invalid_cells
-            ),
-            
-            if (missing_columns > 0) {
-              tags$div(
-                tags$strong("Missing columns: "),
-                missing_columns
-              )
-            },
-            
-            if (unexpected_columns > 0) {
-              tags$div(
-                tags$strong("Unexpected columns: "),
-                unexpected_columns
-              )
-            }
-          )
-        )
-      )
-    }
-    
-    
-    # Create three-column error table
-    
-    error_table <- function(rows) {
-      
-      tags$div(
-        class = "validation-errors-table",
-        
-        tags$div(
-          class = "validation-errors-header",
-          
-          tags$div("Where"),
-          tags$div("Error"),
-          tags$div("Explanation")
-        ),
-        
-        rows
-      )
-    }
-    
-    
-    error_row <- function(location, error, explanation) {
-      
-      tags$div(
-        class = "validation-error-row",
-        
-        tags$div(
-          class = "validation-error-location-cell",
-          location
-        ),
-        
-        tags$div(
-          class = "validation-error-cell",
-          error
-        ),
-        
-        tags$div(
-          class = "validation-explanation-cell",
-          explanation
-        )
-      )
-    }
-    
-    
-    # Errors by row
-    
-    if (identical(input$error_view, "row")) {
-      
-      error_rows <- list()
-      
-      
-      # Missing and unexpected columns
-      
-      for (issue in issues) {
-        
-        if (is.null(issue)) {
-          next
-        }
-        
-        if (issue$type == "missing_column") {
-          
-          error_rows[[length(error_rows) + 1]] <- error_row(
-            
-            location = "Dataset",
-            
-            error = paste0(
-              "Missing required column: '",
-              issue$column,
-              "'."
-            ),
-            
-            explanation = explain_error(
-              issue,
-              fields
-            )
-          )
-        }
-        
-        if (issue$type == "unexpected_column") {
-          
-          error_rows[[length(error_rows) + 1]] <- error_row(
-            
-            location = "Dataset",
-            
-            error = paste0(
-              "Unexpected column: '",
-              issue$column,
-              "'."
-            ),
-            
-            explanation = "This column does not exist in the selected specification."
-          )
-        }
-      }
-      
-      
-      # Collect cell errors
-      
-      cell_errors <- list()
-      
-      for (issue in issues) {
-        
-        if (
-          is.null(issue) ||
-          issue$type != "invalid_cell" ||
-          length(issue$invalid_row) == 0
-        ) {
-          next
-        }
-        
-        for (i in seq_along(issue$invalid_row)) {
-          
-          row <- issue$invalid_row[i]
-          value <- issue$invalid_value[i]
-          
-          explanation <- explain_error(
-            list(
-              type = issue$type,
-              column = issue$column,
-              invalid_value = value,
-              invalid_row = row
-            ),
-            fields
-          )
-          
-          cell_errors[[length(cell_errors) + 1]] <- list(
-            row = row,
-            column = issue$column,
-            value = value,
-            explanation = explanation
-          )
-        }
-      }
-      
-      
-      # Sort cell errors by row
-      
-      if (length(cell_errors) > 0) {
-        
-        rows <- sort(
-          unique(
-            vapply(
-              cell_errors,
-              function(x) x$row,
-              numeric(1)
-            )
-          )
-        )
-        
-        for (row in rows) {
-          
-          this_row <- Filter(
-            function(x) x$row == row,
-            cell_errors
-          )
-          
-          for (error in this_row) {
-            
-            error_rows[[length(error_rows) + 1]] <- error_row(
-              
-              location = paste0(
-                "Row ",
-                row
-              ),
-              
-              error = paste0(
-                error$column,
-                " = '",
-                as.character(error$value),
-                "'"
-              ),
-              
-              explanation = error$explanation
             )
           }
         }
+        
+        
+        ## Empty values
+        
+        if (!is.null(field$empty_allowed)) {
+          
+          empty_allowed <- tolower(
+            as.character(field$empty_allowed)
+          )
+          
+          if (empty_allowed %in% c("no", "false")) {
+            
+            requirements <- c(
+              requirements,
+              "Empty values are not allowed."
+            )
+            
+          } else if (
+            empty_allowed %in% c("yes", "true")
+          ) {
+            
+            requirements <- c(
+              requirements,
+              "Empty values are allowed."
+            )
+          }
+        }
+        
+        
+        ## Combine requirements
+        
+        if (length(requirements) == 0) {
+          
+          return("")
+        }
+        
+        paste(
+          requirements,
+          collapse = " "
+        )
       }
       
-      return(
-        tagList(
-          h4("Errors by row"),
-          error_table(error_rows)
-        )
+      
+      ## Create human-readable codebook
+      
+      codebook <- purrr::map_dfr(
+        fields,
+        function(field) {
+          
+          data.frame(
+            
+            Variable = ifelse(
+              is.null(field$field),
+              "",
+              as.character(field$field)
+            ),
+            
+            `Validation requirements` = translate_requirements(
+              field
+            ),
+            
+            Description = ifelse(
+              is.null(field$description),
+              "",
+              as.character(field$description)
+            ),
+            
+            stringsAsFactors = FALSE,
+            
+            check.names = FALSE
+          )
+        }
+      )
+      
+      
+      ## Write codebook
+      
+      openxlsx::write.xlsx(
+        codebook,
+        file,
+        overwrite = TRUE
       )
     }
-    
-    
-    # Errors by column
-    
-    error_rows <- lapply(
-      issues,
-      function(issue) {
-        
-        if (is.null(issue)) {
-          return(NULL)
-        }
-        
-        if (issue$type == "missing_column") {
-          
-          return(
-            error_row(
-              
-              location = "Dataset",
-              
-              error = paste0(
-                "Missing required column: '",
-                issue$column,
-                "'."
-              ),
-              
-              explanation = explain_error(
-                issue,
-                fields
-              )
-            )
-          )
-        }
-        
-        
-        # Unexpected columns
-        
-        if (issue$type == "unexpected_column") {
-          
-          return(
-            error_row(
-              
-              location = "Dataset",
-              
-              error = paste0(
-                "Unexpected column: '",
-                issue$column,
-                "'."
-              ),
-              
-              explanation = "This column does not exist in the selected specification."
-            )
-          )
-        }
-        
-        
-        # Invalid cells
-        
-        rows <- sort(
-          unique(issue$invalid_row)
-        )
-        
-        row_text <- paste(
-          rows,
-          collapse = ", "
-        )
-        
-        error_row(
-          
-          location = paste0(
-            "Column ",
-            issue$column
-          ),
-          
-          error = paste0(
-            "Contains invalid cells in rows: ",
-            row_text,
-            "."
-          ),
-          
-          explanation = explain_error(
-            issue,
-            fields
-          )
-        )
-      }
-    )
-    
-    
-    tagList(
-      h4("Errors by column"),
-      error_table(error_rows)
-    )
-  })
-  
+  )
   
   # Specification creation ---------------------------------------------------------------
   
@@ -3154,27 +2833,7 @@ server <- function(input, output, session) {
     
     content = function(file) {
       
-      req(input$study, input$format)
-      
-      yaml_file_path <- paste0(
-        "data_specifications/",
-        selected_configuration_name(),
-        "_",
-        input$study,
-        "_",
-        input$format,
-        ".yaml"
-      )
-      
-      if (!file.exists(yaml_file_path)) {
-        stop(
-          "The corresponding YAML specification file does not exist."
-        )
-      }
-      
-      fields <- yaml::yaml.load_file(
-        yaml_file_path
-      )
+      fields <- selected_specification()
       
       sample_dataset <- generate_sample_dataset(
         fields,
@@ -3435,45 +3094,11 @@ server <- function(input, output, session) {
       }
       
       
-      # Custom logo
-      
-      logo <- NULL
-      
-      if (isTRUE(input$enable_logo)) {
-        
-        req(input$config_logo)
-        
-        if (!dir.exists("logos")) {
-          dir.create("logos")
-        }
-        
-        logo_filename <- basename(
-          input$config_logo$name
-        )
-        
-        file.copy(
-          input$config_logo$datapath,
-          file.path(
-            "logos",
-            logo_filename
-          ),
-          overwrite = TRUE
-        )
-        
-        logo <- list(
-          enabled = TRUE,
-          file = logo_filename,
-          width = "180px"
-        )
-      }
-      
-      
       # Create configuration
       
       configuration <- list(
         theme = input$config_theme,
         app_title = input$config_app_title,
-        logo = logo,
         welcome_message = welcome_message,
         secondary_message = secondary_message,
         instruction_set_1_name = instruction_set_1_name,
@@ -3516,27 +3141,7 @@ server <- function(input, output, session) {
         )
       }
       
-      req(input$study, input$format)
-      
-      yaml_file_path <- paste0(
-        "data_specifications/",
-        selected_configuration_name(),
-        "_",
-        input$study,
-        "_",
-        input$format,
-        ".yaml"
-      )
-      
-      if (!file.exists(yaml_file_path)) {
-        stop(
-          "The corresponding YAML specification file does not exist."
-        )
-      }
-      
-      fields <- yaml::yaml.load_file(
-        yaml_file_path
-      )
+      fields <- selected_specification()
       
       validated <- validate_dataset(
         fields,
@@ -3679,8 +3284,20 @@ output$downloadCSV_confirmed <- downloadHandler(
       )
     }
     
-    study <- input$study
-    study_format <- input$format
+    if (identical(input$specification_source, "local")) {
+      
+      study <- tools::file_path_sans_ext(
+        input$local_specification$name
+      )
+      
+      study_format <- "local"
+      
+    } else {
+      
+      study <- input$study
+      study_format <- input$format
+      
+    }
     
     # Remove characters that could cause problems in a filename
     
@@ -3822,34 +3439,19 @@ observeEvent(input$file, {
   
   # Check whether edited dataset is valid
   
-  dataset_is_valid <- reactive({
-    
-    req(edited_data())
-    req(input$study, input$format)
-    
-    yaml_file_path <- paste0(
-      "data_specifications/",
-      selected_configuration_name(),
-      "_",
-      input$study,
-      "_",
-      input$format,
-      ".yaml"
-    )
-    
-    req(file.exists(yaml_file_path))
-    
-    fields <- yaml::yaml.load_file(
-      yaml_file_path
-    )
-    
-    validated <- validate_dataset(
-      fields,
-      edited_data()
-    )
-    
-    validated[[1]]
-  })
+dataset_is_valid <- reactive({
+  
+  req(edited_data())
+  
+  fields <- selected_specification()
+  
+  validated <- validate_dataset(
+    fields,
+    edited_data()
+  )
+  
+  validated[[1]]
+})
   
   # Show CSV download only when dataset is valid
   
@@ -3888,21 +3490,8 @@ observeEvent(input$file, {
   output$validation_preview <- DT::renderDT({
     
     req(input$file)
-    req(input$study, input$format)
     
-    yaml_file_path <- paste0(
-      "data_specifications/",
-      selected_configuration_name(),
-      "_",
-      input$study,
-      "_",
-      input$format,
-      ".yaml"
-    )
-    
-    req(file.exists(yaml_file_path))
-    
-    fields <- yaml::yaml.load_file(yaml_file_path)
+    fields <- selected_specification()
     
     df <- edited_data()
     

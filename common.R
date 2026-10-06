@@ -1572,6 +1572,23 @@ generate_sample_dataset <- function(fields, n = 10) {
                 next_position <- closing_brace + 1
               }
               
+              # One or more: +
+              else if (
+                next_position <= pattern_length &&
+                substr(
+                  pattern_body,
+                  next_position,
+                  next_position
+                ) == "+"
+              ) {
+                
+                character_count <- sample(
+                  1:8,
+                  size = 1
+                )
+                
+                next_position <- next_position + 1
+              }
               
               # Generate characters
               

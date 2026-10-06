@@ -252,30 +252,6 @@ ui <- fluidPage(
         padding-right: 15px;
       }
       
-      
-      /* Configuration logo preview */
-      
-      .configuration-logo-preview {
-        min-height: 120px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px;
-        margin-top: 5px;
-        border: 1px solid #DDDDDD;
-        border-radius: 8px;
-        background-color: #FAFAFA;
-      }
-      
-      .configuration-logo-preview img {
-        max-width: 100%;
-        max-height: 120px;
-        width: auto;
-        height: auto;
-        object-fit: contain;
-      }
-      
-      
       /* Sidebar */
       
       .well {
@@ -943,22 +919,97 @@ ui <- fluidPage(
       width = 3,
       
       
-      ## Configuration selection
+      ## Configuration source
       
-      selectInput(
-        "configuration",
-        h4("Configuration"),
-        choices = configuration_choices,
-        selected = "config_Default.yaml"
+      radioButtons(
+        "configuration_source",
+        h4("Configuration source"),
+        choices = c(
+          "ShinyValidator configuration" = "bundled",
+          "Local YAML configuration" = "local"
+        ),
+        selected = "bundled"
       ),
       
       
-      ## Study and format selection
+      ## Bundled configuration selection
       
-      uiOutput("study_selection"),
+      conditionalPanel(
+        condition = "input.configuration_source == 'bundled'",
+        
+        selectInput(
+          "configuration",
+          "Configuration",
+          choices = configuration_choices,
+          selected = "config_Default.yaml"
+        )
+      ),
       
-      uiOutput("study_format"),
       
+      ## Local YAML configuration
+      
+      conditionalPanel(
+        condition = "input.configuration_source == 'local'",
+        
+        fileInput(
+          "local_configuration",
+          "Choose YAML Configuration",
+          multiple = FALSE,
+          accept = c(
+            ".yaml",
+            ".yml",
+            "text/yaml",
+            "application/x-yaml"
+          )
+        ),
+        
+        uiOutput("local_configuration_status")
+      ),
+      
+      
+      ## Specification source
+      
+      radioButtons(
+        "specification_source",
+        h4("Specification source"),
+        choices = c(
+          "ShinyValidator specification" = "bundled",
+          "Local YAML specification" = "local"
+        ),
+        selected = "bundled"
+      ),
+      
+      
+      ## Bundled specification selection
+      
+      conditionalPanel(
+        condition = "input.specification_source == 'bundled'",
+        
+        uiOutput("study_selection"),
+        
+        uiOutput("study_format")
+      ),
+      
+      
+      ## Local YAML specification
+      
+      conditionalPanel(
+        condition = "input.specification_source == 'local'",
+        
+        fileInput(
+          "local_specification",
+          "Choose YAML Specification",
+          multiple = FALSE,
+          accept = c(
+            ".yaml",
+            ".yml",
+            "text/yaml",
+            "application/x-yaml"
+          )
+        ),
+        
+        uiOutput("local_specification_status")
+      ),
       
       ## Dataset upload
       
@@ -1113,6 +1164,16 @@ ui <- fluidPage(
           class = "content-card",
           
           h3("Specification Details"),
+          
+          br(),
+          
+          downloadButton(
+            "downloadCodebook",
+            "Download Codebook"
+          ),
+          
+          br(),
+          br(),
           
           uiOutput("specification_message"),
           
