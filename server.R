@@ -3632,4 +3632,481 @@ dataset_is_valid <- reactive({
     )
     
   })
+  # Validation errors
+  
+  output$errors_by_column <- renderUI({
+    
+    req(input$file)
+    
+    fields <- selected_specification()
+    
+    df <- edited_data()
+    
+    req(df)
+    
+    validated <- validate_dataset(fields, df)
+    valid <- validated[[1]]
+    issues <- validated[[2]]
+    
+    
+    # Error summary
+    
+    if (identical(input$error_view, "summary")) {
+      
+      if (valid || length(issues) == 0) {
+        
+        return(
+          tags$div(
+            class = "validation-summary validation-summary-success",
+            
+            tags$div(
+              class = "validation-summary-title",
+              "Error Summary"
+            ),
+            
+            tags$div(
+              class = "validation-summary-count",
+              "✓ No issues found"
+            ),
+            
+            tags$div(
+              class = "validation-summary-details",
+              paste0(
+                "All ",
+                nrow(df),
+                " rows passed the selected specification."
+              )
+            )
+          )
+        )
+      }
+      
+      
+      # Count issue types
+      
+      missing_columns <- sum(
+        vapply(
+          issues,
+          function(issue) {
+            !is.null(issue) &&
+              issue$type == "missing_column"
+          },
+          logical(1)
+        )
+      )
+      
+      unexpected_columns <- sum(
+        vapply(
+          issues,
+          function(issue) {
+            !is.null(issue) &&
+              issue$type == "unexpected_column"
+          },
+          logical(1)
+        )
+      )
+      
+      invalid_cell_issues <- Filter(
+        function(issue) {
+          !is.null(issue) &&
+            issue$type == "invalid_cell"
+        },
+        issues
+      )
+      
+      
+      # Count invalid cells
+      
+      invalid_cells <- sum(
+        vapply(
+          invalid_cell_issues,
+          function(issue) {
+            length(issue$invalid_row)
+          },
+          integer(1)
+        )
+      )
+      
+      
+      # Count affected rows
+      
+      affected_rows <- unique(
+        unlist(
+          lapply(
+            invalid_cell_issues,
+            function(issue) {
+              issue$invalid_row
+            }
+          )
+        )
+      )
+      
+      affected_rows <- length(affected_rows)
+      
+      
+      # Count affected columns
+      
+      affected_columns <- unique(
+        vapply(
+          issues,
+          function(issue) {
+            if (is.null(issue)) {
+              NA_character_
+            } else {
+              issue$column
+            }
+          },
+          character(1)
+        )
+      )
+      
+      affected_columns <- sum(
+        !is.na(affected_columns)
+      )
+      
+      
+      # Total number of issues
+      
+      total_issues <- missing_columns +
+        unexpected_columns +
+        invalid_cells
+      
+      
+      return(
+        tags$div(
+          class = "validation-summary",
+          
+          tags$div(
+            class = "validation-summary-title",
+            "Error Summary"
+          ),
+          
+          tags$div(
+            class = "validation-summary-count",
+            paste0(
+              total_issues,
+              if (total_issues == 1) {
+                " issue found"
+              } else {
+                " issues found"
+              }
+            )
+          ),
+          
+          tags$div(
+            class = "validation-summary-details",
+            
+            tags$div(
+              tags$strong("Rows affected: "),
+              affected_rows
+            ),
+            
+            tags$div(
+              tags$strong("Columns affected: "),
+              affected_columns
+            ),
+            
+            tags$div(
+              tags$strong("Invalid cells: "),
+              invalid_cells
+            ),
+            
+            if (missing_columns > 0) {
+              tags$div(
+                tags$strong("Missing columns: "),
+                missing_columns
+              )
+            },
+            
+            if (unexpected_columns > 0) {
+              tags$div(
+                tags$strong("Unexpected columns: "),
+                unexpected_columns
+              )
+            }
+          )
+        )
+      )
+    }
+    
+    
+    # Create three-column error table
+    
+    error_table <- function(rows) {
+      
+      tags$div(
+        class = "validation-errors-table",
+        
+        tags$div(
+          class = "validation-errors-header",
+          
+          tags$div("Where"),
+          tags$div("Error"),
+          tags$div("Explanation")
+        ),
+        
+        rows
+      )
+    }
+    
+    
+    error_row <- function(location, error, explanation) {
+      
+      tags$div(
+        class = "validation-error-row",
+        
+        tags$div(
+          class = "validation-error-location-cell",
+          location
+        ),
+        
+        tags$div(
+          class = "validation-error-cell",
+          error
+        ),
+        
+        tags$div(
+          class = "validation-explanation-cell",
+          explanation
+        )
+      )
+    }
+    
+    
+    # Errors by row
+    
+    if (identical(input$error_view, "row")) {
+      
+      error_rows <- list()
+      
+      
+      # Missing and unexpected columns
+      
+      for (issue in issues) {
+        
+        if (is.null(issue)) {
+          next
+        }
+        
+        if (issue$type == "missing_column") {
+          
+          error_rows[[length(error_rows) + 1]] <- error_row(
+            
+            location = "Dataset",
+            
+            error = paste0(
+              "Missing required column: '",
+              issue$column,
+              "'."
+            ),
+            
+            explanation = explain_error(
+              issue,
+              fields
+            )
+          )
+        }
+        
+        if (issue$type == "unexpected_column") {
+          
+          error_rows[[length(error_rows) + 1]] <- error_row(
+            
+            location = "Dataset",
+            
+            error = paste0(
+              "Unexpected column: '",
+              issue$column,
+              "'."
+            ),
+            
+            explanation = "This column does not exist in the selected specification."
+          )
+        }
+      }
+      
+      
+      # Collect cell errors
+      
+      cell_errors <- list()
+      
+      for (issue in issues) {
+        
+        if (
+          is.null(issue) ||
+          issue$type != "invalid_cell" ||
+          length(issue$invalid_row) == 0
+        ) {
+          next
+        }
+        
+        for (i in seq_along(issue$invalid_row)) {
+          
+          row <- issue$invalid_row[i]
+          value <- issue$invalid_value[i]
+          
+          explanation <- explain_error(
+            list(
+              type = issue$type,
+              column = issue$column,
+              invalid_value = value,
+              invalid_row = row
+            ),
+            fields
+          )
+          
+          cell_errors[[length(cell_errors) + 1]] <- list(
+            row = row,
+            column = issue$column,
+            value = value,
+            explanation = explanation
+          )
+        }
+      }
+      
+      
+      # Sort cell errors by row
+      
+      if (length(cell_errors) > 0) {
+        
+        rows <- sort(
+          unique(
+            vapply(
+              cell_errors,
+              function(x) x$row,
+              numeric(1)
+            )
+          )
+        )
+        
+        for (row in rows) {
+          
+          this_row <- Filter(
+            function(x) x$row == row,
+            cell_errors
+          )
+          
+          for (error in this_row) {
+            
+            error_rows[[length(error_rows) + 1]] <- error_row(
+              
+              location = paste0(
+                "Row ",
+                row
+              ),
+              
+              error = paste0(
+                error$column,
+                " = '",
+                as.character(error$value),
+                "'"
+              ),
+              
+              explanation = error$explanation
+            )
+          }
+        }
+      }
+      
+      return(
+        tagList(
+          h4("Errors by row"),
+          error_table(error_rows)
+        )
+      )
+    }
+    
+    
+    # Errors by column
+    
+    error_rows <- lapply(
+      issues,
+      function(issue) {
+        
+        if (is.null(issue)) {
+          return(NULL)
+        }
+        
+        if (issue$type == "missing_column") {
+          
+          return(
+            error_row(
+              
+              location = "Dataset",
+              
+              error = paste0(
+                "Missing required column: '",
+                issue$column,
+                "'."
+              ),
+              
+              explanation = explain_error(
+                issue,
+                fields
+              )
+            )
+          )
+        }
+        
+        
+        # Unexpected columns
+        
+        if (issue$type == "unexpected_column") {
+          
+          return(
+            error_row(
+              
+              location = "Dataset",
+              
+              error = paste0(
+                "Unexpected column: '",
+                issue$column,
+                "'."
+              ),
+              
+              explanation = "This column does not exist in the selected specification."
+            )
+          )
+        }
+        
+        
+        # Invalid cells
+        
+        rows <- sort(
+          unique(issue$invalid_row)
+        )
+        
+        row_text <- paste(
+          rows,
+          collapse = ", "
+        )
+        
+        error_row(
+          
+          location = paste0(
+            "Column ",
+            issue$column
+          ),
+          
+          error = paste0(
+            "Contains invalid cells in rows: ",
+            row_text,
+            "."
+          ),
+          
+          explanation = explain_error(
+            issue,
+            fields
+          )
+        )
+      }
+    )
+    
+    
+    tagList(
+      h4("Errors by column"),
+      error_table(error_rows)
+    )
+  })
+  
+  
 }
