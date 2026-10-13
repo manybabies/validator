@@ -1,21 +1,21 @@
 library(shiny)
-library(shinythemes)
 library(DT)
-library(yaml)
-
-
-# Packages and shared functions ----------------------------------------------------------
-
-source("common.R")
 
 
 # Configuration setup --------------------------------------------------------------------
 
-## Load default configuration
+## The app cannot start without its default configuration, so fail with a clear message
 
-config <- yaml::read_yaml(
-  "configuration/config_Default.yaml"
-)
+default_configuration_file <- "configuration/config_Default.yaml"
+
+if (!file.exists(default_configuration_file)) {
+  stop(
+    "Default configuration not found: ",
+    default_configuration_file,
+    ". Check that the 'configuration' folder is in the app directory.",
+    call. = FALSE
+  )
+}
 
 
 ## Find available configurations
@@ -28,6 +28,7 @@ configuration_files <- list.files(
 
 
 ## Create configuration display names
+## (config_Default.yaml is displayed as "Default")
 
 configuration_choices <- setNames(
   configuration_files,
@@ -39,18 +40,12 @@ configuration_choices <- setNames(
 )
 
 
-## Make the default configuration display as "Default"
-
-if ("config_Default.yaml" %in% names(configuration_choices)) {
-  configuration_choices["config_Default.yaml"] <- "Default"
-}
-
-
-# UI styling -----------------------------------------------------------------------------
-
-theme <- shinythemes::shinytheme("spacelab")
+# UI -------------------------------------------------------------------------------------
 
 ui <- fluidPage(
+  
+  title = "ShinyValidator",
+  lang = "en",
   
   tags$head(
     
@@ -74,8 +69,10 @@ ui <- fluidPage(
     
     tags$style(HTML("
       
-      /* Blue theme */
+      /* Blue theme (also the default, so the page is styled before the
+         server sends a theme) */
       
+      :root,
       body.theme-blue {
         --theme-accent: #0072B2;
         --theme-accent-light: #E6F2F8;
@@ -104,7 +101,6 @@ ui <- fluidPage(
         --theme-accent: #007C83;
         --theme-accent-light: #E4F3F3;
         --theme-accent-dark: #00565B;
-        --theme-theme-accent-dark: #00565B;
         --theme-banner-start: #D7EEEE;
         --theme-banner-end: #E4F3F3;
         --theme-border: #C5DEDF;
@@ -312,7 +308,7 @@ ui <- fluidPage(
       .form-control:focus,
       .selectize-input.focus {
         border-color: var(--theme-accent);
-        box-shadow: 0 0 0 3px rgba(0, 114, 178, 0.14);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-accent) 25%, transparent);
       }
       
       .selectize-dropdown {
@@ -346,31 +342,23 @@ ui <- fluidPage(
       }
       
       
-      /* Download buttons */
+      /* Download buttons
+         a.shiny-download-link matches every downloadButton() in the app
+         (Excel, sample dataset, codebook, setup, configuration, validated CSV),
+         so new download buttons are themed automatically. #downloadCSV is the
+         actionButton that opens the Lab ID dialog. */
       
-      #downloadHighlighted,
-      #downloadHighlighted:hover,
-      #downloadHighlighted:focus,
-      #downloadHighlighted:active,
-      #downloadHighlighted:visited,
+      a.shiny-download-link,
+      a.shiny-download-link:hover,
+      a.shiny-download-link:focus,
+      a.shiny-download-link:active,
+      a.shiny-download-link:visited,
       
-      #downloadSpecification,
-      #downloadSpecification:hover,
-      #downloadSpecification:focus,
-      #downloadSpecification:active,
-      #downloadSpecification:visited,
-      
-      #downloadConfiguration,
-      #downloadConfiguration:hover,
-      #downloadConfiguration:focus,
-      #downloadConfiguration:active,
-      #downloadConfiguration:visited,
-      
-      #downloadSampleDataset,
-      #downloadSampleDataset:hover,
-      #downloadSampleDataset:focus,
-      #downloadSampleDataset:active,
-      #downloadSampleDataset:visited {
+      #downloadCSV,
+      #downloadCSV:hover,
+      #downloadCSV:focus,
+      #downloadCSV:active,
+      #downloadCSV:visited {
         background-color: var(--theme-accent) !important;
         background-image: none !important;
         border-color: var(--theme-accent) !important;
@@ -379,17 +367,11 @@ ui <- fluidPage(
         box-shadow: none !important;
       }
       
-      #downloadHighlighted:hover,
-      #downloadHighlighted:focus,
+      a.shiny-download-link:hover,
+      a.shiny-download-link:focus,
       
-      #downloadSpecification:hover,
-      #downloadSpecification:focus,
-      
-      #downloadConfiguration:hover,
-      #downloadConfiguration:focus,
-      
-      #downloadSampleDataset:hover,
-      #downloadSampleDataset:focus {
+      #downloadCSV:hover,
+      #downloadCSV:focus {
         background-color: var(--theme-accent-dark) !important;
         border-color: var(--theme-accent-dark) !important;
         color: #FFFFFF !important;
@@ -400,17 +382,11 @@ ui <- fluidPage(
       
       /* Download button text */
       
-      #downloadSpecification span,
-      #downloadSpecification i,
+      a.shiny-download-link span,
+      a.shiny-download-link i,
       
-      #downloadConfiguration span,
-      #downloadConfiguration i,
-      
-      #downloadHighlighted span,
-      #downloadHighlighted i,
-      
-      #downloadSampleDataset span,
-      #downloadSampleDataset i {
+      #downloadCSV span,
+      #downloadCSV i {
         color: #FFFFFF !important;
       }
       
@@ -463,6 +439,13 @@ ui <- fluidPage(
         background-color: var(--theme-accent-light);
         color: var(--theme-accent);
         box-shadow: inset 4px 0 0 var(--theme-accent);
+      }
+      
+      /* Visible keyboard focus (the radio input itself is hidden) */
+      
+      .navigation-menu .radio:has(input[type='radio']:focus-visible) label {
+        outline: 2px solid var(--theme-accent);
+        outline-offset: 2px;
       }
       
       
@@ -569,10 +552,11 @@ ui <- fluidPage(
         font-weight: 600;
       }
       
-      /* Error colour is independent of the theme */
+      /* Error colour is independent of the theme
+         (#B34700 meets WCAG AA contrast on white; the previous #D55E00 did not) */
       
       .validation-error-cell {
-        color: #D55E00;
+        color: #B34700;
       }
       
       .validation-explanation-cell {
@@ -849,7 +833,7 @@ ui <- fluidPage(
       
       .text-size-button:focus {
         outline: none;
-        box-shadow: 0 0 0 3px rgba(0, 114, 178, 0.14);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-accent) 25%, transparent);
       }
       
       
@@ -903,6 +887,7 @@ ui <- fluidPage(
       
       tags$img(
         src = "logos/CONNECT.png",
+        alt = "CONNECT logo",
         class = "validator-developer-logo-image"
       )
     )
@@ -1039,6 +1024,8 @@ ui <- fluidPage(
           id = "text_size_xsmall",
           class = "text-size-button",
           type = "button",
+          `aria-label` = "Smallest text",
+          title = "Smallest text",
           "A−−"
         ),
         
@@ -1046,6 +1033,8 @@ ui <- fluidPage(
           id = "text_size_small",
           class = "text-size-button",
           type = "button",
+          `aria-label` = "Small text",
+          title = "Small text",
           "A−"
         ),
         
@@ -1053,6 +1042,8 @@ ui <- fluidPage(
           id = "text_size_default",
           class = "text-size-button",
           type = "button",
+          `aria-label` = "Default text size",
+          title = "Default text size",
           "A"
         ),
         
@@ -1060,6 +1051,8 @@ ui <- fluidPage(
           id = "text_size_large",
           class = "text-size-button",
           type = "button",
+          `aria-label` = "Large text",
+          title = "Large text",
           "A+"
         ),
         
@@ -1067,6 +1060,8 @@ ui <- fluidPage(
           id = "text_size_xlarge",
           class = "text-size-button",
           type = "button",
+          `aria-label` = "Largest text",
+          title = "Largest text",
           "A++"
         )
       ),
@@ -1087,7 +1082,8 @@ ui <- fluidPage(
             "Validation Results" = "validation_results",
             "Specification Details" = "specification",
             "Specification Creation" = "specification_creation",
-            "Configuration Creation" = "configuration_creation"
+            "Configuration Creation" = "configuration_creation",
+            "Verify Certified File" = "verify_certified"
           ),
           selected = "validation_results"
         )
@@ -1151,6 +1147,8 @@ ui <- fluidPage(
           uiOutput("errors_by_column")
         ),
         
+        uiOutput("suggested_fixes_panel"),
+        
         DTOutput("validation_preview")
       ),
       
@@ -1205,7 +1203,8 @@ ui <- fluidPage(
             "numVars",
             "Option 1: Start by entering Number of Variables:",
             value = 0,
-            min = 0
+            min = 0,
+            max = 200
           ),
           
           fileInput(
@@ -1247,6 +1246,36 @@ ui <- fluidPage(
           
           uiOutput("configuration_creation_content")
         )
+      ),
+      
+      
+      ## Verify Certified File
+      
+      conditionalPanel(
+        condition = "input.page == 'verify_certified'",
+        
+        div(
+          class = "content-card",
+          
+          h3("Verify a Certified CSV"),
+          
+          p(
+            "Upload a CSV that was downloaded from this app with the ",
+            "\"Download Validated CSV File\" button. The app checks the code in ",
+            "the file name against this server's secret key and tells you whether ",
+            "the file is exactly the one that passed validation."
+          ),
+          
+          fileInput(
+            "verify_file",
+            "Certified CSV file",
+            accept = c(".csv", "text/csv")
+          ),
+          
+          uiOutput("verify_fields"),
+          
+          uiOutput("verify_result")
+        )
       )
     )
   ),
@@ -1254,15 +1283,20 @@ ui <- fluidPage(
   
   # JavaScript ----------------------------------------------------------------------------
   
+  ## Live headings while editing (variable tabs and instruction sets)
+  
   tags$script(HTML("
     
     document.addEventListener('input', function(event) {
       
+      var id = event.target.id || '';
+      
+      
       // Variable tab names
       
-      if (event.target.id.startsWith('field_name_')) {
+      if (id.startsWith('field_name_')) {
         
-        var number = event.target.id.replace('field_name_', '');
+        var number = id.replace('field_name_', '');
         var label = document.getElementById('tab_label_' + number);
         
         if (label) {
@@ -1276,44 +1310,27 @@ ui <- fluidPage(
       }
       
       
-      // Instruction Set 1 heading
+      // Instruction set headings
       
-      if (event.target.id === 'config_instruction_set_1_name') {
+      var headings = {
+        'config_instruction_set_1_name': ['instruction_set_1_creation_heading', 'Instruction Set 1'],
+        'config_instruction_set_2_name': ['instruction_set_2_creation_heading', 'Instruction Set 2']
+      };
+      
+      if (headings.hasOwnProperty(id)) {
         
-        var heading = document.getElementById(
-          'instruction_set_1_creation_heading'
-        );
-        
-        if (heading) {
-          
-          if (event.target.value.trim() === '') {
-            heading.textContent = 'Instruction Set 1';
-          } else {
-            heading.textContent = event.target.value;
-          }
-        }
-      }
-      
-      
-      // Instruction Set 2 heading
-      
-      if (event.target.id === 'config_instruction_set_2_name') {
-        
-        var heading = document.getElementById(
-          'instruction_set_2_creation_heading'
-        );
+        var heading = document.getElementById(headings[id][0]);
         
         if (heading) {
           
           if (event.target.value.trim() === '') {
-            heading.textContent = 'Instruction Set 2';
+            heading.textContent = headings[id][1];
           } else {
             heading.textContent = event.target.value;
           }
         }
       }
     });
-    
     
   ")),
   
@@ -1322,77 +1339,57 @@ ui <- fluidPage(
   
   tags$script(HTML("
     
-    document.addEventListener('DOMContentLoaded', function() {
-      document.body.classList.add('text-size-default');
-    });
-    
-    
-    document.addEventListener('click', function(event) {
+    (function() {
       
-      if (event.target.id === 'text_size_xsmall') {
+      var sizes = ['xsmall', 'small', 'default', 'large', 'xlarge'];
+      
+      function applySize(size) {
         
-        document.body.classList.remove(
-          'text-size-small',
-          'text-size-default',
-          'text-size-large',
-          'text-size-xlarge'
-        );
+        sizes.forEach(function(s) {
+          document.body.classList.remove('text-size-' + s);
+        });
         
-        document.body.classList.add('text-size-xsmall');
+        document.body.classList.add('text-size-' + size);
+        
+        try {
+          localStorage.setItem('validatorTextSize', size);
+        } catch (e) {}
       }
       
       
-      if (event.target.id === 'text_size_small') {
+      // Restore the previously chosen size (or use the default)
+      
+      document.addEventListener('DOMContentLoaded', function() {
         
-        document.body.classList.remove(
-          'text-size-xsmall',
-          'text-size-default',
-          'text-size-large',
-          'text-size-xlarge'
-        );
+        var saved = 'default';
         
-        document.body.classList.add('text-size-small');
-      }
+        try {
+          var stored = localStorage.getItem('validatorTextSize');
+          if (sizes.indexOf(stored) !== -1) {
+            saved = stored;
+          }
+        } catch (e) {}
+        
+        applySize(saved);
+      });
       
       
-      if (event.target.id === 'text_size_default') {
+      document.addEventListener('click', function(event) {
         
-        document.body.classList.remove(
-          'text-size-xsmall',
-          'text-size-small',
-          'text-size-large',
-          'text-size-xlarge'
-        );
+        var button = event.target.closest('.text-size-button');
         
-        document.body.classList.add('text-size-default');
-      }
+        if (!button) {
+          return;
+        }
+        
+        var size = button.id.replace('text_size_', '');
+        
+        if (sizes.indexOf(size) !== -1) {
+          applySize(size);
+        }
+      });
       
-      
-      if (event.target.id === 'text_size_large') {
-        
-        document.body.classList.remove(
-          'text-size-xsmall',
-          'text-size-small',
-          'text-size-default',
-          'text-size-xlarge'
-        );
-        
-        document.body.classList.add('text-size-large');
-      }
-      
-      
-      if (event.target.id === 'text_size_xlarge') {
-        
-        document.body.classList.remove(
-          'text-size-xsmall',
-          'text-size-small',
-          'text-size-default',
-          'text-size-large'
-        );
-        
-        document.body.classList.add('text-size-xlarge');
-      }
-    });
+    })();
     
   "))
 )
