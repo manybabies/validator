@@ -4,7 +4,7 @@
 
 git fetch upstream
 
-git checkout upstream/main -- app.R ui.R server.R common.R ErrorHandler.R
+git checkout upstream/main -- app.R ui.R app_server.R common.R ErrorHandler.R
 
 echo "ShinyValidator core files updated."
 echo "Review the changes with: git diff"
