@@ -546,3 +546,6 @@ MB contacts
 - Heidi Baumgartner(heidib@manybabies.org)
 
 We thank Mika Braginky, Jonathan Kominsky, Christopher Green, and Abteen Arab for their work on developing the previous versions of this validator.
+
+## 7. Citation
+Yuen, F., Arab, A., Braginsky, M., Kline Struhl, M., Kosie, J., Zettersten, M., Soderstrom, M., Hamlin, J. K., & Frank, M. C. (2026). ShinyValidator (Version v2.1.1) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.23350856
