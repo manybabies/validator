@@ -1,0 +1,49 @@
+lab_id,participant_id,familiarization_condition,familiar_stimulus_filename,novel_stimulus_filename,trial_num,familiarization_type,familiarization_stimulus_screen_time,familiarization_stimulus_looking_time,test_1_novel_stimulus_side,test_1_looking_time_novel,test_1_looking_time_familiar,test_1_trial_time,test_2_novel_stimulus_side,test_2_looking_time_novel,test_2_looking_time_familiar,test_2_trial_time,trial_error,trial_error_info,notes
+babylabPrinceton,MB5_001,10,Pyramid_Simple.png,Bowtie_Simple.png,1,infant-controlled,13284,10047,right,3160,1821,5033,left,1734,661,5015,no_error,NA,NA
+babylabPrinceton,MB5_001,5,Bowl_Complex.png,Gumdrop_Complex.png,2,infant-controlled,7349,5030,left,1745,1487,5024,right,2427,1089,5000,no_error,NA,NA
+babylabPrinceton,MB5_001,15,SimsDiamond_Complex.png,Cylinder_Complex.png,3,infant-controlled,18539,15049,right,2517,1468,5010,left,2268,1489,5039,no_error,NA,NA
+babylabPrinceton,MB5_001,15,Pacman_Simple.png,Arrow_Simple.png,4,infant-controlled,17015,15000,left,2850,1610,5013,right,2005,3004,5010,no_error,NA,NA
+babylabPrinceton,MB5_001,10,Tripod_Complex.png,Diamond_Complex.png,5,infant-controlled,15468,10043,left,2514,2498,5013,right,3622,1389,5012,no_error,NA,NA
+babylabPrinceton,MB5_001,5,Crinkle_Simple.png,Pumpkin_Simple.png,6,infant-controlled,8721,5023,right,2931,1515,5010,left,2241,2473,5021,no_error,NA,NA
+babylabPrinceton,MB5_001,15,Frac3A_Complex.png,Frac3B_Complex.png,7,infant-controlled,18111,15043,right,2092,2730,5004,left,2373,1338,5030,no_error,NA,NA
+babylabPrinceton,MB5_001,5,Frac1A_Simple.png,Frac1B_Simple.png,8,infant-controlled,5777,5011,left,2627,1679,5016,right,2564,1605,5022,no_error,NA,NA
+babylabPrinceton,MB5_001,10,Frac2A_Simple.png,Frac2B_Simple.png,9,infant-controlled,13406,10023,left,2857,1146,5037,right,1437,654,5011,no_error,NA,NA
+babylabPrinceton,MB5_001,5,Frac6A_Complex.png,Frac6B_Complex.png,10,infant-controlled,9101,5015,right,1236,1600,5022,left,2545,1416,5016,no_error,NA,NA
+babylabPrinceton,MB5_001,15,Frac5A_Simple.png,Frac5B_Simple.png,11,infant-controlled,17746,15023,right,984,2379,5002,left,2055,2393,5013,no_error,NA,NA
+babylabPrinceton,MB5_001,10,Frac4A_Complex.png,Frac4B_Complex.png,12,infant-controlled,20000,6359,left,3007,2026,5034,right,2606,1917,5019,no_error,NA,NA
+babylabPrinceton,MB5_002,10,Bowtie_Simple.png,Pyramid_Simple.png,1,fixed-length,10000,6095,right,2856,1692,5019,left,3027,1975,5003,no_error,NA,NA
+babylabPrinceton,MB5_002,5,Gumdrop_Complex.png,Bowl_Complex.png,2,fixed-length,5000,4597,left,2531,2470,5002,right,1896,1872,5016,no_error,NA,NA
+babylabPrinceton,MB5_002,15,Cylinder_Complex.png,SimsDiamond_Complex.png,3,fixed-length,15000,8584,right,3185,1842,5040,left,2844,2168,5013,no_error,NA,NA
+babylabPrinceton,MB5_002,15,Arrow_Simple.png,Pacman_Simple.png,4,fixed-length,15000,13948,left,2993,1324,5040,right,2187,1836,5010,error,parent_interference,Parent pointed at the screen during the first test period
+babylabPrinceton,MB5_002,10,Diamond_Complex.png,Tripod_Complex.png,5,fixed-length,10000,8878,left,2757,2260,5018,right,3481,387,5039,no_error,NA,NA
+babylabPrinceton,MB5_002,5,Pumpkin_Simple.png,Crinkle_Simple.png,6,fixed-length,5000,3657,right,2303,1213,5031,left,2344,2290,5017,no_error,NA,NA
+babylabPrinceton,MB5_002,15,Frac3B_Complex.png,Frac3A_Complex.png,7,fixed-length,15000,9129,right,2823,1035,5024,left,2007,1194,5011,no_error,NA,NA
+babylabPrinceton,MB5_002,5,Frac1B_Simple.png,Frac1A_Simple.png,8,fixed-length,5000,3426,left,1778,1736,5005,right,2882,1279,5035,no_error,NA,NA
+babylabPrinceton,MB5_002,10,Frac2B_Simple.png,Frac2A_Simple.png,9,fixed-length,10000,8644,left,2197,866,5022,right,1887,2408,5019,no_error,NA,NA
+babylabPrinceton,MB5_002,5,Frac6B_Complex.png,Frac6A_Complex.png,10,fixed-length,5000,3311,right,2058,2972,5031,left,3027,1553,5018,no_error,NA,NA
+babylabPrinceton,MB5_002,15,Frac5B_Simple.png,Frac5A_Simple.png,11,fixed-length,15000,9321,right,1479,1866,5000,left,2183,1110,5020,no_error,NA,NA
+babylabPrinceton,MB5_002,10,Frac4B_Complex.png,Frac4A_Complex.png,12,fixed-length,10000,8766,left,2002,2404,5022,right,1821,2633,5026,no_error,NA,NA
+babylabPrinceton,MB5_003,10,Frac4A_Complex.png,Frac4B_Complex.png,1,infant-controlled,20000,7753,left,3198,1504,5023,right,2896,1650,5033,no_error,NA,NA
+babylabPrinceton,MB5_003,15,Frac5A_Simple.png,Frac5B_Simple.png,2,infant-controlled,17647,15030,right,2316,746,5005,left,1454,757,5010,no_error,NA,NA
+babylabPrinceton,MB5_003,5,Frac6A_Complex.png,Frac6B_Complex.png,3,infant-controlled,7805,5026,right,1361,1304,5039,left,2473,1560,5017,no_error,NA,NA
+babylabPrinceton,MB5_003,10,Frac2A_Simple.png,Frac2B_Simple.png,4,infant-controlled,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,error,experiment_ended_early,NA
+babylabPrinceton,MB5_003,5,Frac1A_Simple.png,Frac1B_Simple.png,5,infant-controlled,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,error,experiment_ended_early,NA
+babylabPrinceton,MB5_003,15,Frac3A_Complex.png,Frac3B_Complex.png,6,infant-controlled,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,error,experiment_ended_early,NA
+babylabPrinceton,MB5_003,5,Crinkle_Simple.png,Pumpkin_Simple.png,7,infant-controlled,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,error,experiment_ended_early,NA
+babylabPrinceton,MB5_003,10,Tripod_Complex.png,Diamond_Complex.png,8,infant-controlled,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,error,experiment_ended_early,NA
+babylabPrinceton,MB5_003,15,Pacman_Simple.png,Arrow_Simple.png,9,infant-controlled,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,error,experiment_ended_early,NA
+babylabPrinceton,MB5_003,15,SimsDiamond_Complex.png,Cylinder_Complex.png,10,infant-controlled,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,error,experiment_ended_early,NA
+babylabPrinceton,MB5_003,5,Bowl_Complex.png,Gumdrop_Complex.png,11,infant-controlled,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,error,experiment_ended_early,NA
+babylabPrinceton,MB5_003,10,Pyramid_Simple.png,Bowtie_Simple.png,12,infant-controlled,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,error,experiment_ended_early,NA
+babylabPrinceton,MB5_004,10,Frac4B_Complex.png,Frac4A_Complex.png,1,infant-controlled,20000,NA,left,NA,NA,5028,right,NA,NA,5035,error,equipment_error,Eyetracker gaze signal lost from the start of the session
+babylabPrinceton,MB5_004,15,Frac5B_Simple.png,Frac5A_Simple.png,2,infant-controlled,30000,NA,right,NA,NA,5029,left,NA,NA,5028,error,equipment_error,Eyetracker gaze signal lost from the start of the session
+babylabPrinceton,MB5_004,5,Frac6B_Complex.png,Frac6A_Complex.png,3,infant-controlled,10000,NA,right,NA,NA,5032,left,NA,NA,5037,error,equipment_error,Eyetracker gaze signal lost from the start of the session
+babylabPrinceton,MB5_004,10,Frac2B_Simple.png,Frac2A_Simple.png,4,infant-controlled,20000,NA,left,NA,NA,5012,right,NA,NA,5011,error,equipment_error,Eyetracker gaze signal lost from the start of the session
+babylabPrinceton,MB5_004,5,Frac1B_Simple.png,Frac1A_Simple.png,5,infant-controlled,10000,NA,left,NA,NA,5032,right,NA,NA,5030,error,equipment_error,Eyetracker gaze signal lost from the start of the session
+babylabPrinceton,MB5_004,15,Frac3B_Complex.png,Frac3A_Complex.png,6,infant-controlled,30000,NA,right,NA,NA,5040,left,NA,NA,5039,error,equipment_error,Eyetracker gaze signal lost from the start of the session
+babylabPrinceton,MB5_004,5,Pumpkin_Simple.png,Crinkle_Simple.png,7,infant-controlled,10000,NA,right,NA,NA,5011,left,NA,NA,5006,error,equipment_error,Eyetracker gaze signal lost from the start of the session
+babylabPrinceton,MB5_004,10,Diamond_Complex.png,Tripod_Complex.png,8,infant-controlled,20000,NA,left,NA,NA,5028,right,NA,NA,5019,error,equipment_error,Eyetracker gaze signal lost from the start of the session
+babylabPrinceton,MB5_004,15,Arrow_Simple.png,Pacman_Simple.png,9,infant-controlled,30000,NA,left,NA,NA,5009,right,NA,NA,5005,error,equipment_error,Eyetracker gaze signal lost from the start of the session
+babylabPrinceton,MB5_004,15,Cylinder_Complex.png,SimsDiamond_Complex.png,10,infant-controlled,30000,NA,right,NA,NA,5034,left,NA,NA,5040,error,equipment_error,Eyetracker gaze signal lost from the start of the session
+babylabPrinceton,MB5_004,5,Gumdrop_Complex.png,Bowl_Complex.png,11,infant-controlled,10000,NA,left,NA,NA,5002,right,NA,NA,5038,error,equipment_error,Eyetracker gaze signal lost from the start of the session
+babylabPrinceton,MB5_004,10,Bowtie_Simple.png,Pyramid_Simple.png,12,infant-controlled,20000,NA,right,NA,NA,5025,left,NA,NA,5028,error,equipment_error,Eyetracker gaze signal lost from the start of the session

@@ -1,0 +1,158 @@
+---
+
+#----------------
+# Required fields - MB5 basic/central variables. All labs MUST report these variables, although some may have NA values for individual trials.
+#----------------
+
+- field:        lab_id
+  description:  Unique lab identifier (this must match what you chose in the laboratory questionnaire).
+  type:         string
+  format:       alphanumeric, uncapitalized
+  example:      'babylabPrinceton'
+  required:     yes
+  NA_allowed:   no
+
+- field:        participant_id
+  description:  A non-identifying, unique code given to each participant by your lab.
+  type:         string
+  format:       alphanumeric
+  example:      'MB5_001'
+  required:     yes
+  NA_allowed:   no
+
+- field:        familiarization_condition
+  description:  The familiarization condition, in terms of the time allotted for viewing the familiarized stimulus.
+  type:         options
+  options:      [5, 10, 15]
+  required:     yes
+  NA_allowed:   no
+
+- field:        familiar_stimulus_filename
+  description:  The name of the familiarized stimulus image
+  type:         options
+  options:      ['Arrow_Complex.png','Arrow_Simple.png','Bowl_Complex.png','Bowl_Simple.png','Bowtie_Complex.png','Bowtie_Simple.png','Crinkle_Complex.png','Crinkle_Simple.png','Cylinder_Complex.png','Cylinder_Simple.png','Diamond_Complex.png','Diamond_Simple.png','Gumdrop_Complex.png','Gumdrop_Simple.png','Pacman_Complex.png','Pacman_Simple.png','Pumpkin_Complex.png','Pumpkin_Simple.png','Pyramid_Complex.png','Pyramid_Simple.png','SimsDiamond_Complex.png','SimsDiamond_Simple.png','Tripod_Complex.png','Tripod_Simple.png','Frac1A_Complex.png','Frac1B_Complex.png','Frac2A_Complex.png','Frac2B_Complex.png','Frac3A_Complex.png','Frac3B_Complex.png','Frac4A_Complex.png','Frac4B_Complex.png','Frac5A_Complex.png','Frac5B_Complex.png','Frac6A_Complex.png','Frac6B_Complex.png','Frac1A_Simple.png','Frac1B_Simple.png','Frac2A_Simple.png','Frac2B_Simple.png','Frac3A_Simple.png','Frac3B_Simple.png','Frac4A_Simple.png','Frac4B_Simple.png','Frac5A_Simple.png','Frac5B_Simple.png','Frac6A_Simple.png','Frac6B_Simple.png']
+  required:     yes
+  NA_allowed:   no
+
+- field:        novel_stimulus_filename
+  description:  The name of the novel stimulus image
+  type:         options
+  options:      ['Arrow_Complex.png','Arrow_Simple.png','Bowl_Complex.png','Bowl_Simple.png','Bowtie_Complex.png','Bowtie_Simple.png','Crinkle_Complex.png','Crinkle_Simple.png','Cylinder_Complex.png','Cylinder_Simple.png','Diamond_Complex.png','Diamond_Simple.png','Gumdrop_Complex.png','Gumdrop_Simple.png','Pacman_Complex.png','Pacman_Simple.png','Pumpkin_Complex.png','Pumpkin_Simple.png','Pyramid_Complex.png','Pyramid_Simple.png','SimsDiamond_Complex.png','SimsDiamond_Simple.png','Tripod_Complex.png','Tripod_Simple.png','Frac1A_Complex.png','Frac1B_Complex.png','Frac2A_Complex.png','Frac2B_Complex.png','Frac3A_Complex.png','Frac3B_Complex.png','Frac4A_Complex.png','Frac4B_Complex.png','Frac5A_Complex.png','Frac5B_Complex.png','Frac6A_Complex.png','Frac6B_Complex.png','Frac1A_Simple.png','Frac1B_Simple.png','Frac2A_Simple.png','Frac2B_Simple.png','Frac3A_Simple.png','Frac3B_Simple.png','Frac4A_Simple.png','Frac4B_Simple.png','Frac5A_Simple.png','Frac5B_Simple.png','Frac6A_Simple.png','Frac6B_Simple.png']
+  required:     yes
+  NA_allowed:   no
+
+- field:        trial_num
+  description:  Trial number, from 1 to 12
+  type:         numeric
+  format:       integer
+  example:      1
+  required:     yes
+  NA_allowed:   no
+
+- field:        familiarization_type
+  description:  Whether the familiarization time was infant-controlled versus fixed-length.
+  type:         options
+  options:      ['infant-controlled', 'fixed-length']
+  required:     yes
+  NA_allowed:   no
+
+- field:        familiarization_stimulus_screen_time
+  description:  How long the familiar stimulus was presented on the screen, in milliseconds. If a trial was not conducted because the experiment ended early, enter NA (data not collected). For the fixed-length familiarization type, this duration will match the familiarization condition.
+  type:         numeric
+  format:       positive number, milliseconds
+  example:      7438
+  required:     yes
+  NA_allowed:   yes
+
+- field:        familiarization_stimulus_looking_time
+  description:  How long the infant was looking at the stimulus during the familiarization period. This number can vary both in infant-controlled (if the trial times out before the target looking time is reached) and the fixed-length design (depending on infants' looking during the familiarization). The maximum value should be 15000ms (the maximum familiarization time; though there could be a small amount of additional time due to imprecision in presentation timing - report the exact number in this case, as best as possible).
+  type:         numeric
+  format:       positive number, milliseconds (0-15000, may slightly exceed 15000 due to timing imprecision)
+  example:      5000
+  required:     yes
+  NA_allowed:   yes
+
+- field:        test_1_novel_stimulus_side
+  description:  The side of the screen that the novel stimulus appeared on during the first test trial period.
+  type:         options
+  options:      ['left', 'right']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        test_1_looking_time_novel
+  description:  Looking time in milliseconds to the novel stimulus in the first test trial period (first 5000ms) (range 0-5000). If a trial was not conducted because the experiment ended early, enter NA (data not collected).
+  type:         numeric
+  format:       positive number, milliseconds (0-5000)
+  example:      2689
+  required:     yes
+  NA_allowed:   yes
+
+- field:        test_1_looking_time_familiar
+  description:  Looking time in milliseconds to the familiar stimulus in the first test trial period (first 5000ms) (range 0-5000). If a trial was not conducted because the experiment ended early, enter NA (data not collected).
+  type:         numeric
+  format:       positive number, milliseconds (0-5000)
+  example:      1154
+  required:     yes
+  NA_allowed:   yes
+
+- field:        test_1_trial_time
+  description:  Total test time duration in the first test trial period (first 5000ms), in milliseconds. If a trial was not conducted because the experiment ended early, enter NA (data not collected). This number should typically be 5000, but may be a little longer due to timing imprecision, which is why we track this number.
+  type:         numeric
+  format:       positive number, milliseconds
+  example:      5000
+  required:     yes
+  NA_allowed:   yes
+
+- field:        test_2_novel_stimulus_side
+  description:  The side of the screen that the novel stimulus appeared on during the second test trial period.
+  type:         options
+  options:      ['left', 'right']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        test_2_looking_time_novel
+  description:  Looking time in milliseconds to the novel stimulus in the second test trial period (second 5000ms) (range 0-5000). If a trial was not conducted because the experiment ended early, enter NA (data not collected).
+  type:         numeric
+  format:       positive number, milliseconds (0-5000)
+  example:      2689
+  required:     yes
+  NA_allowed:   yes
+
+- field:        test_2_looking_time_familiar
+  description:  Looking time in milliseconds to the familiar stimulus in the second test trial period (second 5000ms). If a trial was not conducted because the experiment ended early, enter NA (data not collected).
+  type:         numeric
+  format:       positive number, milliseconds (0-5000)
+  example:      1154
+  required:     yes
+  NA_allowed:   yes
+
+- field:        test_2_trial_time
+  description:  Total test time duration in the second test trial period (second 5000ms), in milliseconds. If a trial was not conducted because the experiment ended early, enter NA (data not collected). This number should typically be 5000, but may be a little longer due to timing imprecision, which is why we track this number.
+  type:         numeric
+  format:       positive number, milliseconds
+  example:      5000
+  required:     yes
+  NA_allowed:   yes
+
+- field:        trial_error
+  description:  Trials with the value 'error' will be excluded from analysis
+  type:         options
+  options:      ['no_error', 'error']
+  required:     yes
+  NA_allowed:   no
+
+- field:        trial_error_info
+  description:  NA if there is no error on this trial. Suggestions are 'experimenter_error', 'too_fussy', 'parent_interference' or 'experiment_ended_early'. The decision of whether a given trial reaches the level of exclusion for e.g. fussiness is made by the original coder, NOT centrally. Please do not provide overly detailed or ambiguous information here - use a short, standardized description, and provide more detail in the notes column. Any decisions about fussiness must be made while masked to the exact stimulus on the screen.
+  type:         string
+  format:       open ended string
+  example:      'experimenter_error'
+  required:     yes
+  NA_allowed:   yes
+
+- field:        notes
+  description:  Use this field to make any comments about the trial that don't fit into another column. Enter NA if you don't have anything to add. For instance, if a baby's looks were particularly hard to code (but you managed/think the trial should still be included), you could note that here. Please DON'T enter this kind of information in another column, since the computer scripts won't be able to read a value like '15003 but fuzzy/hard to code' as a number.
+  type:         string
+  format:       open ended string
+  example:      'Looks were fuzzy and hard to code'
+  required:     yes
+  NA_allowed:   yes

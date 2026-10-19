@@ -1,0 +1,503 @@
+---
+
+#----------------
+# Required fields - MB5 basic/central/vital variables.
+# All labs MUST report these variables, although some may have NA
+# values for individual participants.
+#----------------
+
+- field:        lab_id
+  description:  Unique lab identifier (must match what you chose in the laboratory questionnaire).
+  type:         string
+  format:       alphanumeric, uncapitalized
+  example:      'babylabPrinceton'
+  required:     yes
+  NA_allowed:   no
+
+- field:        participant_id
+  description:  A non-identifying, unique code given to each participant by your lab.
+  type:         string
+  format:       alphanumeric
+  example:      'MB5_001'
+  required:     yes
+  NA_allowed:   no
+
+- field:        pilot
+  description:  Whether this participant belongs to the pilot data or the final preregistered sample. You do NOT need to report pilot data, but if you do, it should be clearly marked here.
+  type:         options
+  options:      ['pilot_sample', 'final_sample']
+  example:      'pilot_sample'
+  required:     yes
+  NA_allowed:   no
+
+- field:        experiment_program
+  description:  The experiment program used to run the study. MB5 supplies three "standard" programs. If one of these programs was used, please use the values specified here ("coder_psychopy", "tobii_psychopy", "eyelink_builder"); otherwise, if using a program other than the three centralized version, please choose "other".
+  type:         string
+  options:      ['coder_psychopy', 'tobii_psychopy', 'eyelink_builder', 'other']
+  required:     yes
+  NA_allowed:   no
+
+- field:        method
+  description:  Which experimental method was used for this participant. If a different experimental method was used, please use 'other' only with prior approval from the ManyBabies 5 lead team.
+  type:         options
+  options:      ['singlescreen_eyetracker', 'singlescreen_cf', 'other']
+  example:      'singlescreen_eyetracker'
+  required:     yes
+  NA_allowed:   no
+
+- field:        caregiver_masking
+  description:  The method used to minimize caregivers' awareness of the visual stimuli being presented (e.g. caregivers wearing darkened/blacked-out sunglasses or a mask corresponds to the option 'eyemask'). Please use one of the options provided if they match your strategy. If describing an option not listed here, please provide a short descriptive phrase for the masking process.
+  type:         string
+  format:       open ended string, or one of the suggested options below
+  options:      ['eyemask', 'eyes_closed', 'visor', 'none']
+  required:     yes
+  NA_allowed:   no
+
+- field:        participant_age_days
+  description:  The infant's chronological age (since birth) in days, calculated from birth date and date of test. Please use this calculator to compute age in days - https://www.calculator.net/age-calculator.html. Copy and paste errors are common here, so please double check prior to data upload. Note that, for participant privacy reasons, your uploaded data contains only the age in days - not birth dates or testing dates.
+  type:         numeric
+  format:       integer
+  example:      282
+  required:     yes
+  NA_allowed:   no
+
+- field:        trial_order
+  description:  The number of the trial order the infant was tested in. All labs receive their own set of 16 trial orders, each with a distinct number. The number of the trial order uniquely identifies the participant's trial order.
+  type:         numeric
+  format:       integer, 1-16
+  example:      3
+  required:     yes
+  NA_allowed:   no
+
+- field:        session_exclusion
+  description:  Sessions with 'exclude' value will be excluded from the central MB5 analysis. Do not use this field for individual trial level errors. Use this field to report if it is the case that ALL data from this participant should be excluded from analysis. Sessions with the value 'exclude' will be reviewed by the central analysis team to standardize participant-level exclusions across labs.
+  type:         options
+  options:      ['exclude', 'include']
+  required:     yes
+  NA_allowed:   no
+
+- field:        session_exclusion_reason_1
+  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. Otherwise enter the first or primary exclusion criterion.
+  type:         options
+  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        session_exclusion_reason_2
+  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. For session exclusions, enter NA or a second exclusion criterion.
+  type:         options
+  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        session_exclusion_reason_3
+  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. For session exclusions, enter NA or a third exclusion criterion.
+  type:         options
+  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        session_exclusion_reason_4
+  description:  NA unless you are reporting that ALL data from this participant should be excluded from analyses. For session exclusions, enter NA or a fourth exclusion criterion.
+  type:         options
+  options:      ['outside_age_range', 'dev_disorder', 'preterm', 'outside_interference', 'experimenter_error', 'equipment_error', 'fuss_out']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        session_exclusion_info
+  description:  Explanation of what caused the session error (e.g. 'music audible from another room throughout session' or 'child fussed out after entering test room but prior to completing any trials'). Use this field to report a reason that ALL data from this participant should be excluded from analysis. This explanation should cover all of the individual reasons listed in the session_exclusion_reason_X fields. Write NA if no session level error.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        notes
+  description:  Similar to the trial-level notes, use this column to report anything that doesn't fit somewhere else (rather than adding that information in another column.)
+  type:         string
+  format:       open ended string
+  example:      'Technically a second-session baby, but fussed out of the first study almost immediately'
+  required:     yes
+  NA_allowed:   yes
+
+#----------------
+# Additional/secondary EXPERIMENTAL variables. Labs MAY report
+# these variables, but validation will not fail if they are absent.
+#----------------
+
+- field:        first_ra_id
+  description:  A research assistant identifier, non-identifying and unique. If there is more than one RA present, please choose a standard role in your lab sessions (e.g. the person who operates the camera) and report that person's ID. We are collecting information about which RA ran a given participant for possible secondary analysis about variability in RA coding; the goal is not to assess individual performance, but to examine sources of variability. The coding scheme is up to you.
+  type:         string
+  format:       alphanumeric
+  required:     no
+  NA_allowed:   yes
+
+- field:        second_ra_id
+  description:  A second research assistant identifier, non-identifying and unique. Enter NA if only one RA/experimenter/staff member was involved in testing.
+  type:         string
+  format:       alphanumeric
+  required:     no
+  NA_allowed:   yes
+
+- field:        second_session
+  description:  Was this the second session the child participated in during the lab visit?
+  type:         options
+  options:      ['yes', 'no']
+  required:     no
+  NA_allowed:   no
+
+- field:        caregiver_seat
+  description:  Was the baby tested in a baby seat or held by a caregiver?
+  type:         options
+  options:      ['caregiver', 'seat']
+  required:     no
+  NA_allowed:   no
+
+#----------------
+# Family Questionnaire. Note that labs are expected/allowed to modify some of these
+# items to be appropriate for local conditions; cross-lab comparison of responses
+# should be regarded with caution!!
+#----------------
+
+- field:        respondent_relationship
+  description:  The relationship between the person filling out the form and the participant.
+  type:         string
+  format:       open ended string
+  example:      'father'
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_sex
+  description:  List the infant participant's sex as reported by the parent responding to the form. If the parent responds with something other than male or female, enter other, and enter the parents' response in the field participant_sex_other_response
+  type:         options
+  options:      ['female', 'male', 'other']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_sex_other_response
+  description:  If the parent responded "other" to the participant_sex field, whatever the parent entered as a free response. Otherwise, enter NA.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        preterm
+  description:  Whether the participant was born prematurely. Full term is defined as 37 weeks or more of gestation.
+  type:         options
+  options:      ['preterm', 'not_preterm']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        gestation_weeks
+  description:  The gestational age at birth of a preterm participant. Note that this should be converted to gestational weeks, even if you ask parents about 'days or weeks early' - different countries define a full term pregnancy differently! You can use this calculator to compute gestational weeks (enter birth date for current date) - https://reference.medscape.com/calculator/244/gestational-age. This variable can be listed as NA if the participant was born at full term.
+  type:         numeric
+  format:       integer, above 0
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_birth_weight
+  description:  How much the participant weighed at birth, in kg. To convert pounds to kilos, please use the following converter - https://www.unitconverters.net/weight-and-mass/lbs-to-kg.htm
+  type:         numeric
+  format:       positive number, kilograms
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_place_of_birth
+  description:  List the infant's place of birth (city, state, country)
+  type:         string
+  format:       open ended string
+  example:      'Dayton, OH, USA'
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_current_residence
+  description:  List the infant's current residence (city, state, country)
+  type:         string
+  format:       open ended string
+  example:      'Dayton, OH, USA'
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_race
+  description:  Participant race, as indicated in the demographics questionnaire. The options provided here (white, black or african american, american indian or alaska native, asian, native hawaiian or other pacific islander, other (please specify)) are for the US version of the form; please use the options from the demographics version used in your lab (translated into English if possible), since race/ethnicity categories vary by country. If race information was not collected, please enter NA.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_race_other
+  description:  If participant selected 'other' for race, enter details here. Otherwise, put NA.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_ethnicity
+  description:  Participant ethnicity, as indicated in the demographics questionnaire. The options provided here (hispanic, other (please specify)) are for the US version of the form; please use the options from the demographics version used in your lab, since race/ethnicity categories vary by country. If ethnicity information was not collected, please enter NA.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_ethnicity_other
+  description:  If participant selected 'other' for ethnicity, enter details here. Otherwise, put NA.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_lang1
+  description:  Native or most-heard language (based on percentage exposure reported in the survey; if tied, enter the first language listed).
+  type:         string
+  format:       string
+  required:     yes
+  NA_allowed:   no
+
+- field:        participant_lang1_percent
+  description:  Percentage exposure to lang1. Note that exposures to all languages for a child should sum to 100! If child hears only one language, this value should be 100.
+  type:         numeric
+  format:       integer, 0-100
+  required:     yes
+  NA_allowed:   no
+
+- field:        participant_lang2
+  description:  Second most-heard language. Put NA if they do not have a second language.
+  type:         string
+  format:       string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_lang2_percent
+  description:  Percentage exposure to lang2. Note that exposures to all languages for a child should sum to 100! Put NA if they do not have a second language.
+  type:         numeric
+  format:       integer, 0-100
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_lang3
+  description:  Third most-heard language. Put NA if they do not have a third language.
+  type:         string
+  format:       string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_lang3_percent
+  description:  Percentage exposure to lang3. Note that exposures to all languages for a child should sum to 100! Put NA if they do not have a third language.
+  type:         numeric
+  format:       integer, 0-100
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_lang4
+  description:  Fourth most-heard language. Put NA if they do not have a fourth language.
+  type:         string
+  format:       string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        participant_lang4_percent
+  description:  Percentage exposure to lang4. Note that exposures to all languages for a child should sum to 100! Put NA if they do not have a fourth language.
+  type:         numeric
+  format:       integer, 0-100
+  required:     yes
+  NA_allowed:   yes
+
+- field:        vision_issues
+  description:  Whether the caregiver reports the child having any vision issues. If so, this should be described in the vision_issue_info variable.
+  type:         options
+  options:      ['vision_issue', 'no_vision_issue']
+  required:     yes
+  NA_allowed:   no
+
+- field:        vision_issue_info
+  description:  Enter the respondent's description if the previous column is 'vision_issue'. Write NA if the previous column is 'no_vision_issue'.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        colorblindness_mothers_family
+  description:  Whether the caregiver reports any history of colorblindness in the child's mother's family.
+  type:         options
+  options:      ['yes', 'no', 'unsure']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        colorblindness_fathers_family
+  description:  Whether the caregiver reports any history of colorblindness in the child's father's family.
+  type:         options
+  options:      ['yes', 'no', 'unsure']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        hearing_issues
+  description:  Whether the caregiver reports the child having any hearing issues. If so, the next 3 questions should be completed.
+  type:         options
+  options:      ['hearing_issue', 'no_hearing_issue']
+  required:     yes
+  NA_allowed:   no
+
+- field:        became_deaf
+  description:  Age, in months, at which the child became deaf. If from birth, this should be 0. If 'no_hearing_issue' is selected, put NA.
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        right_ear_hearing_loss
+  description:  Reported amount of hearing loss in the child's right ear. If no hearing loss, enter NA.
+  type:         options
+  options:      ['typical_hearing', 'mild', 'moderate', 'severe', 'profound', 'NA']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        left_ear_hearing_loss
+  description:  Reported amount of hearing loss in the child's left ear. If no hearing loss, enter NA.
+  type:         options
+  options:      ['typical_hearing', 'mild', 'moderate', 'severe', 'profound', 'NA']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        hearing_technologies
+  description:  Whether the caregiver reports that the child uses any hearing technologies.
+  type:         options
+  options:      ['none', 'hearing_aids', 'cochlear_implants']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        age_hearing_aids
+  description:  Age, in months, at which the child started using hearing aids.
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        age_cochlear_implants
+  description:  Age, in months, at which the child's cochlear implant was activated.
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        medical_issue
+  description:  Whether the caregiver reports the child having any medical issues or diagnosed conditions. If so, this should be described in the medical_issue_info variable.
+  type:         options
+  options:      ['med_issue', 'no_med_issue']
+  required:     yes
+  NA_allowed:   no
+
+- field:        medical_issue_info
+  description:  Enter the respondent's description if the previous column is 'med_issue'. Write NA if the previous column is 'no_med_issue'.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        developmental_concern
+  description:  Whether the caregiver reports any concerns about the participant's development. If so, this should be described in the developmental_concern_info variable.
+  type:         options
+  options:      ['dev_concern', 'no_dev_concern']
+  required:     yes
+  NA_allowed:   no
+
+- field:        developmental_concern_info
+  description:  Enter the respondent's description if the previous column is 'dev_concern'. Write NA if the previous column is 'no_dev_concern'.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        screen_use
+  description:  Amount of time, in minutes, that the child interacts with a screen on a typical day.
+  type:         numeric
+  format:       integer
+  required:     yes
+  NA_allowed:   yes
+
+- field:        household_income
+  description:  Combined household gross income (before taxes) - this item is expected to vary significantly across labs; this can be either an integer or a range, it needs to include the currency.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        num_adults_household
+  description:  The number of adults in the household.
+  type:         numeric
+  format:       integer
+  example:      4
+  required:     yes
+  NA_allowed:   yes
+
+- field:        num_children_household
+  description:  The number of children in the household.
+  type:         numeric
+  format:       integer
+  example:      2
+  required:     yes
+  NA_allowed:   yes
+
+- field:        parent1_relation_to_child
+  description:  Parent 1's relationship to child.
+  type:         options
+  options:      ['mother', 'father', 'other']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        parent1_relation_other
+  description:  If participant selected 'other' for relationship to child, enter details here. Otherwise, put NA.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        parent1_birthplace
+  description:  List parent 1's place of birth (city, state, country)
+  type:         string
+  format:       open ended string
+  example:      'Dayton, OH, USA'
+  required:     yes
+  NA_allowed:   yes
+
+- field:        parent1_education
+  description:  Parent 1's highest level of education.
+  type:         options
+  options:      ['eighth grade or below', 'high school diploma', '2 year degree', '4 year degree', "master's or professional degree", 'doctoral degree']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        parent2_relation_to_child
+  description:  Parent 2's relationship to child.
+  type:         options
+  options:      ['mother', 'father', 'other']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        parent2_relation_other
+  description:  If participant selected 'other' for relationship to child, enter details here. Otherwise, put NA.
+  type:         string
+  format:       open ended string
+  required:     yes
+  NA_allowed:   yes
+
+- field:        parent2_birthplace
+  description:  List parent 2's place of birth (city, state, country)
+  type:         string
+  format:       open ended string
+  example:      'Dayton, OH, USA'
+  required:     yes
+  NA_allowed:   yes
+
+- field:        parent2_education
+  description:  Parent 2's highest level of education.
+  type:         options
+  options:      ['eighth grade or below', 'high school diploma', '2 year degree', '4 year degree', "master's or professional degree", 'doctoral degree']
+  required:     yes
+  NA_allowed:   yes
+
+- field:        caregivers_additional_info
+  description:  "If respondents choose to add information about additional caregivers (optional), please enter all remaining information as one string in this column, using the following format (using the pipe character | to separate entries within a caregiver and a semicolon ; to separate caregivers' entries): \"caregiver 1 relationship|gender|time spent|language; caregiver 2 relationship|gender|time spent|language\""
+  type:         string
+  format:       open ended string
+  example:      'grandmother|female|3 hours/day, 5 days/week|100% Spanish; nanny|male|8 hours/day, 3 days/week| 50% Spanish, 50% Mandarin'
+  required:     yes
+  NA_allowed:   yes
