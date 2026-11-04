@@ -515,3 +515,211 @@
   example:      'grandmother|female|3 hours/day, 5 days/week|100% Spanish; nanny|male|8 hours/day, 3 days/week|50% Spanish, 50% Mandarin'
   required:     yes
   NA_allowed:   yes
+
+- field:        fribble_exp_pair1
+  description:  "Familiarity rating for fribbles pair 1 (Object Experience Form; Part 1 #1); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      1
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fribble_exp_pair2
+  description:  "Familiarity rating for fribbles pair 2 (Object Experience Form; Part 1 #2); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      2
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fribble_exp_pair3
+  description:  "Familiarity rating for fribbles pair 3 (Object Experience Form; Part 1 #3); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      3
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fribble_exp_pair4
+  description:  "Familiarity rating for fribbles pair 4 (Object Experience Form; Part 1 #4); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      4
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fribble_exp_pair5
+  description:  "Familiarity rating for fribbles pair 5 (Object Experience Form; Part 1 #5); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      5
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fribble_exp_pair6
+  description:  "Familiarity rating for fribbles pair 6 (Object Experience Form; Part 1 #6); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      1
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fribble_exp_pair7
+  description:  "Familiarity rating for fribbles pair 7 (Object Experience Form; Part 1 #7); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      2
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fribble_exp_pair8
+  description:  "Familiarity rating for fribbles pair 8 (Object Experience Form; Part 1 #8); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      3
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fribble_exp_pair9
+  description:  "Familiarity rating for fribbles pair 9 (Object Experience Form; Part 1 #9); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      4
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fribble_exp_pair10
+  description:  "Familiarity rating for fribbles pair 10 (Object Experience Form; Part 1 #10); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      5
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fribble_exp_pair11
+  description:  "Familiarity rating for fribbles pair 11 (Object Experience Form; Part 1 #11); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      1
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fribble_exp_pair12
+  description:  "Familiarity rating for fribbles pair 12 (Object Experience Form; Part 1 #12); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      2
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fribble_exp_comments
+  description:  If the parent puts anything in the comments field following Part 1 (Fribbles) of the Object Experience Form, enter it here.
+  type:         string
+  format:       open ended string
+  example:      'one of the items in pair 7 looks like a dog toy we have'
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fractal_exp_pair1
+  description:  "Familiarity rating for fractals pair 1 (Object Experience Form; Part 2 #1); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      3
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fractal_exp_pair2
+  description:  "Familiarity rating for fractals pair 2 (Object Experience Form; Part 2 #2); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      4
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fractal_exp_pair3
+  description:  "Familiarity rating for fractals pair 3 (Object Experience Form; Part 2 #3); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      5
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fractal_exp_pair4
+  description:  "Familiarity rating for fractals pair 4 (Object Experience Form; Part 2 #4); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      1
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fractal_exp_pair5
+  description:  "Familiarity rating for fractals pair 5 (Object Experience Form; Part 2 #5); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      2
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fractal_exp_pair6
+  description:  "Familiarity rating for fractals pair 6 (Object Experience Form; Part 2 #6); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      3
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fractal_exp_pair7
+  description:  "Familiarity rating for fractals pair 7 (Object Experience Form; Part 2 #7); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      4
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fractal_exp_pair8
+  description:  "Familiarity rating for fractals pair 8 (Object Experience Form; Part 2 #8); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      5
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fractal_exp_pair9
+  description:  "Familiarity rating for fractals pair 9 (Object Experience Form; Part 2 #9); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      1
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fractal_exp_pair10
+  description:  "Familiarity rating for fractals pair 10 (Object Experience Form; Part 2 #10); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      2
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fractal_exp_pair11
+  description:  "Familiarity rating for fractals pair 11 (Object Experience Form; Part 2 #11); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      3
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fractal_exp_pair12
+  description:  "Familiarity rating for fractals pair 12 (Object Experience Form; Part 2 #12); Should be an integer between 1-5; If left blank, enter NA"
+  type:         numeric
+  format:       integer, 1-5
+  example:      4
+  required:     yes
+  NA_allowed:   yes
+
+- field:        fractal_exp_comments
+  description:  If the parent puts anything in the comments field following Part 2 (Fractals) of the Object Experience Form, enter it here.
+  type:         string
+  format:       open ended string
+  example:      'one of the items in pair 10 looks like one of their toys'
+  required:     yes
+  NA_allowed:   yes
