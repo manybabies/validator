@@ -239,7 +239,7 @@
   min_decimals: .na
   max_decimals: .na
   required: yes
-  NA_allowed: no
+  NA_allowed: yes
   empty_allowed: no
 
 - field: residence_country
